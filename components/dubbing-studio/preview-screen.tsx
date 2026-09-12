@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-// បានបន្ថែម icon Eye សម្រាប់មុខងារការពារភ្នែក
-import { Clapperboard, Settings, Moon, Sun, Check, Lock, X, Eye } from "lucide-react"
+import { Settings, Moon, Sun, Check, Lock, X, Eye } from "lucide-react"
 import { UI_LANGUAGES, type LangCode } from "@/lib/i18n"
 import { useTheme } from "@/lib/theme"
 
-// នាំចូលមុខងារឆ្លាតវៃ (Smart Components) ទាំង ២ មកប្រើប្រាស់
+// Smart Components
 import { DeviceBadge } from "./device-badge"
 import { InstallPrompt } from "./install-prompt"
 
@@ -24,13 +23,13 @@ export function PreviewScreen({
   setLang: (c: LangCode) => void
   onLoginSuccess: () => void
 }) {
-  // ទាញយកមុខងារការពារភ្នែកពី useTheme
+  // Theme and Eye Care states
   const { mode, toggleMode, eyeCare, toggleEyeCare, eyeCareLevel, setEyeCareLevel } = useTheme()
   const [previewSettingsOpen, setPreviewSettingsOpen] = useState(false)
   const [passcode, setPasscode] = useState("")
   const [error, setError] = useState(false)
 
-  // ស្ថានភាពសម្រាប់គ្រប់គ្រង Splash Screen (2 វិនាទី)
+  // Splash Screen states (2 seconds duration)
   const [showSplash, setShowSplash] = useState(true)
   const [fadeSplash, setFadeSplash] = useState(false)
 
@@ -52,7 +51,7 @@ export function PreviewScreen({
     }
   }
 
-  // 1. បង្ហាញ Splash Screen (Logo) មុនគេបង្អស់
+  // 1. Splash Screen Component
   if (showSplash) {
     return (
       <div 
@@ -76,7 +75,7 @@ export function PreviewScreen({
     )
   }
 
-  // 2. ផ្ទាំង Login
+  // 2. Main Login and Preview Screen
   return (
     <div className="mx-auto flex min-h-[100dvh] w-full max-w-md flex-col justify-between bg-background p-4 relative animate-in fade-in zoom-in-[0.98] duration-700">
       {/* Header */}
@@ -103,7 +102,7 @@ export function PreviewScreen({
         </button>
       </header>
 
-      {/* Body: Center Login PIN Box */}
+      {/* Body: Login Box */}
       <div className="flex flex-1 flex-col items-center justify-center px-4 py-6">
         <div className="w-full max-w-sm rounded-3xl border border-border bg-card/80 p-6 shadow-xl backdrop-blur-md">
           <div className="mb-6 text-center">
@@ -138,22 +137,20 @@ export function PreviewScreen({
             </button>
           </form>
 
-          {/* ផ្លាកសញ្ញាឆ្លាតវៃបង្ហាញប្រភេទម៉ាស៊ីន (ឧ. iPhone 13) លោតចេញនៅក្រោមប៊ូតុង Login */}
+          {/* Smart Device Badge */}
           <DeviceBadge />
         </div>
       </div>
 
       <div>
-        {/* ផ្ទាំងណែនាំឱ្យ Add to Home Screen (លោតចេញឆ្លាតវៃតាមប្រភេទ Device) */}
+        {/* Smart Install Prompt for PWA */}
         <InstallPrompt />
-
-        {/* Footer info */}
         <div className="pb-4 pt-2 text-center">
           <p className="text-[11px] text-muted-foreground">© 2026 AI Dubbing Studio. All rights reserved.</p>
         </div>
       </div>
 
-      {/* Settings Modal ជាមួយនឹងមុខងារការពារភ្នែក */}
+      {/* Settings Modal */}
       {previewSettingsOpen && (
         <div className="fixed inset-0 z-50 flex animate-in flex-col bg-background fade-in zoom-in-95 duration-200">
           <div
@@ -171,13 +168,14 @@ export function PreviewScreen({
           </div>
 
           <div className="flex-1 space-y-6 overflow-y-auto p-4">
-            {/* 1. Display Mode & Eye Care */}
+            {/* Display Mode & Eye Care */}
             <div>
               <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 Display Mode (ការបង្ហាញ)
               </p>
               <div className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-3">
-                {/* មុខងារងងឹត/ភ្លឺ */}
+                
+                {/* Dark/Light Mode */}
                 <button
                   type="button"
                   onClick={toggleMode}
@@ -192,7 +190,7 @@ export function PreviewScreen({
                   </span>
                 </button>
 
-                {/* មុខងារការពារភ្នែក */}
+                {/* Eye Care Toggle */}
                 <button
                   type="button"
                   onClick={toggleEyeCare}
@@ -207,7 +205,7 @@ export function PreviewScreen({
                   </span>
                 </button>
 
-                {/* របារទាញកម្រិតពន្លឺការពារភ្នែក */}
+                {/* Eye Care Level Slider */}
                 {eyeCare && (
                   <div className="px-2 pt-2 animate-in fade-in slide-in-from-top-1 duration-200">
                     <label className="mb-1.5 block text-[11px] font-medium text-muted-foreground">
@@ -226,7 +224,7 @@ export function PreviewScreen({
               </div>
             </div>
 
-            {/* 2. App Language */}
+            {/* App Language */}
             <div>
               <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 {t.appLanguage}
