@@ -16,16 +16,16 @@ const notoKhmer = Noto_Sans_Khmer({
 })
 
 export const metadata: Metadata = {
-  title: 'AI Video Dubbing Auto-Pilot',
+  title: 'SAVPD.io™ — Professional Web Application',
   description:
     'បកប្រែ និងបញ្ចូលសំឡេងវីដេអូដោយ AI — Translate and dub your videos with AI across multiple languages.',
   generator: 'v0.app',
-  applicationName: 'AI Dubbing',
+  applicationName: 'SAVPD.io™',
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'AI Dubbing',
+    title: 'SAVPD.io™',
   },
   formatDetection: { telephone: false },
   icons: {
