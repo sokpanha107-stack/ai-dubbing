@@ -1,28 +1,122 @@
 "use client"
 
-import { useState } from "react"
-import { Lock, Settings, Clapperboard } from "lucide-react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { Clapperboard, Lock, Settings, X } from "lucide-react"
+import { useI18n, type LangCode } from "@/lib/i18n"
+import { useTheme } from "@/lib/theme"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
-import { InstallPrompt } from "./install-prompt"
+import { DashboardScreenContainer } from "./dashboard-screen"
+import { SettingsModal } from "./settings-modal"
+import { AdminDashboard } from "./admin-dashboard"
+import { PreviewScreen } from "./preview-screen"
 
-interface PreviewScreenProps {
-  t: any
-  lang: string
-  setLang: (lang: string) => void
-  onLoginSuccess: () => void
-}
+type Status = "idle" | "processing" | "done"
 
-export function PreviewScreen({ t, lang, setLang, onLoginSuccess }: PreviewScreenProps) {
-  const [passcode, setPasscode] = useState("")
-  const [error, setError] = useState(false)
+export function DubbingStudio() {
+  const { t, lang, setLang } = useI18n()
+  const { mode, toggleMode, eyeCare, toggleEyeCare, eyeCareLevel, setEyeCareLevel } = useTheme()
+  
+  const [isUnlocked, setIsUnlocked] = useState(false)
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (passcode === "@2000") {
-      onLoginSuccess()
-    } else {
-      setError(true)
+  const [file, setFile] = useState<File | null>(null)
+  const [videoUrl, setVideoUrl] = useState<string | null>(null)
+  const [dragging, setDragging] = useState(false)
+  const [targetLang, setTargetLang] = useState<LangCode>("km")
+  const [status, setStatus] = useState<Status>("idle")
+  const [stage, setStage] = useState(0)
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const [adminModalOpen, setAdminModalOpen] = useState(false)
+  const [adminPassword, setAdminPassword] = useState("")
+  const [adminError, setAdminError] = useState(false)
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false)
+  const holdTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (videoUrl) URL.revokeObjectURL(videoUrl)
     }
+  }, [videoUrl])
+
+  const acceptFile = useCallback(
+    (f: File | undefined) => {
+      if (!f || !f.type.startsWith("video/")) return
+      if (videoUrl) URL.revokeObjectURL(videoUrl)
+      setFile(f)
+      setVideoUrl(URL.createObjectURL(f))
+      setStatus("idle")
+    },
+    [videoUrl],
+  )
+
+  useEffect(() => {
+    if (status !== "processing") return
+    if (stage >= t.stages.length) {
+      const done = setTimeout(() => setStatus("done"), 600)
+      return () => clearTimeout(done)
+    }
+    const next = setTimeout(() => setStage((s) => s + 1), 1100)
+    return () => clearTimeout(next)
+  }, [status, stage, t.stages.length])
+
+  const start = () => {
+    if (!file) {
+      inputRef.current?.click()
+      return
+    }
+    setStage(0)
+    setStatus("processing")
+  }
+
+  const reset = () => {
+    if (videoUrl) URL.revokeObjectURL(videoUrl)
+    setFile(null)
+    setVideoUrl(null)
+    setStatus("idle")
+    setStage(0)
+  }
+
+  const handleTouchStart = () => {
+    holdTimerRef.current = setTimeout(() => {
+      setSettingsOpen(false)
+      setAdminModalOpen(true)
+      setAdminPassword("")
+      setAdminError(false)
+    }, 5000)
+  }
+
+  const handleTouchEnd = () => {
+    if (holdTimerRef.current) {
+      clearTimeout(holdTimerRef.current)
+    }
+  }
+
+  const handleAdminLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (adminPassword === "@2000") {
+      setIsAdminLoggedIn(true)
+      setAdminModalOpen(false)
+    } else {
+      setAdminError(true)
+    }
+  }
+
+  const progress = status === "done" ? 100 : Math.round((Math.min(stage, t.stages.length) / t.stages.length) * 100)
+
+  if (!isUnlocked) {
+    return (
+      <PreviewScreen
+        t={t}
+        lang={lang}
+        setLang={setLang}
+        onLoginSuccess={() => setIsUnlocked(true)}
+      />
+    )
+  }
+
+  if (isAdminLoggedIn) {
+    return <AdminDashboard onLogout={() => setIsAdminLoggedIn(false)} />
   }
 
   return (
@@ -39,61 +133,102 @@ export function PreviewScreen({ t, lang, setLang, onLoginSuccess }: PreviewScree
             {SAVPD_CONSTANTS.BRAND.TRADEMARK}
           </span>
         </div>
-        <button
-          type="button"
-          aria-label="Settings"
-          className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-secondary/60 text-foreground transition active:scale-95"
-        >
-          <Settings className="h-4.5 w-4.5" />
-        </button>
+
+        <div>
+          <button
+            type="button"
+            onClick={() => setSettingsOpen(true)}
+            aria-label={t.settings}
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-secondary/60 text-foreground transition active:scale-95"
+          >
+            <Settings className="h-4.5 w-4.5" />
+          </button>
+        </div>
       </header>
 
-      <main className="flex flex-1 flex-col items-center justify-center px-4 py-8">
-        <div className="w-full rounded-3xl border border-border bg-card p-6 shadow-2xl mb-6">
-          <div className="mb-6 flex flex-col items-center text-center">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-              <Lock className="h-6 w-6" />
+      <SettingsModal
+        t={t}
+        isOpen={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        mode={mode}
+        toggleMode={toggleMode}
+        eyeCare={eyeCare}
+        toggleEyeCare={toggleEyeCare}
+        eyeCareLevel={eyeCareLevel}
+        setEyeCareLevel={setEyeCareLevel}
+        lang={lang}
+        setLang={setLang}
+        handleTouchStart={handleTouchStart}
+        handleTouchEnd={handleTouchEnd}
+      />
+
+      {adminModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-3xl border border-border bg-card p-6 shadow-2xl">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-base font-bold text-foreground flex items-center gap-2">
+                <Lock className="h-4 w-4 text-primary" /> បញ្ចូល Master Key
+              </h3>
+              <button
+                type="button"
+                onClick={() => setAdminModalOpen(false)}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
-            <h2 className="mb-2 text-xl font-bold text-foreground">System Security</h2>
-            <p className="text-sm text-muted-foreground">Please enter passcode to access workspace</p>
+
+            <form onSubmit={handleAdminLogin} className="space-y-4">
+              <div>
+                <input
+                  type="password"
+                  placeholder="Password (ឧ. @2000)"
+                  value={adminPassword}
+                  onChange={(e) => {
+                    setAdminPassword(e.target.value)
+                    setAdminError(false)
+                  }}
+                  className="w-full rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 text-sm font-semibold text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-ring/40"
+                  autoFocus
+                />
+                {adminError && <p className="mt-1.5 text-xs text-destructive font-medium">លេខសម្ងាត់មិនត្រឹមត្រូវ!</p>}
+              </div>
+
+              <button
+                type="submit"
+                className="w-full rounded-2xl bg-primary py-3.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 transition active:scale-[0.99]"
+              >
+                ចូលទៅកាន់ Admin
+              </button>
+            </form>
           </div>
-
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <input
-                type="password"
-                placeholder="Enter passcode (e.g. @2000)"
-                value={passcode}
-                onChange={(e) => {
-                  setPasscode(e.target.value)
-                  setError(false)
-                }}
-                className="w-full rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 text-center text-sm font-semibold text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-ring/40"
-              />
-              {error && (
-                <p className="mt-2 text-center text-xs font-medium text-destructive">
-                  Invalid passcode!
-                </p>
-              )}
-            </div>
-
-            <button
-              type="submit"
-              className="w-full rounded-2xl bg-primary py-3.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 transition active:scale-[0.99]"
-            >
-              Access System
-            </button>
-          </form>
         </div>
+      )}
 
-        <div className="w-full max-w-sm">
-          <InstallPrompt />
-        </div>
+      <DashboardScreenContainer
+        t={t}
+        file={file}
+        videoUrl={videoUrl}
+        dragging={dragging}
+        setDragging={setDragging}
+        acceptFile={acceptFile}
+        inputRef={inputRef}
+        reset={reset}
+        targetLang={targetLang}
+        setTargetLang={setTargetLang}
+        start={start}
+        status={status}
+        stage={stage}
+        progress={progress}
+      />
 
-        <p className="mt-8 text-center text-xs text-muted-foreground">
-          © 2026 {SAVPD_CONSTANTS.BRAND.STUDIO}. All rights reserved.
-        </p>
-      </main>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="video/*"
+        className="sr-only"
+        onChange={(e) => acceptFile(e.target.files?.[0])}
+      />
     </div>
   )
 }
