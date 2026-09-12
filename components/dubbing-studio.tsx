@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import {
-  ArrowLeftRight,
   AudioLines,
   Check,
   CheckCircle2,
@@ -10,13 +9,10 @@ import {
   Download,
   Eye,
   FileVideo,
-  Gauge,
-  Heart,
   Loader2,
   Moon,
   RotateCcw,
   Settings,
-  ShieldCheck,
   Sparkles,
   Sun,
   UploadCloud,
@@ -35,60 +31,12 @@ const DUB_LANGS: { code: LangCode; flag: string }[] = [
 
 type Status = "idle" | "processing" | "done"
 
-function LangChip({
-  label,
-  value,
-  onChange,
-  exclude,
-  names,
-}: {
-  label: string
-  value: LangCode
-  onChange: (code: LangCode) => void
-  exclude?: LangCode
-  names: Record<LangCode, string>
-}) {
-  const current = DUB_LANGS.find((l) => l.code === value)
-  return (
-    <label className="flex flex-1 flex-col gap-1.5">
-      <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{label}</span>
-      <div className="relative">
-        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-lg">{current?.flag}</span>
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value as LangCode)}
-          className="w-full appearance-none rounded-2xl border border-border bg-secondary/60 py-3.5 pl-10 pr-9 text-sm font-semibold text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-ring/40"
-        >
-          {DUB_LANGS.filter((l) => l.code !== exclude).map((l) => (
-            <option key={l.code} value={l.code} className="bg-card text-foreground">
-              {names[l.code]}
-            </option>
-          ))}
-        </select>
-        <svg
-          className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            fillRule="evenodd"
-            d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.17l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </div>
-    </label>
-  )
-}
-
 export function DubbingStudio() {
   const { t, lang, setLang } = useI18n()
   const { mode, toggleMode, eyeCare, toggleEyeCare, eyeCareLevel, setEyeCareLevel } = useTheme()
   const [file, setFile] = useState<File | null>(null)
   const [videoUrl, setVideoUrl] = useState<string | null>(null)
   const [dragging, setDragging] = useState(false)
-  const [sourceLang, setSourceLang] = useState<LangCode>("en")
   const [targetLang, setTargetLang] = useState<LangCode>("km")
   const [status, setStatus] = useState<Status>("idle")
   const [stage, setStage] = useState(0)
@@ -121,11 +69,6 @@ export function DubbingStudio() {
     const next = setTimeout(() => setStage((s) => s + 1), 1100)
     return () => clearTimeout(next)
   }, [status, stage, t.stages.length])
-
-  const swap = () => {
-    setSourceLang(targetLang)
-    setTargetLang(sourceLang)
-  }
 
   const start = () => {
     if (!file) {
@@ -284,11 +227,8 @@ export function DubbingStudio() {
             acceptFile={acceptFile}
             inputRef={inputRef}
             reset={reset}
-            sourceLang={sourceLang}
             targetLang={targetLang}
-            setSourceLang={setSourceLang}
             setTargetLang={setTargetLang}
-            swap={swap}
             start={start}
           />
         )}
@@ -329,11 +269,8 @@ function DashboardScreen({
   acceptFile,
   inputRef,
   reset,
-  sourceLang,
   targetLang,
-  setSourceLang,
   setTargetLang,
-  swap,
   start,
 }: {
   t: T
@@ -344,11 +281,8 @@ function DashboardScreen({
   acceptFile: (f: File | undefined) => void
   inputRef: React.RefObject<HTMLInputElement | null>
   reset: () => void
-  sourceLang: LangCode
   targetLang: LangCode
-  setSourceLang: (c: LangCode) => void
   setTargetLang: (c: LangCode) => void
-  swap: () => void
   start: () => void
 }) {
   return (
@@ -411,41 +345,44 @@ function DashboardScreen({
         </div>
       )}
 
-      {/* Languages */}
-      <div className="rounded-3xl border border-border bg-card/60 p-4">
-        <p className="mb-3 text-sm font-semibold text-foreground">{t.step2}</p>
-        <div className="flex items-end gap-2">
-          <LangChip
-            label={t.sourceLabel}
-            value={sourceLang}
-            exclude={targetLang}
-            onChange={setSourceLang}
-            names={t.languages}
-          />
-          <button
-            type="button"
-            onClick={swap}
-            aria-label={t.swap}
-            className="mb-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-border bg-secondary/60 text-muted-foreground transition active:scale-95 hover:border-primary hover:text-primary"
-          >
-            <ArrowLeftRight className="h-4 w-4" />
-          </button>
-          <LangChip
-            label={t.targetLabel}
-            value={targetLang}
-            exclude={sourceLang}
-            onChange={setTargetLang}
-            names={t.languages}
-          />
+      {/* Target Language Selector with Flags */}
+      <div className="rounded-3xl border border-border bg-card/60 p-5 shadow-sm">
+        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <h3 className="text-sm font-semibold text-foreground">ជ្រើសរើសភាសាដែលត្រូវបកប្រែ</h3>
+          <span className="flex w-fit items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-[11px] font-semibold text-primary">
+            <Sparkles className="h-3.5 w-3.5" />
+            AI កំណត់ភាសាដើមស្វ័យប្រវត្តិ
+          </span>
         </div>
-      </div>
 
-      {/* AI capabilities */}
-      <div className="grid grid-cols-2 gap-2.5">
-        <FeatureCard icon={<Sparkles className="h-4 w-4" />} title={t.autopilotTitle} desc={t.autopilotDesc} />
-        <FeatureCard icon={<ShieldCheck className="h-4 w-4" />} title={t.contextTitle} desc={t.contextDesc} />
-        <FeatureCard icon={<Heart className="h-4 w-4" />} title={t.emotionTitle} desc={t.emotionDesc} />
-        <FeatureCard icon={<Gauge className="h-4 w-4" />} title={t.paceTitle} desc={t.paceDesc} />
+        <div className="relative">
+          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-2xl">
+            {DUB_LANGS.find((l) => l.code === targetLang)?.flag}
+          </span>
+          <select
+            value={targetLang}
+            onChange={(e) => setTargetLang(e.target.value as LangCode)}
+            className="w-full cursor-pointer appearance-none rounded-2xl border border-border bg-secondary/60 py-4 pl-14 pr-10 text-base font-semibold text-foreground outline-none transition hover:border-primary/50 focus:border-primary focus:ring-2 focus:ring-ring/40"
+          >
+            {DUB_LANGS.map((l) => (
+              <option key={l.code} value={l.code} className="bg-card py-2 text-base text-foreground">
+                {l.flag} {t.languages[l.code]}
+              </option>
+            ))}
+          </select>
+          <svg
+            className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.17l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
       </div>
 
       {/* Sticky action */}
@@ -580,20 +517,6 @@ function ResultScreen({
           {t.retry}
         </button>
       </div>
-    </div>
-  )
-}
-
-function FeatureCard({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
-  return (
-    <div className="rounded-2xl border border-border bg-secondary/40 p-3">
-      <div className="mb-1.5 flex items-center gap-2">
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
-          {icon}
-        </span>
-        <span className="text-[13px] font-semibold leading-tight text-foreground">{title}</span>
-      </div>
-      <p className="text-[11px] leading-relaxed text-muted-foreground">{desc}</p>
     </div>
   )
 }
