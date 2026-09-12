@@ -6,8 +6,7 @@ import { Settings, Moon, Sun, Check, Lock, X, Eye } from "lucide-react"
 import { UI_LANGUAGES, type LangCode } from "@/lib/i18n"
 import { useTheme } from "@/lib/theme"
 
-// Smart Components
-import { DeviceBadge } from "./device-badge"
+// Keep InstallPrompt for PWA guidance, but DeviceBadge is hidden / removed from UI
 import { InstallPrompt } from "./install-prompt"
 
 type T = ReturnType<typeof import("@/lib/i18n").useI18n>["t"]
@@ -137,8 +136,7 @@ export function PreviewScreen({
             </button>
           </form>
 
-          {/* Smart Device Badge */}
-          <DeviceBadge />
+          {/* DeviceBadge is now hidden from UI as requested, backend still reads device info silently */}
         </div>
       </div>
 
