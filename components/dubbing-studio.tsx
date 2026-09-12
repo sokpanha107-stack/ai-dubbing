@@ -17,16 +17,20 @@ import {
   Sun,
   UploadCloud,
   X,
+  ShieldCheck,
+  Heart,
+  Gauge,
+  Lock
 } from "lucide-react"
 import { UI_LANGUAGES, useI18n, type LangCode } from "@/lib/i18n"
 import { useTheme } from "@/lib/theme"
 
-const DUB_LANGS: { code: LangCode; flag: string }[] = [
-  { code: "km", flag: "🇰🇭" },
-  { code: "en", flag: "🇬🇧" },
-  { code: "zh", flag: "🇨🇳" },
-  { code: "vi", flag: "🇻🇳" },
-  { code: "th", flag: "🇹🇭" },
+const DUB_LANGS: { code: LangCode; name: string; flag: string }[] = [
+  { code: "km", name: "ខ្មែរ", flag: "🇰🇭" },
+  { code: "en", name: "អង់គ្លេស", flag: "🇬🇧" },
+  { code: "zh", name: "ចិន", flag: "🇨🇳" },
+  { code: "vi", name: "វៀតណាម", flag: "🇻🇳" },
+  { code: "th", name: "ថៃ", flag: "🇹🇭" },
 ]
 
 type Status = "idle" | "processing" | "done"
@@ -42,6 +46,14 @@ export function DubbingStudio() {
   const [stage, setStage] = useState(0)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Admin & Secret Trigger States
+  const [adminModalOpen, setAdminModalOpen] = useState(false)
+  const [adminPassword, setAdminPassword] = useState("")
+  const [adminError, setAdminError] = useState(false)
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false)
+  const holdTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const [holding, setHolding] = useState(false)
 
   useEffect(() => {
     return () => {
@@ -87,8 +99,62 @@ export function DubbingStudio() {
     setStage(0)
   }
 
+  // Handle 5-second long press on "!"
+  const handleTouchStart = () => {
+    setHolding(true)
+    holdTimerRef.current = setTimeout(() => {
+      setHolding(false)
+      setSettingsOpen(false)
+      setAdminModalOpen(true)
+      setAdminPassword("")
+      setAdminError(false)
+    }, 5000) // 5 seconds
+  }
+
+  const handleTouchEnd = () => {
+    setHolding(false)
+    if (holdTimerRef.current) {
+      clearTimeout(holdTimerRef.current)
+    }
+  }
+
+  const handleAdminLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (adminPassword === "@2000") {
+      setIsAdminLoggedIn(true)
+      setAdminModalOpen(false)
+    } else {
+      setAdminError(true)
+    }
+  }
+
   const targetFlag = DUB_LANGS.find((l) => l.code === targetLang)?.flag
   const progress = status === "done" ? 100 : Math.round((Math.min(stage, t.stages.length) / t.stages.length) * 100)
+
+  // If Admin is logged in, show Admin Dashboard view
+  if (isAdminLoggedIn) {
+    return (
+      <div className="mx-auto flex min-h-[100dvh] w-full max-w-md flex-col bg-background p-4">
+        <header className="flex items-center justify-between border-b border-border pb-4">
+          <h1 className="text-lg font-bold text-foreground">🛡️ Admin Dashboard</h1>
+          <button
+            type="button"
+            onClick={() => setIsAdminLoggedIn(false)}
+            className="rounded-xl bg-destructive/15 px-3 py-1.5 text-xs font-semibold text-destructive"
+          >
+            ចាកចេញ (Logout)
+          </button>
+        </header>
+        <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
+          <p className="text-sm text-muted-foreground">ស្វាគមន៍មកកាន់ប្រព័ន្ធគ្រប់គ្រង Admin ជាន់ខ្ពស់!</p>
+          <div className="w-full rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <p className="text-sm font-semibold text-foreground">ប្រព័ន្ធដំណើរការធម្មតា ១០០%</p>
+            <p className="mt-1 text-xs text-muted-foreground">Master Key: @2000 ដំណើរការបានជោគជ័យ។</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="mx-auto flex min-h-[100dvh] w-full max-w-md flex-col bg-background">
@@ -104,36 +170,50 @@ export function DubbingStudio() {
           <span className="text-sm font-bold leading-tight text-foreground">{t.appTitle}</span>
         </div>
 
-        <div className="relative">
+        <div>
           <button
             type="button"
-            onClick={() => setSettingsOpen((o) => !o)}
+            onClick={() => setSettingsOpen(true)}
             aria-label={t.settings}
-            aria-expanded={settingsOpen}
             className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-secondary/60 text-foreground transition active:scale-95"
           >
             <Settings className="h-4.5 w-4.5" />
           </button>
-          {settingsOpen && (
-            <>
-              <div className="fixed inset-0 z-10" aria-hidden="true" onClick={() => setSettingsOpen(false)} />
-              <div className="absolute right-0 z-20 mt-2 max-h-[75dvh] w-64 overflow-y-auto overflow-x-hidden rounded-2xl border border-border bg-card p-2 shadow-2xl shadow-black/50">
-                {/* Appearance */}
-                <p className="px-2 py-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  {t.appearance}
-                </p>
+        </div>
+      </header>
+
+      {/* Fullscreen Settings Modal */}
+      {settingsOpen && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-background animate-in fade-in zoom-in-95 duration-200">
+          <div className="flex items-center justify-between border-b border-border px-4 py-4" style={{ paddingTop: "max(1rem, env(safe-area-inset-top))" }}>
+            <h2 className="text-lg font-bold text-foreground">⚙️ ការកំណត់ និងអំពីកម្មវិធី</h2>
+            <button
+              type="button"
+              onClick={() => setSettingsOpen(false)}
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-foreground"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto p-4 space-y-6 pb-12">
+            {/* Display Mode */}
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Display Mode (ការបង្ហាញ)
+              </p>
+              <div className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-3">
                 <button
                   type="button"
                   onClick={toggleMode}
-                  className="flex w-full items-center gap-2.5 rounded-xl px-2 py-2.5 text-sm text-foreground transition hover:bg-secondary"
+                  className="flex w-full items-center gap-3 rounded-xl p-2 text-sm text-foreground transition hover:bg-secondary"
                 >
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-secondary text-foreground">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-foreground">
                     {mode === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
                   </span>
-                  <span className="flex-1 text-left">{mode === "dark" ? t.darkMode : t.lightMode}</span>
+                  <span className="flex-1 text-left font-medium">{mode === "dark" ? t.darkMode : t.lightMode}</span>
                   <span
                     className={`relative h-5 w-9 shrink-0 rounded-full transition ${mode === "dark" ? "bg-primary" : "bg-muted"}`}
-                    aria-hidden="true"
                   >
                     <span
                       className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-all ${mode === "dark" ? "left-4" : "left-0.5"}`}
@@ -144,17 +224,16 @@ export function DubbingStudio() {
                 <button
                   type="button"
                   onClick={toggleEyeCare}
-                  className="flex w-full items-center gap-2.5 rounded-xl px-2 py-2.5 text-sm text-foreground transition hover:bg-secondary"
+                  className="flex w-full items-center gap-3 rounded-xl p-2 text-sm text-foreground transition hover:bg-secondary"
                 >
                   <span
-                    className={`flex h-7 w-7 items-center justify-center rounded-lg ${eyeCare ? "bg-warning/20 text-warning" : "bg-secondary text-foreground"}`}
+                    className={`flex h-8 w-8 items-center justify-center rounded-lg ${eyeCare ? "bg-warning/20 text-warning" : "bg-secondary text-foreground"}`}
                   >
                     <Eye className="h-4 w-4" />
                   </span>
-                  <span className="flex-1 text-left leading-tight">{t.eyeCare}</span>
+                  <span className="flex-1 text-left font-medium">{t.eyeCare}</span>
                   <span
                     className={`relative h-5 w-9 shrink-0 rounded-full transition ${eyeCare ? "bg-warning" : "bg-muted"}`}
-                    aria-hidden="true"
                   >
                     <span
                       className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-all ${eyeCare ? "left-4" : "left-0.5"}`}
@@ -163,7 +242,7 @@ export function DubbingStudio() {
                 </button>
 
                 {eyeCare && (
-                  <div className="px-2 pb-2 pt-1">
+                  <div className="px-2 pt-2">
                     <label className="mb-1.5 block text-[11px] font-medium text-muted-foreground">
                       {t.eyeCareLevel}
                     </label>
@@ -177,35 +256,109 @@ export function DubbingStudio() {
                     />
                   </div>
                 )}
+              </div>
+            </div>
 
-                <div className="my-1.5 h-px bg-border" />
-
-                {/* Language */}
-                <p className="px-2 py-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  {t.appLanguage}
-                </p>
+            {/* App Language */}
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                {t.appLanguage}
+              </p>
+              <div className="flex flex-col gap-1 rounded-2xl border border-border bg-card p-2">
                 {UI_LANGUAGES.map((l) => (
                   <button
                     key={l.code}
                     type="button"
-                    onClick={() => {
-                      setLang(l.code)
-                      setSettingsOpen(false)
-                    }}
-                    className={`flex w-full items-center gap-2.5 rounded-xl px-2 py-2.5 text-sm transition ${
+                    onClick={() => setLang(l.code)}
+                    className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
                       lang === l.code ? "bg-primary/15 font-semibold text-primary" : "text-foreground hover:bg-secondary"
                     }`}
                   >
-                    <span className="text-lg">{l.flag}</span>
+                    <span className="text-xl">{l.flag}</span>
                     <span className="flex-1 text-left">{l.native}</span>
                     {lang === l.code && <Check className="h-4 w-4" />}
                   </button>
                 ))}
               </div>
-            </>
-          )}
+            </div>
+
+            {/* About / AI Capabilities */}
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                About (អំពីសមត្ថភាព AI)
+              </p>
+              <div className="grid grid-cols-1 gap-2.5">
+                <FeatureCard icon={<Sparkles className="h-4 w-4" />} title={t.autopilotTitle} desc={t.autopilotDesc} />
+                <FeatureCard icon={<ShieldCheck className="h-4 w-4" />} title={t.contextTitle} desc={t.contextDesc} />
+                <FeatureCard icon={<Heart className="h-4 w-4" />} title={t.emotionTitle} desc={t.emotionDesc} />
+                <FeatureCard icon={<Gauge className="h-4 w-4" />} title={t.paceTitle} desc={t.paceDesc} />
+              </div>
+            </div>
+
+            {/* Secret Admin Trigger at the bottom of About */}
+            <div className="flex flex-col items-center justify-center pt-4 pb-6">
+              <p className="text-[11px] text-muted-foreground mb-2">ចុចសង្កត់សញ្ញាខាងក្រោម ៥ វិនាទី ដើម្បីចូល Admin</p>
+              <button
+                type="button"
+                onMouseDown={handleTouchStart}
+                onMouseUp={handleTouchEnd}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                className={`flex h-10 w-10 items-center justify-center rounded-full border border-border bg-secondary text-muted-foreground transition active:scale-90 ${
+                  holding ? "bg-primary text-primary-foreground animate-pulse" : ""
+                }`}
+                title="Secret Admin Trigger"
+              >
+                !
+              </button>
+            </div>
+          </div>
         </div>
-      </header>
+      )}
+
+      {/* Admin Password Modal */}
+      {adminModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-3xl border border-border bg-card p-6 shadow-2xl">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-base font-bold text-foreground flex items-center gap-2">
+                <Lock className="h-4 w-4 text-primary" /> បញ្ចូល Master Key
+              </h3>
+              <button
+                type="button"
+                onClick={() => setAdminModalOpen(false)}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleAdminLogin} className="space-y-4">
+              <div>
+                <input
+                  type="password"
+                  placeholder="Password (ឧ. @2000)"
+                  value={adminPassword}
+                  onChange={(e) => {
+                    setAdminPassword(e.target.value)
+                    setAdminError(false)
+                  }}
+                  className="w-full rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 text-sm font-semibold text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-ring/40"
+                  autoFocus
+                />
+                {adminError && <p className="mt-1.5 text-xs text-destructive font-medium">លេខសម្ងាត់មិនត្រឹមត្រូវ!</p>}
+              </div>
+
+              <button
+                type="submit"
+                className="w-full rounded-2xl bg-primary py-3.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 transition active:scale-[0.99]"
+              >
+                ចូលទៅកាន់ Admin
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Screen body */}
       <div
@@ -345,7 +498,7 @@ function DashboardScreen({
         </div>
       )}
 
-      {/* Target Language Selector with Flags */}
+      {/* Target Language Selector */}
       <div className="rounded-3xl border border-border bg-card/60 p-5 shadow-sm">
         <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <h3 className="text-sm font-semibold text-foreground">ជ្រើសរើសភាសាដែលត្រូវបកប្រែ</h3>
@@ -366,7 +519,7 @@ function DashboardScreen({
           >
             {DUB_LANGS.map((l) => (
               <option key={l.code} value={l.code} className="bg-card py-2 text-base text-foreground">
-                {l.flag} {t.languages[l.code]}
+                {l.flag} {l.name}
               </option>
             ))}
           </select>
@@ -517,6 +670,20 @@ function ResultScreen({
           {t.retry}
         </button>
       </div>
+    </div>
+  )
+}
+
+function FeatureCard({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
+  return (
+    <div className="rounded-2xl border border-border bg-secondary/40 p-3">
+      <div className="mb-1.5 flex items-center gap-2">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
+          {icon}
+        </span>
+        <span className="text-[13px] font-semibold leading-tight text-foreground">{title}</span>
+      </div>
+      <p className="text-[11px] leading-relaxed text-muted-foreground">{desc}</p>
     </div>
   )
 }
