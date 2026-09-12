@@ -167,7 +167,7 @@ export function DubbingStudio() {
           <div className="w-full max-w-sm rounded-3xl border border-border bg-card p-6 shadow-2xl">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-base font-bold text-foreground flex items-center gap-2">
-                <Lock className="h-4 w-4 text-primary" /> បញ្ចូល Master Key
+                <Lock className="h-4 w-4 text-primary" /> Master Key
               </h3>
               <button
                 type="button"
@@ -182,7 +182,7 @@ export function DubbingStudio() {
               <div>
                 <input
                   type="password"
-                  placeholder="Password (ឧ. @2000)"
+                  placeholder="Password (@2000)"
                   value={adminPassword}
                   onChange={(e) => {
                     setAdminPassword(e.target.value)
@@ -191,14 +191,14 @@ export function DubbingStudio() {
                   className="w-full rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 text-sm font-semibold text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-ring/40"
                   autoFocus
                 />
-                {adminError && <p className="mt-1.5 text-xs text-destructive font-medium">លេខសម្ងាត់មិនត្រឹមត្រូវ!</p>}
+                {adminError && <p className="mt-1.5 text-xs text-destructive font-medium">Invalid Password</p>}
               </div>
 
               <button
                 type="submit"
                 className="w-full rounded-2xl bg-primary py-3.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 transition active:scale-[0.99]"
               >
-                ចូលទៅកាន់ Admin
+                Login Admin
               </button>
             </form>
           </div>
@@ -232,3 +232,5 @@ export function DubbingStudio() {
     </div>
   )
 }
+
+export default DubbingStudio
