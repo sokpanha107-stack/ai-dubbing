@@ -7,12 +7,17 @@ import { useTheme } from "@/lib/theme"
 import { DashboardScreenContainer } from "./dashboard-screen"
 import { SettingsModal } from "./settings-modal"
 import { AdminDashboard } from "./admin-dashboard"
+import { PreviewScreen } from "./preview-screen"
 
 type Status = "idle" | "processing" | "done"
 
 export function DubbingStudio() {
   const { t, lang, setLang } = useI18n()
   const { mode, toggleMode, eyeCare, toggleEyeCare, eyeCareLevel, setEyeCareLevel } = useTheme()
+  
+  // ស្ថានភាពគ្រប់គ្រងការចូលមើល (Preview/Login State)
+  const [isUnlocked, setIsUnlocked] = useState(false)
+
   const [file, setFile] = useState<File | null>(null)
   const [videoUrl, setVideoUrl] = useState<string | null>(null)
   const [dragging, setDragging] = useState(false)
@@ -80,7 +85,7 @@ export function DubbingStudio() {
       setAdminModalOpen(true)
       setAdminPassword("")
       setAdminError(false)
-    }, 5000) // 5 seconds
+    }, 5000)
   }
 
   const handleTouchEnd = () => {
@@ -101,11 +106,24 @@ export function DubbingStudio() {
 
   const progress = status === "done" ? 100 : Math.round((Math.min(stage, t.stages.length) / t.stages.length) * 100)
 
-  // If Admin is logged in, show Admin Dashboard view
+  // 1. បើទាន់បាន Unlock (ផ្ទៀងផ្ទាត់កូដនៅ Preview រួច) គឺបង្ហាញ PreviewScreen មុនគេ
+  if (!isUnlocked) {
+    return (
+      <PreviewScreen
+        t={t}
+        lang={lang}
+        setLang={setLang}
+        onLoginSuccess={() => setIsUnlocked(true)}
+      />
+    )
+  }
+
+  // 2. បើ Admin ចូលបាន គឺបង្ហាញផ្ទាំង Admin Dashboard
   if (isAdminLoggedIn) {
     return <AdminDashboard onLogout={() => setIsAdminLoggedIn(false)} />
   }
 
+  // 3. ពេល Unlock រួច គឺបង្ហាញផ្ទាំងការងារសំខាន់ (Main App / Dashboard)
   return (
     <div className="mx-auto flex min-h-[100dvh] w-full max-w-md flex-col bg-background">
       {/* App bar */}
