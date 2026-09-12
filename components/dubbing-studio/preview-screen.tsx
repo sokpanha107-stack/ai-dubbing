@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import Image from "next/image"
 import { Clapperboard, Settings, Moon, Sun, Check, Lock, X } from "lucide-react"
 import { UI_LANGUAGES, type LangCode } from "@/lib/i18n"
 import { useTheme } from "@/lib/theme"
@@ -23,9 +24,23 @@ export function PreviewScreen({
   const [passcode, setPasscode] = useState("")
   const [error, setError] = useState(false)
 
+  // ស្ថានភាពសម្រាប់គ្រប់គ្រង Splash Screen (2 វិនាទី)
+  const [showSplash, setShowSplash] = useState(true)
+  const [fadeSplash, setFadeSplash] = useState(false)
+
+  useEffect(() => {
+    // កំណត់ពេល 2 វិនាទី មុននឹងចាប់ផ្តើមលាក់ (Fade out)
+    const timer = setTimeout(() => {
+      setFadeSplash(true)
+      // រង់ចាំ 0.5 វិនាទី ឱ្យការ Fade out ចប់ ទើបលុប Splash Screen ចេញ
+      setTimeout(() => setShowSplash(false), 500)
+    }, 2000)
+    
+    return () => clearTimeout(timer)
+  }, [])
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    // អាចកំណត់កូដចូលទីនេះ ឧទាហរណ៍ @2000 ឬកូដតាមចិត្ត
     if (passcode === "@2000") {
       onLoginSuccess()
     } else {
@@ -33,14 +48,45 @@ export function PreviewScreen({
     }
   }
 
+  // 1. បង្ហាញ Splash Screen (Logo) មុនគេបង្អស់
+  if (showSplash) {
+    return (
+      <div 
+        className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background transition-opacity duration-500 ease-in-out ${
+          fadeSplash ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        {/* រូប Logo ដែលមានចលនាពង្រីក-បង្រួមតិចៗ (Pulse) */}
+        <div className="relative h-32 w-32 animate-pulse overflow-hidden rounded-[2rem] shadow-2xl">
+          <Image 
+            src="/icon-512.png" 
+            alt="AI Dubbing Logo" 
+            fill
+            className="object-cover"
+            priority // ប្រាប់ឲ្យប្រព័ន្ធទាញយករូបនេះមុនគេបង្អស់
+          />
+        </div>
+        <h1 className="mt-6 text-2xl font-bold tracking-tight text-foreground animate-in slide-in-from-bottom-4 duration-700">
+          AI dubbing
+        </h1>
+      </div>
+    )
+  }
+
+  // 2. ផ្ទាំង Login (នឹងបង្ហាញរលូនក្រោយ Splash Screen បាត់)
   return (
-    <div className="mx-auto flex min-h-[100dvh] w-full max-w-md flex-col bg-background justify-between p-4 relative">
+    <div className="mx-auto flex min-h-[100dvh] w-full max-w-md flex-col justify-between bg-background p-4 relative animate-in fade-in zoom-in-[0.98] duration-700">
       {/* Header */}
       <header className="flex items-center justify-between border-b border-border/60 bg-background/80 py-3 backdrop-blur-xl">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/15 text-primary shadow-sm">
-            <Clapperboard className="h-5 w-5" />
-          </span>
+          <div className="relative h-10 w-10 overflow-hidden rounded-xl shadow-sm">
+             <Image 
+               src="/icon-512.png" 
+               alt="AI Dubbing Logo Small" 
+               fill
+               className="object-cover"
+             />
+          </div>
           <span className="text-base font-bold tracking-tight text-foreground">AI dubbing</span>
         </div>
 
@@ -57,7 +103,7 @@ export function PreviewScreen({
       {/* Body: Center Login PIN Box */}
       <div className="flex flex-1 flex-col items-center justify-center px-4">
         <div className="w-full max-w-sm rounded-3xl border border-border bg-card/80 p-6 shadow-xl backdrop-blur-md">
-          <div className="text-center mb-6">
+          <div className="mb-6 text-center">
             <span className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/15 text-primary shadow-inner">
               <Lock className="h-6 w-6" />
             </span>
@@ -78,7 +124,7 @@ export function PreviewScreen({
                 className="w-full rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 text-center text-base font-semibold text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-ring/40"
                 autoFocus
               />
-              {error && <p className="mt-2 text-center text-xs text-destructive font-medium">លេខកូដមិនត្រឹមត្រូវ!</p>}
+              {error && <p className="mt-2 text-center text-xs font-medium text-destructive">លេខកូដមិនត្រឹមត្រូវ!</p>}
             </div>
 
             <button
@@ -96,9 +142,9 @@ export function PreviewScreen({
         <p className="text-[11px] text-muted-foreground">© 2026 AI Dubbing Studio. All rights reserved.</p>
       </div>
 
-      {/* Minimal Settings Modal (มีเฉพาะ Display Mode และ Language) */}
+      {/* Minimal Settings Modal */}
       {previewSettingsOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-background animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex animate-in flex-col bg-background fade-in zoom-in-95 duration-200">
           <div
             className="flex items-center justify-between border-b border-border px-4 py-4"
             style={{ paddingTop: "max(1rem, env(safe-area-inset-top))" }}
@@ -113,7 +159,7 @@ export function PreviewScreen({
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-6">
+          <div className="flex-1 space-y-6 overflow-y-auto p-4">
             {/* 1. Display Mode */}
             <div>
               <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
