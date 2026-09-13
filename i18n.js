@@ -1,1 +1,16 @@
+import { getRequestConfig } from 'next-intl/server';
+import { notFound } from 'next/navigation';
+
+// បញ្ជីភាសាដែលគាំទ្រក្នុងប្រព័ន្ធ
+export const locales = ['en', 'km', 'zh', 'th', 'vi', 'ja', 'ko', 'hi', 'es', 'fr', 'de', 'id', 'pt', 'ru', 'ar', 'it', 'tr', 'ph', 'ms', 'bn'];
+export const defaultLocale = 'en';
+
+export default getRequestConfig(async ({ locale }) => {
+  // ផ្ទៀងផ្ទាត់ភាសា បើគ្មានក្នុងបញ្ជីទម្លាក់ទៅ 404
+  if (!locales.includes(locale as any)) notFound();
+
+  return {
+    messages: (await import(`./messages/${locale}.json`)).default
+  };
+});
 
