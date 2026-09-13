@@ -190,25 +190,22 @@ function DashboardContent({
       {/* Target Language Selector */}
       <div className="rounded-3xl border border-border bg-card/60 p-5 shadow-sm">
         <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <h3 className="text-sm font-semibold text-foreground">ជ្រើសរើសភាសាដែលត្រូវបកប្រែ</h3>
+          <h3 className="text-sm font-semibold text-foreground">{t.step2}</h3>
           <span className="flex w-fit items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-[11px] font-semibold text-primary">
             <Sparkles className="h-3.5 w-3.5" />
-            AI កំណត់ភាសាដើមស្វ័យប្រវត្តិ
+            AI Auto-Detect Source
           </span>
         </div>
 
         <div className="relative">
-          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-2xl">
-            {DUB_LANGS.find((l) => l.code === targetLang)?.flag}
-          </span>
           <select
             value={targetLang}
             onChange={(e) => setTargetLang(e.target.value as LangCode)}
-            className="w-full cursor-pointer appearance-none rounded-2xl border border-border bg-secondary/60 py-4 pl-14 pr-10 text-base font-semibold text-foreground outline-none transition hover:border-primary/50 focus:border-primary focus:ring-2 focus:ring-ring/40"
+            className="w-full cursor-pointer appearance-none rounded-2xl border border-border bg-secondary/60 py-4 pl-4 pr-10 text-base font-semibold text-foreground outline-none transition hover:border-primary/50 focus:border-primary focus:ring-2 focus:ring-ring/40"
           >
             {DUB_LANGS.map((l) => (
               <option key={l.code} value={l.code} className="bg-card py-2 text-base text-foreground">
-                {l.flag} {l.name}
+                {l.flag} {t.languages[l.code]}
               </option>
             ))}
           </select>
