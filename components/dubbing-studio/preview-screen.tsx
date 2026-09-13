@@ -2,17 +2,12 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { 
-  Settings, Moon, Sun, Check, Lock, X, Eye, 
-  ChevronRight, ChevronLeft, Monitor, Globe, Info, ShieldAlert, Clapperboard 
-} from "lucide-react"
-import { UI_LANGUAGES, type LangCode } from "@/lib/i18n"
-import { useTheme } from "@/lib/theme"
+import { Lock, Clapperboard, Settings } from "lucide-react"
+import type { LangCode } from "@/lib/i18n"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
-import { InstallPrompt } from "./install-prompt"
+import { SharedSettings } from "./shared-settings"
 
 type T = ReturnType<typeof import("@/lib/i18n").useI18n>["t"]
-type MenuState = "main" | "display" | "language" | "about"
 
 export function PreviewScreen({
   t,
@@ -25,16 +20,12 @@ export function PreviewScreen({
   setLang: (c: LangCode) => void
   onLoginSuccess: () => void
 }) {
-  const { mode, toggleMode, eyeCare, toggleEyeCare, eyeCareLevel, setEyeCareLevel } = useTheme()
   const [previewSettingsOpen, setPreviewSettingsOpen] = useState(false)
-  const [activeMenu, setActiveMenu] = useState<MenuState>("main")
-  
   const [passcode, setPasscode] = useState("")
   const [error, setError] = useState(false)
   const [showSplash, setShowSplash] = useState(true)
   const [fadeSplash, setFadeSplash] = useState(false)
 
-  // Admin Modal States
   const [adminModalOpen, setAdminModalOpen] = useState(false)
   const [adminPassword, setAdminPassword] = useState("")
   const [adminError, setAdminError] = useState(false)
@@ -66,12 +57,6 @@ export function PreviewScreen({
     }
   }
 
-  const closeSettings = () => {
-    setPreviewSettingsOpen(false)
-    setTimeout(() => setActiveMenu("main"), 300)
-  }
-
-  // 1. Splash Screen (នៅតែរក្សារូប Logo ពេលបើក App ដំបូង)
   if (showSplash) {
     return (
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background transition-opacity duration-500 ease-in-out ${fadeSplash ? "opacity-0" : "opacity-100"}`}>
@@ -87,7 +72,6 @@ export function PreviewScreen({
 
   return (
     <div className="mx-auto flex min-h-[100dvh] w-full max-w-md flex-col justify-between bg-background p-4 relative animate-in fade-in zoom-in-[0.98] duration-700">
-      {/* Header (ប្ដូរមកប្រើ Clapperboard Icon ជំនួស Logo ទាំងស្រុង) */}
       <header className="flex items-center justify-between border-b border-border/60 bg-background/80 py-3 backdrop-blur-xl">
         <div className="flex items-center gap-2.5">
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/15 text-primary">
@@ -113,7 +97,7 @@ export function PreviewScreen({
             <div>
               <input
                 type="password"
-                placeholder={t.passcodePlaceholder}
+                placeholder="Enter passcode"
                 value={passcode}
                 onChange={(e) => { setPasscode(e.target.value); setError(false); }}
                 className="w-full rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 text-center text-base font-semibold text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-ring/40"
@@ -131,164 +115,17 @@ export function PreviewScreen({
         <p className="text-[11px] text-muted-foreground">© 2026 {SAVPD_CONSTANTS.BRAND.TRADEMARK}. All rights reserved.</p>
       </div>
 
-      {/* iOS Style Nested Settings Modal */}
-      {previewSettingsOpen && (
-        <div className="fixed inset-0 z-50 flex animate-in flex-col bg-secondary/30 backdrop-blur-md fade-in zoom-in-95 duration-200">
-          <div className="flex h-full flex-col bg-background shadow-2xl">
-            {/* Dynamic Header */}
-            <div className="flex items-center justify-between border-b border-border px-4 py-4" style={{ paddingTop: "max(1rem, env(safe-area-inset-top))" }}>
-              {activeMenu === "main" ? (
-                <>
-                  <h2 className="text-lg font-bold text-foreground">{t.settings}</h2>
-                  <button type="button" onClick={closeSettings} className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-foreground transition active:scale-95">
-                    <X className="h-5 w-5" />
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button type="button" onClick={() => setActiveMenu("main")} className="flex items-center gap-1 pr-4 text-primary transition active:scale-95 text-sm font-medium">
-                    <ChevronLeft className="h-5 w-5" />
-                    {t.settings}
-                  </button>
-                  <h2 className="text-base font-bold text-foreground">
-                    {activeMenu === "display" ? t.displayMode : activeMenu === "language" ? t.appLanguage : "About App"}
-                  </h2>
-                  <div className="w-[72px]" />
-                </>
-              )}
-            </div>
+      <SharedSettings 
+        isOpen={previewSettingsOpen} 
+        onClose={() => setPreviewSettingsOpen(false)} 
+        onAdminClick={() => {
+          setPreviewSettingsOpen(false)
+          setAdminModalOpen(true)
+          setAdminPassword("")
+          setAdminError(false)
+        }}
+      />
 
-            {/* Menu Content */}
-            <div className="flex-1 space-y-6 overflow-y-auto bg-secondary/15 p-4">
-              
-              {/* Main Menu (Level 1) */}
-              {activeMenu === "main" && (
-                <div className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card">
-                  <button onClick={() => setActiveMenu("display")} className="flex w-full items-center justify-between border-b border-border p-4 text-left transition hover:bg-secondary/50 active:bg-secondary">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
-                        <Monitor className="h-4.5 w-4.5" />
-                      </div>
-                      <span className="font-medium text-foreground">{t.displayMode}</span>
-                    </div>
-                    <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                  </button>
-                  
-                  <button onClick={() => setActiveMenu("language")} className="flex w-full items-center justify-between border-b border-border p-4 text-left transition hover:bg-secondary/50 active:bg-secondary">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
-                        <Globe className="h-4.5 w-4.5" />
-                      </div>
-                      <span className="font-medium text-foreground">{t.appLanguage}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-muted-foreground">
-                        {UI_LANGUAGES.find(l => l.code === lang)?.native}
-                      </span>
-                      <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                    </div>
-                  </button>
-
-                  <button onClick={() => setActiveMenu("about")} className="flex w-full items-center justify-between p-4 text-left transition hover:bg-secondary/50 active:bg-secondary">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-500/10 text-purple-500">
-                        <Info className="h-4.5 w-4.5" />
-                      </div>
-                      <span className="font-medium text-foreground">About App</span>
-                    </div>
-                    <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                  </button>
-                </div>
-              )}
-
-              {/* Display Mode Settings (Level 2) */}
-              {activeMenu === "display" && (
-                <div className="animate-in slide-in-from-right-4 fade-in duration-200">
-                  <div className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-3 shadow-sm">
-                    <button type="button" onClick={toggleMode} className="flex w-full items-center gap-3 rounded-xl p-2 text-sm text-foreground transition hover:bg-secondary active:scale-[0.98]">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-foreground">
-                        {mode === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-                      </span>
-                      <span className="flex-1 text-left font-medium">{mode === "dark" ? t.darkMode : t.lightMode}</span>
-                      <span className={`relative h-5 w-9 shrink-0 rounded-full transition ${mode === "dark" ? "bg-primary" : "bg-muted"}`}>
-                        <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-all ${mode === "dark" ? "left-4" : "left-0.5"}`} />
-                      </span>
-                    </button>
-                    <button type="button" onClick={toggleEyeCare} className="flex w-full items-center gap-3 rounded-xl p-2 text-sm text-foreground transition hover:bg-secondary active:scale-[0.98]">
-                      <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${eyeCare ? "bg-warning/20 text-warning" : "bg-secondary text-foreground"}`}>
-                        <Eye className="h-4 w-4" />
-                      </span>
-                      <span className="flex-1 text-left font-medium">{t.eyeCare}</span>
-                      <span className={`relative h-5 w-9 shrink-0 rounded-full transition ${eyeCare ? "bg-warning" : "bg-muted"}`}>
-                        <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-all ${eyeCare ? "left-4" : "left-0.5"}`} />
-                      </span>
-                    </button>
-                    {eyeCare && (
-                      <div className="px-2 pt-3 pb-1 animate-in fade-in slide-in-from-top-1 duration-200 border-t border-border mt-2">
-                        <label className="mb-2.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t.eyeCareLevel}</label>
-                        <input type="range" min={10} max={70} value={eyeCareLevel} onChange={(e) => setEyeCareLevel(Number(e.target.value))} className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-muted accent-warning" />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Language Settings (Level 2) */}
-              {activeMenu === "language" && (
-                <div className="animate-in slide-in-from-right-4 fade-in duration-200">
-                  <div className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-                    {UI_LANGUAGES.map((l, index) => (
-                      <button 
-                        key={l.code} 
-                        type="button" 
-                        onClick={() => { setLang(l.code); setTimeout(() => setActiveMenu("main"), 300); }} 
-                        className={`flex w-full items-center gap-3 p-4 text-sm transition hover:bg-secondary/50 active:scale-[0.99] ${index !== UI_LANGUAGES.length - 1 ? "border-b border-border" : ""}`}
-                      >
-                        <span className="text-xl">{l.flag}</span>
-                        <span className={`flex-1 text-left ${lang === l.code ? "font-semibold text-primary" : "text-foreground"}`}>
-                          {l.native}
-                        </span>
-                        {lang === l.code && <Check className="h-5 w-5 text-primary" />}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* About Settings (Level 2) - ផ្លាស់ប្តូរពី Logo មកប្រើ Clapperboard Icon វិញ */}
-              {activeMenu === "about" && (
-                <div className="animate-in slide-in-from-right-4 fade-in duration-200 flex flex-col gap-6">
-                  <div className="flex flex-col items-center text-center mt-4">
-                    <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/15 text-primary mb-4 shadow-inner">
-                      <Clapperboard className="h-8 w-8" />
-                    </span>
-                    <h3 className="text-xl font-bold text-foreground">{SAVPD_CONSTANTS.BRAND.TRADEMARK}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">Version 1.0.0</p>
-                    <p className="text-xs text-muted-foreground mt-4 max-w-xs">{t.footer}</p>
-                  </div>
-                  
-                  <div className="mt-2 space-y-4">
-                    <InstallPrompt />
-                    <button 
-                      onClick={() => {
-                        setPreviewSettingsOpen(false)
-                        setAdminModalOpen(true)
-                      }}
-                      className="flex w-full items-center justify-center gap-2 rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-sm font-bold text-destructive transition active:scale-95"
-                    >
-                      <ShieldAlert className="h-5 w-5" />
-                      Admin Access
-                    </button>
-                  </div>
-                </div>
-              )}
-
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Admin Login Modal */}
       {adminModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
           <div className="w-full max-w-sm rounded-3xl border border-border bg-card p-6 shadow-2xl">
@@ -296,7 +133,7 @@ export function PreviewScreen({
             <form onSubmit={handleAdminLogin} className="space-y-4">
               <input
                 type="password"
-                placeholder="Password (@2000)"
+                placeholder="Password"
                 value={adminPassword}
                 onChange={(e) => { setAdminPassword(e.target.value); setAdminError(false); }}
                 className="w-full rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 text-sm font-semibold text-foreground outline-none focus:border-primary"
@@ -310,7 +147,6 @@ export function PreviewScreen({
           </div>
         </div>
       )}
-
     </div>
   )
 }
