@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { 
   X, Moon, Sun, Eye, Check, ChevronRight, ChevronLeft, 
   Monitor, Globe, Info, ShieldAlert 
@@ -151,8 +152,9 @@ export function SharedSettings({
           {activeMenu === "about" && (
             <div className="animate-in slide-in-from-right-4 fade-in duration-200 flex flex-col gap-6">
               <div className="flex flex-col items-center text-center mt-4">
-                <div className="h-20 w-20 rounded-2xl bg-primary/10 mb-4 overflow-hidden border border-border">
-                  <img src="/icon-512.png" alt="Logo" className="w-full h-full object-cover" />
+                {/* ប្រើ logo-clean-mask ដើម្បីកាត់ស៊ុមពណ៌សចេញ */}
+                <div className="relative h-20 w-20 rounded-2xl bg-transparent mb-4 overflow-hidden border border-border">
+                  <Image src="/icon-512.png" alt="Logo" fill className="logo-clean-mask" />
                 </div>
                 <h3 className="text-xl font-bold text-foreground">{SAVPD_CONSTANTS.BRAND.TRADEMARK}</h3>
                 <p className="text-sm text-muted-foreground mt-1">Version 1.0.0</p>
