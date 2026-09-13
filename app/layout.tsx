@@ -1,6 +1,8 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Geist, Noto_Sans_Khmer } from 'next/font/google'
+import { NextIntlClientProvider } from 'next-intl'
+import { getLocale, getMessages } from 'next-intl/server'
 import { ThemeProvider } from '@/lib/theme'
 import './globals.css'
 
@@ -55,20 +57,24 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+
   return (
-    <html lang="km" className={`${geist.variable} ${notoKhmer.variable} bg-background`}>
+    <html lang={locale} className={`${geist.variable} ${notoKhmer.variable} bg-background`}>
       <head>
-        {/* បង្ខំឱ្យ iOS ប្រើប្រាស់ Apple Touch Icon ផ្ទាល់ខ្លួន */}
         <link rel="apple-touch-icon" href="/icon-512.png" />
         <link rel="apple-touch-icon-precomposed" href="/icon-512.png" />
       </head>
       <body className="font-sans antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <NextIntlClientProvider messages={messages}>
+          <ThemeProvider>{children}</ThemeProvider>
+        </NextIntlClientProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
