@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { 
   Settings, Moon, Sun, Check, Lock, X, Eye, 
-  ChevronRight, ChevronLeft, Monitor, Globe 
+  ChevronRight, ChevronLeft, Monitor, Globe, Info, ShieldAlert 
 } from "lucide-react"
 import { UI_LANGUAGES, type LangCode } from "@/lib/i18n"
 import { useTheme } from "@/lib/theme"
@@ -12,7 +12,7 @@ import { SAVPD_CONSTANTS } from "@/lib/constants"
 import { InstallPrompt } from "./install-prompt"
 
 type T = ReturnType<typeof import("@/lib/i18n").useI18n>["t"]
-type MenuState = "main" | "display" | "language"
+type MenuState = "main" | "display" | "language" | "about"
 
 export function PreviewScreen({
   t,
@@ -27,14 +27,17 @@ export function PreviewScreen({
 }) {
   const { mode, toggleMode, eyeCare, toggleEyeCare, eyeCareLevel, setEyeCareLevel } = useTheme()
   const [previewSettingsOpen, setPreviewSettingsOpen] = useState(false)
-  
-  // State សម្រាប់គ្រប់គ្រងការចូល Menu មួយតង់ៗ
   const [activeMenu, setActiveMenu] = useState<MenuState>("main")
   
   const [passcode, setPasscode] = useState("")
   const [error, setError] = useState(false)
   const [showSplash, setShowSplash] = useState(true)
   const [fadeSplash, setFadeSplash] = useState(false)
+
+  // Admin Modal States
+  const [adminModalOpen, setAdminModalOpen] = useState(false)
+  const [adminPassword, setAdminPassword] = useState("")
+  const [adminError, setAdminError] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -53,16 +56,27 @@ export function PreviewScreen({
     }
   }
 
+  const handleAdminLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (adminPassword === "@2000") {
+      onLoginSuccess()
+      setAdminModalOpen(false)
+    } else {
+      setAdminError(true)
+    }
+  }
+
   const closeSettings = () => {
     setPreviewSettingsOpen(false)
-    setTimeout(() => setActiveMenu("main"), 300) // Reset ទៅ Menu ដើមវិញពេលបិទ
+    setTimeout(() => setActiveMenu("main"), 300)
   }
 
   if (showSplash) {
     return (
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background transition-opacity duration-500 ease-in-out ${fadeSplash ? "opacity-0" : "opacity-100"}`}>
-        <div className="relative h-32 w-32 animate-pulse overflow-hidden rounded-[2rem] shadow-2xl">
-          <Image src="/icon-512.png" alt={`${SAVPD_CONSTANTS.BRAND.TRADEMARK} Logo`} fill className="object-cover" priority />
+        {/* ប្រើ logo-clean-mask ដើម្បីកាត់ស៊ុមពណ៌សចេញ */}
+        <div className="relative h-28 w-28 animate-pulse overflow-hidden rounded-3xl bg-transparent">
+          <Image src="/icon-512.png" alt={`${SAVPD_CONSTANTS.BRAND.TRADEMARK} Logo`} fill className="logo-clean-mask" priority />
         </div>
         <h1 className="mt-6 text-2xl font-bold tracking-tight text-foreground animate-in slide-in-from-bottom-4 duration-700">
           {SAVPD_CONSTANTS.BRAND.TRADEMARK}
@@ -75,8 +89,8 @@ export function PreviewScreen({
     <div className="mx-auto flex min-h-[100dvh] w-full max-w-md flex-col justify-between bg-background p-4 relative animate-in fade-in zoom-in-[0.98] duration-700">
       <header className="flex items-center justify-between border-b border-border/60 bg-background/80 py-3 backdrop-blur-xl">
         <div className="flex items-center gap-2.5">
-          <div className="relative h-10 w-10 overflow-hidden rounded-xl shadow-sm">
-             <Image src="/icon-512.png" alt={`${SAVPD_CONSTANTS.BRAND.TRADEMARK} Logo Small`} fill className="object-cover" />
+          <div className="relative h-10 w-10 overflow-hidden rounded-xl shadow-sm bg-transparent">
+             <Image src="/icon-512.png" alt={`${SAVPD_CONSTANTS.BRAND.TRADEMARK} Logo Small`} fill className="logo-clean-mask" />
           </div>
           <span className="text-base font-bold tracking-tight text-foreground">{SAVPD_CONSTANTS.BRAND.TRADEMARK}</span>
         </div>
@@ -112,11 +126,8 @@ export function PreviewScreen({
         </div>
       </div>
 
-      <div>
-        <InstallPrompt />
-        <div className="pb-4 pt-2 text-center">
-          <p className="text-[11px] text-muted-foreground">© 2026 {SAVPD_CONSTANTS.BRAND.TRADEMARK}. All rights reserved.</p>
-        </div>
+      <div className="pb-4 pt-2 text-center">
+        <p className="text-[11px] text-muted-foreground">© 2026 {SAVPD_CONSTANTS.BRAND.TRADEMARK}. All rights reserved.</p>
       </div>
 
       {/* iOS Style Nested Settings Modal */}
@@ -139,9 +150,9 @@ export function PreviewScreen({
                     {t.settings}
                   </button>
                   <h2 className="text-base font-bold text-foreground">
-                    {activeMenu === "display" ? t.displayMode : t.appLanguage}
+                    {activeMenu === "display" ? t.displayMode : activeMenu === "language" ? t.appLanguage : "About App"}
                   </h2>
-                  <div className="w-[72px]" /> {/* Spacer ដើម្បីឱ្យចំណងជើងនៅកណ្តាល */}
+                  <div className="w-[72px]" />
                 </>
               )}
             </div>
@@ -162,7 +173,7 @@ export function PreviewScreen({
                     <ChevronRight className="h-5 w-5 text-muted-foreground" />
                   </button>
                   
-                  <button onClick={() => setActiveMenu("language")} className="flex w-full items-center justify-between p-4 text-left transition hover:bg-secondary/50 active:bg-secondary">
+                  <button onClick={() => setActiveMenu("language")} className="flex w-full items-center justify-between border-b border-border p-4 text-left transition hover:bg-secondary/50 active:bg-secondary">
                     <div className="flex items-center gap-3">
                       <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
                         <Globe className="h-4.5 w-4.5" />
@@ -175,6 +186,16 @@ export function PreviewScreen({
                       </span>
                       <ChevronRight className="h-5 w-5 text-muted-foreground" />
                     </div>
+                  </button>
+
+                  <button onClick={() => setActiveMenu("about")} className="flex w-full items-center justify-between p-4 text-left transition hover:bg-secondary/50 active:bg-secondary">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-500/10 text-purple-500">
+                        <Info className="h-4.5 w-4.5" />
+                      </div>
+                      <span className="font-medium text-foreground">About App</span>
+                    </div>
+                    <ChevronRight className="h-5 w-5 text-muted-foreground" />
                   </button>
                 </div>
               )}
@@ -220,7 +241,7 @@ export function PreviewScreen({
                         key={l.code} 
                         type="button" 
                         onClick={() => { setLang(l.code); setTimeout(() => setActiveMenu("main"), 300); }} 
-                        className={`flex w-full items-center gap-3 p-4 text-sm transition hover:bg-secondary/50 active:bg-secondary ${index !== UI_LANGUAGES.length - 1 ? "border-b border-border" : ""}`}
+                        className={`flex w-full items-center gap-3 p-4 text-sm transition hover:bg-secondary/50 active:scale-[0.99] ${index !== UI_LANGUAGES.length - 1 ? "border-b border-border" : ""}`}
                       >
                         <span className="text-xl">{l.flag}</span>
                         <span className={`flex-1 text-left ${lang === l.code ? "font-semibold text-primary" : "text-foreground"}`}>
@@ -233,10 +254,62 @@ export function PreviewScreen({
                 </div>
               )}
 
+              {/* About Settings (Level 2) - ប្រើ logo-clean-mask ជាមួយ */}
+              {activeMenu === "about" && (
+                <div className="animate-in slide-in-from-right-4 fade-in duration-200 flex flex-col gap-6">
+                  <div className="flex flex-col items-center text-center mt-4">
+                    <div className="h-20 w-20 rounded-2xl bg-transparent mb-4 overflow-hidden border border-border">
+                      <img src="/icon-512.png" alt="Logo" className="w-full h-full logo-clean-mask" />
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground">{SAVPD_CONSTANTS.BRAND.TRADEMARK}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">Version 1.0.0</p>
+                    <p className="text-xs text-muted-foreground mt-4 max-w-xs">{t.footer}</p>
+                  </div>
+                  
+                  <div className="mt-2 space-y-4">
+                    <InstallPrompt />
+                    <button 
+                      onClick={() => {
+                        setPreviewSettingsOpen(false)
+                        setAdminModalOpen(true)
+                      }}
+                      className="flex w-full items-center justify-center gap-2 rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-sm font-bold text-destructive transition active:scale-95"
+                    >
+                      <ShieldAlert className="h-5 w-5" />
+                      Admin Access
+                    </button>
+                  </div>
+                </div>
+              )}
+
             </div>
           </div>
         </div>
       )}
+
+      {/* Admin Login Modal */}
+      {adminModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-3xl border border-border bg-card p-6 shadow-2xl">
+            <h3 className="text-base font-bold text-foreground mb-4">Master Key</h3>
+            <form onSubmit={handleAdminLogin} className="space-y-4">
+              <input
+                type="password"
+                placeholder="Password (@2000)"
+                value={adminPassword}
+                onChange={(e) => { setAdminPassword(e.target.value); setAdminError(false); }}
+                className="w-full rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 text-sm font-semibold text-foreground outline-none focus:border-primary"
+                autoFocus
+              />
+              {adminError && <p className="text-xs text-destructive">Invalid Password</p>}
+              <button type="submit" className="w-full rounded-2xl bg-primary py-3.5 text-sm font-bold text-primary-foreground">
+                Login Admin
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }
