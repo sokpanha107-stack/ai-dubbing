@@ -110,7 +110,7 @@
   --success: oklch(0.62 0.16 155);
   --success-foreground: oklch(0.99 0 0);
   --warning: oklch(0.7 0.15 70);
-  --warning-foreground: oklch(0.99 0 0);
+  --warning-foreground: oklch(0.99 0.00 0);
   --destructive: oklch(0.6 0.22 25);
   --border: oklch(0.2 0.02 265 / 12%);
   --input: oklch(0.2 0.02 265 / 15%);
@@ -137,4 +137,11 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* 🌟 កូដ CSS សម្រាប់កាត់បំបាត់ស៊ុមពណ៌សចេញពី Logo គ្រប់ទីកន្លែងដោយស្វ័យប្រវត្តិ */
+.logo-clean-mask {
+  border-radius: 24% !important;
+  object-fit: cover;
+  transform: scale(1.12);
 }
