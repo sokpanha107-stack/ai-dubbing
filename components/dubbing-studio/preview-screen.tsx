@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { 
   Settings, Moon, Sun, Check, Lock, X, Eye, 
-  ChevronRight, ChevronLeft, Monitor, Globe, Info, ShieldAlert 
+  ChevronRight, ChevronLeft, Monitor, Globe, Info, ShieldAlert, Clapperboard 
 } from "lucide-react"
 import { UI_LANGUAGES, type LangCode } from "@/lib/i18n"
 import { useTheme } from "@/lib/theme"
@@ -71,10 +71,10 @@ export function PreviewScreen({
     setTimeout(() => setActiveMenu("main"), 300)
   }
 
+  // 1. Splash Screen (នៅតែរក្សារូប Logo ពេលបើក App ដំបូង)
   if (showSplash) {
     return (
       <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background transition-opacity duration-500 ease-in-out ${fadeSplash ? "opacity-0" : "opacity-100"}`}>
-        {/* ប្រើ logo-clean-mask ដើម្បីកាត់ស៊ុមពណ៌សចេញ */}
         <div className="relative h-28 w-28 animate-pulse overflow-hidden rounded-3xl bg-transparent">
           <Image src="/icon-512.png" alt={`${SAVPD_CONSTANTS.BRAND.TRADEMARK} Logo`} fill className="logo-clean-mask" priority />
         </div>
@@ -87,11 +87,12 @@ export function PreviewScreen({
 
   return (
     <div className="mx-auto flex min-h-[100dvh] w-full max-w-md flex-col justify-between bg-background p-4 relative animate-in fade-in zoom-in-[0.98] duration-700">
+      {/* Header (ប្ដូរមកប្រើ Clapperboard Icon ជំនួស Logo ទាំងស្រុង) */}
       <header className="flex items-center justify-between border-b border-border/60 bg-background/80 py-3 backdrop-blur-xl">
         <div className="flex items-center gap-2.5">
-          <div className="relative h-10 w-10 overflow-hidden rounded-xl shadow-sm bg-transparent">
-             <Image src="/icon-512.png" alt={`${SAVPD_CONSTANTS.BRAND.TRADEMARK} Logo Small`} fill className="logo-clean-mask" />
-          </div>
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/15 text-primary">
+            <Clapperboard className="h-5 w-5" />
+          </span>
           <span className="text-base font-bold tracking-tight text-foreground">{SAVPD_CONSTANTS.BRAND.TRADEMARK}</span>
         </div>
         <button type="button" onClick={() => setPreviewSettingsOpen(true)} className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-secondary/60 text-foreground transition active:scale-95">
@@ -254,13 +255,13 @@ export function PreviewScreen({
                 </div>
               )}
 
-              {/* About Settings (Level 2) - ប្រើ logo-clean-mask ជាមួយ */}
+              {/* About Settings (Level 2) - ផ្លាស់ប្តូរពី Logo មកប្រើ Clapperboard Icon វិញ */}
               {activeMenu === "about" && (
                 <div className="animate-in slide-in-from-right-4 fade-in duration-200 flex flex-col gap-6">
                   <div className="flex flex-col items-center text-center mt-4">
-                    <div className="h-20 w-20 rounded-2xl bg-transparent mb-4 overflow-hidden border border-border">
-                      <img src="/icon-512.png" alt="Logo" className="w-full h-full logo-clean-mask" />
-                    </div>
+                    <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/15 text-primary mb-4 shadow-inner">
+                      <Clapperboard className="h-8 w-8" />
+                    </span>
                     <h3 className="text-xl font-bold text-foreground">{SAVPD_CONSTANTS.BRAND.TRADEMARK}</h3>
                     <p className="text-sm text-muted-foreground mt-1">Version 1.0.0</p>
                     <p className="text-xs text-muted-foreground mt-4 max-w-xs">{t.footer}</p>
