@@ -129,7 +129,7 @@ export function DubbingStudio() {
         </div>
       </header>
 
-      {/* ហៅផ្ទាំង Shared Settings ថ្មីមកប្រើ */}
+      {/* ហៅផ្ទាំង Shared Settings មកប្រើ */}
       <SharedSettings
         isOpen={settingsOpen}
         onClose={() => setSettingsOpen(false)}
@@ -141,7 +141,7 @@ export function DubbingStudio() {
         }}
       />
 
-      {/* ផ្ទាំង Login ចូល Admin លោតចេញពេលចុចប៊ូតុងក្នុង About */}
+      {/* ផ្ទាំង Login ចូល Admin លោតចេញពេលសង្កត់សញ្ញាឧទានក្នុង About */}
       {adminModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
           <div className="w-full max-w-sm rounded-3xl border border-border bg-card p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
@@ -162,7 +162,7 @@ export function DubbingStudio() {
               <div>
                 <input
                   type="password"
-                  placeholder="Password (@2000)"
+                  placeholder="Password"
                   value={adminPassword}
                   onChange={(e) => {
                     setAdminPassword(e.target.value)
