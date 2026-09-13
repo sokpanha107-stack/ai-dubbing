@@ -77,11 +77,12 @@ export function DubbingStudio() {
 
   const handleAdminLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    // ดึง Passcode ថ្មីដែលបានកំណត់ក្នុង Admin Config មកផ្ទៀងផ្ទាត់
     const currentConfig = getAdminConfig()
     if (adminPassword === currentConfig.adminPasscode) {
-      setIsAdminLoggedIn(true)
       setAdminModalOpen(false)
+      setAdminPassword("")
+      setAdminError(false)
+      setIsAdminLoggedIn(true) // ដាក់បញ្ជាក់រដ្ឋ Admin ឱ្យដូរទម្រង់ភ្លាមៗ
     } else {
       setAdminError(true)
     }
@@ -100,6 +101,7 @@ export function DubbingStudio() {
     )
   }
 
+  // ដាក់ពិនិត្យលក្ខខណ្ឌ Admin Logged In ឱ្យនៅទីនេះ ធានាថាពេល Passcode ត្រូវ វាលោតចូល Admin ភ្លាមៗតែម្តង
   if (isAdminLoggedIn) {
     return <AdminDashboard onLogout={() => setIsAdminLoggedIn(false)} />
   }
