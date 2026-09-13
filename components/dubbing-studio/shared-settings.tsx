@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import Image from "next/image"
 import { 
   X, Moon, Sun, Eye, Check, ChevronRight, ChevronLeft, 
-  Monitor, Globe, Info, ShieldAlert 
+  Monitor, Globe, Info, Clapperboard,
+  Sparkles, ShieldCheck, HeartPulse, Gauge
 } from "lucide-react"
 import { useI18n, UI_LANGUAGES } from "@/lib/i18n"
 import { useTheme } from "@/lib/theme"
@@ -26,11 +27,34 @@ export function SharedSettings({
   const { mode, toggleMode, eyeCare, toggleEyeCare, eyeCareLevel, setEyeCareLevel } = useTheme()
   const [activeMenu, setActiveMenu] = useState<MenuState>("main")
 
+  // Secret 5-second long press timer ref for the exclamation mark (!)
+  const holdTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const [isHolding, setIsHolding] = useState(false)
+
   if (!isOpen) return null
 
   const handleClose = () => {
     onClose()
     setTimeout(() => setActiveMenu("main"), 300)
+  }
+
+  // Secret Hold Handlers for 5 seconds
+  const startHolding = () => {
+    setIsHolding(true)
+    holdTimerRef.current = setTimeout(() => {
+      if (onAdminClick) {
+        onAdminClick()
+      }
+      setIsHolding(false)
+    }, 5000) // 5 វិនាទី
+  }
+
+  const cancelHolding = () => {
+    setIsHolding(false)
+    if (holdTimerRef.current) {
+      clearTimeout(holdTimerRef.current)
+      holdTimerRef.current = null
+    }
   }
 
   return (
@@ -148,7 +172,7 @@ export function SharedSettings({
             </div>
           )}
 
-          {/* About */}
+          {/* About (មានកប់មុខងារសង្កត់សញ្ញាឧទាន ៥ វិនាទី និង Feature Cards ពេញលេញ) */}
           {activeMenu === "about" && (
             <div className="animate-in slide-in-from-right-4 fade-in duration-200 flex flex-col gap-6">
               <div className="flex flex-col items-center text-center mt-4">
@@ -158,16 +182,74 @@ export function SharedSettings({
                 </div>
                 <h3 className="text-xl font-bold text-foreground">{SAVPD_CONSTANTS.BRAND.TRADEMARK}</h3>
                 <p className="text-sm text-muted-foreground mt-1">Version 1.0.0</p>
-                <p className="text-xs text-muted-foreground mt-4 max-w-xs">{t.footer}</p>
+                
+                {/* Footer text with Secret 5-second long-press on the exclamation mark (!) */}
+                <p className="text-xs text-muted-foreground mt-4 max-w-xs select-none">
+                  {t.footer}{" "}
+                  <span 
+                    onMouseDown={startHolding}
+                    onMouseUp={cancelHolding}
+                    onTouchStart={startHolding}
+                    onTouchEnd={cancelHolding}
+                    className={`inline-flex items-center justify-center font-bold cursor-pointer transition ${
+                      isHolding ? "text-primary scale-125 animate-pulse" : "text-muted-foreground hover:text-foreground"
+                    }`}
+                    title="Secret trigger"
+                  >
+                    (!)
+                  </span>
+                </p>
               </div>
+
+              {/* Feature Cards */}
+              <div className="space-y-3">
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground px-1">AI capabilities</h4>
+                
+                <div className="grid grid-cols-1 gap-3">
+                  <div className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary">
+                      <Sparkles className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <h5 className="text-sm font-bold text-foreground">{t.autopilotTitle}</h5>
+                      <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{t.autopilotDesc}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/15 text-blue-500">
+                      <ShieldCheck className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <h5 className="text-sm font-bold text-foreground">{t.contextTitle}</h5>
+                      <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{t.contextDesc}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-500">
+                      <HeartPulse className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <h5 className="text-sm font-bold text-foreground">{t.emotionTitle}</h5>
+                      <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{t.emotionDesc}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/15 text-amber-500">
+                      <Gauge className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <h5 className="text-sm font-bold text-foreground">{t.paceTitle}</h5>
+                      <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{t.paceDesc}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className="mt-2 space-y-4">
                 <InstallPrompt />
-                {onAdminClick && (
-                  <button onClick={onAdminClick} className="flex w-full items-center justify-center gap-2 rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-sm font-bold text-destructive transition active:scale-95">
-                    <ShieldAlert className="h-5 w-5" />
-                    Admin Access
-                  </button>
-                )}
               </div>
             </div>
           )}
