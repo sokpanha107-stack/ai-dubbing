@@ -3,23 +3,17 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Lock, Clapperboard, Settings } from "lucide-react"
-import type { LangCode } from "@/lib/i18n"
+import { useTranslations } from "next-intl"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
 import { SharedSettings } from "./shared-settings"
 
-type T = ReturnType<typeof import("@/lib/i18n").useI18n>["t"]
-
 export function PreviewScreen({
-  t,
-  lang,
-  setLang,
   onLoginSuccess,
 }: {
-  t: T
-  lang: LangCode
-  setLang: (c: LangCode) => void
   onLoginSuccess: () => void
 }) {
+  const t = useTranslations()
+
   const [previewSettingsOpen, setPreviewSettingsOpen] = useState(false)
   const [passcode, setPasscode] = useState("")
   const [error, setError] = useState(false)
@@ -90,8 +84,8 @@ export function PreviewScreen({
             <span className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/15 text-primary shadow-inner">
               <Lock className="h-6 w-6" />
             </span>
-            <h2 className="text-lg font-bold text-foreground">{t.securityTitle}</h2>
-            <p className="mt-1 text-xs text-muted-foreground">{t.securityDesc}</p>
+            <h2 className="text-lg font-bold text-foreground">{t("securityTitle")}</h2>
+            <p className="mt-1 text-xs text-muted-foreground">{t("securityDesc")}</p>
           </div>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
@@ -102,10 +96,10 @@ export function PreviewScreen({
                 onChange={(e) => { setPasscode(e.target.value); setError(false); }}
                 className="w-full rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 text-center text-base font-semibold text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-ring/40"
               />
-              {error && <p className="mt-2 text-center text-xs font-medium text-destructive">{t.invalidPasscode}</p>}
+              {error && <p className="mt-2 text-center text-xs font-medium text-destructive">{t("invalidPasscode")}</p>}
             </div>
             <button type="submit" className="w-full rounded-2xl bg-primary py-3.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 transition active:scale-[0.99]">
-              {t.accessSystem}
+              {t("accessSystem")}
             </button>
           </form>
         </div>
