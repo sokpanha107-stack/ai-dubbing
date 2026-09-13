@@ -108,7 +108,7 @@ export function SharedSettings({
                   <span className="font-medium text-foreground">{t.appLanguage}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">{UI_LANGUAGES.find(l => l.code === lang)?.native}</span>
+                  <span className="text-sm text-muted-foreground">{t.languages[lang]}</span>
                   <ChevronRight className="h-5 w-5 text-muted-foreground" />
                 </div>
               </button>
@@ -164,7 +164,9 @@ export function SharedSettings({
                 {UI_LANGUAGES.map((l, index) => (
                   <button key={l.code} type="button" onClick={() => { setLang(l.code); setTimeout(() => setActiveMenu("main"), 300); }} className={`flex w-full items-center gap-3 p-4 text-sm transition hover:bg-secondary/50 active:bg-secondary ${index !== UI_LANGUAGES.length - 1 ? "border-b border-border" : ""}`}>
                     <span className="text-xl">{l.flag}</span>
-                    <span className={`flex-1 text-left ${lang === l.code ? "font-semibold text-primary" : "text-foreground"}`}>{l.native}</span>
+                    <span className={`flex-1 text-left ${lang === l.code ? "font-semibold text-primary" : "text-foreground"}`}>
+                      {t.languages[l.code]}
+                    </span>
                     {lang === l.code && <Check className="h-5 w-5 text-primary" />}
                   </button>
                 ))}
@@ -201,7 +203,7 @@ export function SharedSettings({
 
               {/* Feature Cards */}
               <div className="space-y-3">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground px-1">AI capabilities</h4>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground px-1">{t.featuresHeading}</h4>
                 
                 <div className="grid grid-cols-1 gap-3">
                   <div className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm">
