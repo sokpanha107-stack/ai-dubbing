@@ -50,6 +50,7 @@ type Strings = {
   noLimit: string
   delete: string
   step2: string
+  selectTargetLangTitle: string // 🌟 ពាក្យថ្មីសម្រាប់ចំណងជើងជ្រើសរើសភាសាគោលដៅបកប្រែ
   sourceLabel: string
   targetLabel: string
   swap: string
@@ -121,6 +122,7 @@ const EN_STRINGS: Strings = {
   noLimit: "No duration or size limit",
   delete: "Remove",
   step2: "Choose languages",
+  selectTargetLangTitle: "Select Target Language (for Dubbing)",
   sourceLabel: "Source language",
   targetLabel: "Target language",
   swap: "Swap languages",
@@ -190,6 +192,7 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     noLimit: "不限时长和大小",
     delete: "移除",
     step2: "选择语言",
+    selectTargetLangTitle: "选择目标配音语言",
     sourceLabel: "原始语言",
     targetLabel: "目标语言",
     swap: "交换语言",
@@ -251,6 +254,7 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     noLimit: "មិនកំណត់រយៈពេល ឬទំហំ",
     delete: "លុប",
     step2: "ជ្រើសរើសភាសា",
+    selectTargetLangTitle: "ជ្រើសរើសភាសាគោលដៅ (សម្រាប់បញ្ចូលសំឡេង)",
     sourceLabel: "ភាសាដើម",
     targetLabel: "ភាសាគោលដៅ",
     swap: "ប្តូរភាសា",
@@ -287,7 +291,7 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     assistantOpen: "បើកជំនួយការ AI",
     assistantTitle: "ជំនួយការបញ្ចូលសំឡេង",
     assistantSubtitle: "សួរអំពីរបៀបប្រើ App នេះ",
-    assistantGreeting: `សួស្តី! ខ្ញុំជាជំនួយការ AI របស់អ្នក។ ខ្ញុំអាចជួយបានតែសំណួរអំពី App ${SAVPD_CONSTANTS.BRAND.NAME} នេះប៉ុណ្ណោះ — របៀបអាប់ឡូត ជ្រើសរើសភាសា និងប្រើ Auto-Pilot។ តើខ្ញុំអាចជួយអ្វីបាន?`,
+    assistantGreeting: `សួស្តី! ខ្ញុំជាជំនួយការ AI របស់អ្នក។ ខ្ញុំអាចជួយបានតែសំណួរអំពី App ${SAVPD_CONSTANTS.BRAND.NAME} នេះប៉ុណ្ណោះ — របៀបអាប់ឡូត ជ្រើសរើសភាសា និងប្រើ Auto-Pilot។ តើខ្ញុំអាចជួយអ្វីได้?`,
     assistantPlaceholder: "សួរអំពី App នេះ...",
     assistantSend: "ផ្ញើ",
     assistantVoice: "សួរដោយសំឡេង",
@@ -317,6 +321,7 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     noLimit: "ไม่จำกัดความยาวหรือขนาด",
     delete: "ลบ",
     step2: "เลือกภาษา",
+    selectTargetLangTitle: "เลือกภาษาเป้าหมาย (สำหรับพากย์เสียง)",
     sourceLabel: "ภาษาต้นทาง",
     targetLabel: "ภาษาปลายทาง",
     swap: "สลับภาษา",
@@ -378,6 +383,7 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     noLimit: "Không giới hạn thời lượng hay dung lượng",
     delete: "Xóa",
     step2: "Chọn ngôn ngữ",
+    selectTargetLangTitle: "Chọn ngôn ngữ mục tiêu (để lồng tiếng)",
     sourceLabel: "Ngôn ngữ gốc",
     targetLabel: "Ngôn ngữ đích",
     swap: "Hoán đổi ngôn ngữ",
@@ -425,7 +431,6 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
       "Có giữ nguyên cảm xúc gốc không?",
     ],
   },
-  // បន្ថែម ១៥ ភាសាថ្មី ដោយយកទិន្នន័យពីភាសាអង់គ្លេសជាគោលសិន ដើម្បីកុំឱ្យ Error កូដ
   ja: { ...EN_STRINGS },
   ko: { ...EN_STRINGS },
   hi: { ...EN_STRINGS },
@@ -452,7 +457,6 @@ type I18nContextValue = {
 const I18nContext = createContext<I18nContextValue | null>(null)
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  // 🌟 បង្ខំឱ្យពេលចូលដំបូង ឬ Test Link ថ្មី គឺយកភាសាអង់គ្លេស ("en") មុនគេបង្អស់
   const [lang, setLangState] = useState<LangCode>("en")
 
   useEffect(() => {
