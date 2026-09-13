@@ -31,6 +31,12 @@ export const metadata: Metadata = {
   icons: {
     icon: '/icon-512.png',
     apple: '/icon-512.png',
+    shortcut: '/icon-512.png',
+  },
+  other: {
+    'mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'black-translucent',
   },
 }
 
