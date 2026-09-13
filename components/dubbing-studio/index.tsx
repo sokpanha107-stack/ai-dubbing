@@ -4,9 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { Clapperboard, Lock, Settings, X } from "lucide-react"
 import { useI18n, type LangCode } from "@/lib/i18n"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
+import { getAdminConfig } from "@/lib/admin-config"
 import { DashboardScreenContainer } from "./dashboard-screen"
 import { SharedSettings } from "./shared-settings"
-import { AdminDashboard } from "./admin-dashboard"
+import { AdminDashboard } from "@/components/admin/admin-dashboard"
 import { PreviewScreen } from "./preview-screen"
 
 type Status = "idle" | "processing" | "done"
@@ -76,7 +77,9 @@ export function DubbingStudio() {
 
   const handleAdminLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    if (adminPassword === "@2000") {
+    // ดึง Passcode ថ្មីដែលបានកំណត់ក្នុង Admin Config មកផ្ទៀងផ្ទាត់
+    const currentConfig = getAdminConfig()
+    if (adminPassword === currentConfig.adminPasscode) {
       setIsAdminLoggedIn(true)
       setAdminModalOpen(false)
     } else {
