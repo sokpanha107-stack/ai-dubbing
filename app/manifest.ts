@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next'
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'SAVPD.io™ - AI Video Dubbing Studio',
-    short_name: 'SAVPD.io',
+    short_name: 'SAVPD.io™', // ែមសញ្ញា ™ ត្រង់នេះ
     description:
       'Translate and dub your videos into multiple languages automatically with AI.',
     start_url: '/',
