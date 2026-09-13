@@ -3,15 +3,17 @@ export type AdminConfig = {
   elevenlabsApiKey: string;
   translationApiKey: string;
   customPrompt: string;
+  adminPasscode: string; // បន្ថែមសម្រាប់កែលេខកូដសម្ងាត់
 };
 
-const STORAGE_KEY = "savpd_admin_config_v1";
+const STORAGE_KEY = "savpd_admin_config_v2";
 
 const DEFAULT_CONFIG: AdminConfig = {
   openaiApiKey: "",
   elevenlabsApiKey: "",
   translationApiKey: "",
   customPrompt: "Translate and dub accurately, maintaining cinematic emotion and pace sync.",
+  adminPasscode: "@2000", // លេខកូដសម្ងាត់ដើម
 };
 
 export function getAdminConfig(): AdminConfig {
@@ -28,6 +30,7 @@ export function getAdminConfig(): AdminConfig {
         elevenlabsApiKey: parsed.elevenlabsApiKey || DEFAULT_CONFIG.elevenlabsApiKey,
         translationApiKey: parsed.translationApiKey || DEFAULT_CONFIG.translationApiKey,
         customPrompt: parsed.customPrompt || DEFAULT_CONFIG.customPrompt,
+        adminPasscode: parsed.adminPasscode || DEFAULT_CONFIG.adminPasscode,
       };
     }
   } catch (error) {
