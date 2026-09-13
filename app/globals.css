@@ -139,9 +139,19 @@
   }
 }
 
-/* 🌟 កូដ CSS កាត់បំបាត់ស៊ុមពណ៌សចេញដាច់ស្រឡះ និងធ្វើឱ្យជ្រុងកោងស្អាតដូចរាងដើម (Perfect Crop & Zoom) */
+/* 🌟 កូដ CSS កាត់បំបាត់ស៊ុមពណ៌សចេញដាច់ស្រឡះ គ្រប់ Device ទាំងអស់ដោយស្វ័យប្រវត្តិដោយមិនបាច់ប៉ះពាល់រូបដើម */
 .logo-clean-mask {
-  border-radius: 22% !important;
+  border-radius: 26% !important;
   object-fit: cover;
-  transform: scale(1.65); /* ពង្រីកទំហំឱ្យកាន់តែធំដើម្បីកាត់ដាច់ស៊ុមពណ៌សចេញទាំងស្រុង */
+  transform: scale(1.85); /* ពង្រីកទំហំឱ្យខ្លាំង ដើម្បីរុញស៊ុមពណ៌សការ៉េចេញផុតពីគែមអេក្រង់ */
+  overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+/* ទម្រង់ពិសេសបន្ថែមសម្រាប់ Apple Devices និង PWA Home Screen */
+@supports (-webkit-touch-callout: none) {
+  .logo-clean-mask {
+    border-radius: 22% !important;
+    transform: scale(1.75);
+  }
 }
