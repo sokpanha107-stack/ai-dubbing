@@ -4,7 +4,7 @@
   "footer": "បង្កើតឡើងសម្រាប់ការប្រើប្រាស់ផ្ទាល់ខ្លួន · SAVPD.io Tool",
   "settings": "ការកំណត់",
   "appLanguage": "ភាសាកម្មវិធី",
-  "displayMode": "การបង្ហាញ",
+  "displayMode": "ការបង្ហាញ",
   "securityTitle": "សុវត្ថិភាពប្រព័ន្ធ",
   "securityDesc": "សូមបញ្ចូលលេខកូដសម្ងាត់ដើម្បីចូលទៅកាន់ផ្ទាំងការងារ",
   "passcodePlaceholder": "បញ្ចូលលេខកូដ",
@@ -21,7 +21,7 @@
   "targetLabel": "ភាសាគោលដៅ",
   "swap": "ប្តូរភាសា",
   "start": "ចាប់ផ្តើមបកប្រែ និងបញ្ចូលសំឡេង",
-  "processing": "កំពុងដំណើរการ AI Dubbing...",
+  "processing": "កំពុងដំណើរការ AI Dubbing...",
   "stages": [
     "កំពុងបំបែកសំឡេងចេញពីវីដេអូ",
     "កំពុងបំប្លែងសំឡេងទៅជាអក្សរ",
@@ -32,7 +32,7 @@
   "doneTitle": "ដំណើរការបានរួចរាល់ហើយ!",
   "doneSubtitle": "វីដេអូរបស់អ្នកត្រូវបានបញ្ចូលសំឡេងជា",
   "download": "ទាញយកវីដេអូ",
-  "retry: "ធ្វើម្តងទៀត",
+  "retry": "ធ្វើម្តងទៀត",
   "autopilotTitle": "AI ស្វ័យប្រវត្តិឆ្លាតវៃ",
   "autopilotDesc": "ដំណើរការស្វ័យប្រវត្តិ ១០០% — មិនបាច់កែដោយដៃ។",
   "contextTitle": "ការពារបរិបទ",
@@ -57,16 +57,50 @@
   "assistantSend": "ផ្ញើ",
   "assistantVoice": "សួរដោយសំឡេង",
   "assistantListening": "កំពុងស្តាប់...",
-  "assistantRefusal": "សូមអភ័យទោស! ខ្ញុំអាចជួយឆ្លើយតបได้តែព័ត៌មានដែលពាក់ព័ន្ធនឹងបច្ចេកវិទ្យា និងការប្រើប្រាស់ App SAVPD.io នេះប៉ុណ្ណោះ។",
+  "assistantRefusal": "សូមអភ័យទោស! ខ្ញុំអាចជួយឆ្លើយតបបានតែព័ត៌មានដែលពាក់ព័ន្ធនឹងបច្ចេកវិទ្យា និងការប្រើប្រាស់ App SAVPD.io នេះប៉ុណ្ណោះ។",
   "assistantSuggestions": [
     "តើខ្ញុំចាប់ផ្តើម Auto-Pilot យ៉ាងដូចម្តេច?",
     "តើ App គាំទ្រភាសាអ្វីខ្លះ?",
     "តើវារក្សាអារម្មណ៍ដើមទេ?"
   ],
-  "dubbingOptions": [
-    { "id": "opt1", "title": "Option 1: Clean Voiceover (Vlog Mode)", "desc": "សាកសមបំផុតសម្រាប់វីដេអូ Vlog ផ្ទាល់ខ្លួន ឬការថតនិយាយធម្មតា។" },
-    { "id": "opt2", "title": "Option 2: Summary & SFX (Recap)", "desc": "សាកសមសម្រាប់វីដេអូសង្ខេបសាច់រឿង (Recap) និងការរៀបរាប់។" },
-    { "id": "opt3", "title": "Option 3: Cinematic Character Dubbing", "desc": "សាកសមសម្រាប់ភាពយន្ត (Movies) និងការបញ្ចូលសំឡេងតួអង្គ។" },
-    { "id": "opt4", "title": "Option 4: AI Visual Storyteller (Auto-Script)", "desc": "សាកសមសម្រាប់ការបង្កើតសាច់រឿងស្វ័យប្រវត្ត (Auto-Script)។" }
-  ]
+  "dubbingOptions": {
+    "opt1": {
+      "title": "Option 1: Clean Voiceover (Vlog Mode)",
+      "desc": "សាកសមបំផុតសម្រាប់វីដេអូ Vlog ផ្ទាល់ខ្លួន ឬការថតនិយាយធម្មតា។"
+    },
+    "opt2": {
+      "title": "Option 2: Summary & SFX (Recap)",
+      "desc": "សាកសមសម្រាប់វីដេអូសង្ខេបសាច់រឿង (Recap) និងការរៀបរាប់។"
+    },
+    "opt3": {
+      "title": "Option 3: Cinematic Character Dubbing",
+      "desc": "សាកសមសម្រាប់ភាពយន្ត (Movies) និងការបញ្ចូលសំឡេងតួអង្គ។"
+    },
+    "opt4": {
+      "title": "Option 4: AI Visual Storyteller (Auto-Script)",
+      "desc": "សាកសមសម្រាប់ការបង្កើតសាច់រឿងស្វ័យប្រវត្ត (Auto-Script)។"
+    }
+  },
+  "languages": {
+    "en": "English",
+    "km": "ភាសាខ្មែរ",
+    "zh": "中文",
+    "th": "ไทย",
+    "vi": "Tiếng Việt",
+    "ja": "日本語",
+    "ko": "한국어",
+    "hi": "हिन्दी",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch",
+    "id": "Bahasa Indonesia",
+    "pt": "Português",
+    "ru": "Русский",
+    "ar": "العربية",
+    "it": "Italiano",
+    "tr": "Türkçe",
+    "ph": "Filipino",
+    "ms": "Bahasa Melayu",
+    "bn": "বাংলা"
+  }
 }
