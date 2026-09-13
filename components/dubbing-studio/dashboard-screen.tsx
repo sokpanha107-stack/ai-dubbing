@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import {
   AudioLines,
   CheckCircle2,
@@ -10,11 +11,12 @@ import {
   Sparkles,
   UploadCloud,
   X,
+  Layers,
 } from "lucide-react"
 import type { LangCode } from "@/lib/i18n"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
+import { DUB_MODES, type DubMode } from "@/lib/dub-modes"
 
-// 🌟 បានបន្ថែម ២០ ភាសាពេញលេញ សម្រាប់ឱ្យ User ជ្រើសរើសបកប្រែវីដេអូ
 export const DUB_LANGS: { code: LangCode; name: string; flag: string }[] = [
   { code: "en", name: "English", flag: "🇬🇧" },
   { code: "km", name: "ភាសាខ្មែរ", flag: "🇰🇭" },
@@ -73,6 +75,7 @@ export function DashboardScreenContainer({
   progress: number
 }) {
   const targetFlag = DUB_LANGS.find((l) => l.code === targetLang)?.flag
+  const [dubMode, setDubMode] = useState<DubMode>("clean_vlog")
 
   return (
     <div
@@ -96,6 +99,8 @@ export function DashboardScreenContainer({
           reset={reset}
           targetLang={targetLang}
           setTargetLang={setTargetLang}
+          dubMode={dubMode}
+          setDubMode={setDubMode}
           start={start}
         />
       )}
@@ -127,6 +132,8 @@ function DashboardContent({
   reset,
   targetLang,
   setTargetLang,
+  dubMode,
+  setDubMode,
   start,
 }: {
   t: T
@@ -139,6 +146,8 @@ function DashboardContent({
   reset: () => void
   targetLang: LangCode
   setTargetLang: (c: LangCode) => void
+  dubMode: DubMode
+  setDubMode: (m: DubMode) => void
   start: () => void
 }) {
   return (
@@ -150,6 +159,39 @@ function DashboardContent({
         <p className="mx-auto mt-1.5 max-w-xs text-pretty text-sm leading-relaxed text-muted-foreground">
           {t.appSubtitle}
         </p>
+      </div>
+
+      {/* AI Dubbing Mode Selector (4 Options) */}
+      <div className="rounded-3xl border border-border bg-card/60 p-4 shadow-sm">
+        <div className="mb-2.5 flex items-center gap-2">
+          <Layers className="h-4 w-4 text-primary" />
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Select AI Dubbing Mode</h3>
+        </div>
+        <div className="relative">
+          <select
+            value={dubMode}
+            onChange={(e) => setDubMode(e.target.value as DubMode)}
+            className="w-full cursor-pointer appearance-none rounded-2xl border border-border bg-secondary/60 py-3.5 pl-4 pr-10 text-sm font-semibold text-foreground outline-none transition hover:border-primary/50 focus:border-primary focus:ring-2 focus:ring-ring/40"
+          >
+            {DUB_MODES.map((mode) => (
+              <option key={mode.id} value={mode.id} className="bg-card py-2 text-sm text-foreground">
+                {mode.icon} {mode.labelKm}
+              </option>
+            ))}
+          </select>
+          <svg
+            className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.17l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
       </div>
 
       {/* Upload Box */}
@@ -167,7 +209,7 @@ function DashboardContent({
             setDragging(false)
             acceptFile(e.dataTransfer.files?.[0])
           }}
-          className={`flex w-full flex-col items-center justify-center gap-3 rounded-3xl border px-6 py-14 text-center transition active:scale-[0.99] ${
+          className={`flex w-full flex-col items-center justify-center gap-3 rounded-3xl border px-6 py-12 text-center transition active:scale-[0.99] ${
             dragging ? "border-primary bg-primary/10" : "border-border bg-card/60 hover:border-primary/60 shadow-sm"
           }`}
         >
@@ -206,7 +248,6 @@ function DashboardContent({
       {/* Target Language Selector */}
       <div className="rounded-3xl border border-border bg-card/60 p-5 shadow-sm">
         <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          {/* 🌟 ប្រើប្រាស់ t.selectTargetLangTitle ជំនួសឱ្យ t.step2 ធម្មតា */}
           <h3 className="text-sm font-semibold text-foreground">{t.selectTargetLangTitle}</h3>
           <span className="flex w-fit items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-[11px] font-semibold text-primary">
             <Sparkles className="h-3.5 w-3.5" />
