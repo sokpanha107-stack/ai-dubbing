@@ -19,6 +19,12 @@ type Strings = {
   footer: string
   settings: string
   appLanguage: string
+  displayMode: string
+  securityTitle: string
+  securityDesc: string
+  passcodePlaceholder: string
+  invalidPasscode: string
+  accessSystem: string
   step1: string
   dropText: string
   dropHint: string
@@ -71,6 +77,12 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     footer: `Built for personal use · ${SAVPD_CONSTANTS.BRAND.NAME} Tool`,
     settings: "Settings",
     appLanguage: "App language",
+    displayMode: "Display Mode",
+    securityTitle: "System Security",
+    securityDesc: "Please enter passcode to access workspace",
+    passcodePlaceholder: "Enter passcode (e.g. @2000)",
+    invalidPasscode: "Invalid passcode!",
+    accessSystem: "Access System",
     step1: "Choose or drop your video",
     dropText: "Drag and drop a file here, or click to select",
     dropHint: "MP4, MOV, WEBM and more",
@@ -131,6 +143,12 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     footer: `为个人使用而打造 · ${SAVPD_CONSTANTS.BRAND.NAME} 工具`,
     settings: "设置",
     appLanguage: "应用语言",
+    displayMode: "显示模式",
+    securityTitle: "系统安全",
+    securityDesc: "请输入密码以访问工作区",
+    passcodePlaceholder: "输入密码 (例: @2000)",
+    invalidPasscode: "密码无效！",
+    accessSystem: "进入系统",
     step1: "选择或拖入您的视频",
     dropText: "将文件拖放到此处，或点击选择",
     dropHint: "支持 MP4、MOV、WEBM 等",
@@ -187,6 +205,12 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     footer: `បង្កើតឡើងសម្រាប់ការប្រើប្រាស់ផ្ទាល់ខ្លួន · ${SAVPD_CONSTANTS.BRAND.NAME} Tool`,
     settings: "ការកំណត់",
     appLanguage: "ភាសាកម្មវិធី",
+    displayMode: "ការបង្ហាញ",
+    securityTitle: "សុវត្ថិភាពប្រព័ន្ធ",
+    securityDesc: "សូមបញ្ចូលលេខកូដសម្ងាត់ដើម្បីចូលទៅកាន់ផ្ទាំងការងារ",
+    passcodePlaceholder: "បញ្ចូលលេខកូដ (ឧ. @2000)",
+    invalidPasscode: "លេខកូដមិនត្រឹមត្រូវ!",
+    accessSystem: "ចូលទៅកាន់កម្មវិធី",
     step1: "ជ្រើសរើស ឬទម្លាក់វីដេអូរបស់អ្នក",
     dropText: "អូសទម្លាក់ឯកសារនៅទីនេះ ឬចុចដើម្បីជ្រើសរើស",
     dropHint: "MP4, MOV, WEBM និងច្រើនទៀត",
@@ -247,6 +271,12 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     footer: `สร้างขึ้นเพื่อการใช้งานส่วนตัว · ${SAVPD_CONSTANTS.BRAND.NAME} เครื่องมือ`,
     settings: "การตั้งค่า",
     appLanguage: "ภาษาของแอป",
+    displayMode: "โหมดการแสดงผล",
+    securityTitle: "ความปลอดภัยของระบบ",
+    securityDesc: "โปรดป้อนรหัสผ่านเพื่อเข้าถึงพื้นที่ทำงาน",
+    passcodePlaceholder: "ป้อนรหัสผ่าน (เช่น @2000)",
+    invalidPasscode: "รหัสผ่านไม่ถูกต้อง!",
+    accessSystem: "เข้าสู่ระบบ",
     step1: "เลือกหรือวางวิดีโอของคุณ",
     dropText: "ลากและวางไฟล์ที่นี่ หรือคลิกเพื่อเลือก",
     dropHint: "รองรับ MP4, MOV, WEBM และอื่น ๆ",
@@ -303,6 +333,12 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     footer: `Được tạo cho mục đích cá nhân · Công cụ ${SAVPD_CONSTANTS.BRAND.NAME}`,
     settings: "Cài đặt",
     appLanguage: "Ngôn ngữ ứng dụng",
+    displayMode: "Chế độ hiển thị",
+    securityTitle: "Bảo mật hệ thống",
+    securityDesc: "Vui lòng nhập mật mã để truy cập",
+    passcodePlaceholder: "Nhập mật mã (vd: @2000)",
+    invalidPasscode: "Mật mã không hợp lệ!",
+    accessSystem: "Truy cập hệ thống",
     step1: "Chọn hoặc kéo thả video của bạn",
     dropText: "Kéo và thả tệp vào đây, hoặc nhấp để chọn",
     dropHint: "Hỗ trợ MP4, MOV, WEBM và nhiều hơn nữa",
