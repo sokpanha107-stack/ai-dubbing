@@ -25,7 +25,6 @@ export function DubbingStudio() {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Admin States
   const [adminModalOpen, setAdminModalOpen] = useState(false)
   const [adminPassword, setAdminPassword] = useState("")
   const [adminError, setAdminError] = useState(false)
@@ -129,7 +128,6 @@ export function DubbingStudio() {
         </div>
       </header>
 
-      {/* ហៅផ្ទាំង Shared Settings មកប្រើ */}
       <SharedSettings
         isOpen={settingsOpen}
         onClose={() => setSettingsOpen(false)}
@@ -141,7 +139,6 @@ export function DubbingStudio() {
         }}
       />
 
-      {/* ផ្ទាំង Login ចូល Admin លោតចេញពេលសង្កត់សញ្ញាឧទានក្នុង About */}
       {adminModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
           <div className="w-full max-w-sm rounded-3xl border border-border bg-card p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
