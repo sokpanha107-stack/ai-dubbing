@@ -98,18 +98,127 @@ export const UI_LANGUAGES: { code: LangCode; native: string; flag: string }[] = 
   { code: "bn", native: "বাংলা", flag: "🇧🇩" },
 ]
 
-const ALL_LANGUAGES_EN = {
-  en: "English", zh: "Chinese", km: "Khmer", th: "Thai", vi: "Vietnamese",
-  ja: "Japanese", ko: "Korean", hi: "Hindi", es: "Spanish", fr: "French",
-  de: "German", id: "Indonesian", pt: "Portuguese", ru: "Russian", ar: "Arabic",
-  it: "Italian", tr: "Turkish", ph: "Filipino", ms: "Malay", bn: "Bengali"
-}
-
-const ALL_LANGUAGES_KM = {
-  en: "អង់គ្លេស", zh: "ចិន", km: "ខ្មែរ", th: "ថៃ", vi: "វៀតណាម",
-  ja: "ជប៉ុន", ko: "កូរ៉េ", hi: "ហិណ្ឌូ", es: "អេស្ប៉ាញ", fr: "បារាំង",
-  de: "អាល្លឺម៉ង់", id: "ឥណ្ឌូណេស៊ី", pt: "ព័រទុយហ្កាល់", ru: "រុស្ស៊ី", ar: "អារ៉ាប់",
-  it: "អ៊ីតាលី", tr: "ទួរគី", ph: "ហ្វីលីពីន", ms: "ម៉ាឡេ", bn: "បង់ក្លាដែស"
+const ALL_LANGUAGES: Record<LangCode, Record<LangCode, string>> = {
+  en: {
+    en: "English", zh: "Chinese", km: "Khmer", th: "Thai", vi: "Vietnamese",
+    ja: "Japanese", ko: "Korean", hi: "Hindi", es: "Spanish", fr: "French",
+    de: "German", id: "Indonesian", pt: "Portuguese", ru: "Russian", ar: "Arabic",
+    it: "Italian", tr: "Turkish", ph: "Filipino", ms: "Malay", bn: "Bengali"
+  },
+  km: {
+    en: "អង់គ្លេស", zh: "ចិន", km: "ខ្មែរ", th: "ថៃ", vi: "វៀតណាម",
+    ja: "ជប៉ុន", ko: "កូរ៉េ", hi: "ហិណ្ឌូ", es: "អេស្ប៉ាញ", fr: "បារាំង",
+    de: "អាល្លឺម៉ង់", id: "ឥណ្ឌូណេស៊ី", pt: "ព័រទុយហ្កាល់", ru: "រុស្ស៊ី", ar: "អារ៉ាប់",
+    it: "អ៊ីតាលី", tr: "ទួរគី", ph: "ហ្វីលីពីន", ms: "ម៉ាឡេ", bn: "បង់ក្លាដែស"
+  },
+  zh: {
+    en: "英语", zh: "中文", km: "高棉语", th: "泰语", vi: "越南语",
+    ja: "日语", ko: "韩语", hi: "印地语", es: "西班牙语", fr: "法语",
+    de: "德语", id: "印尼语", pt: "葡萄牙语", ru: "俄语", ar: "阿拉伯语",
+    it: "意大利语", tr: "土耳其语", ph: "菲律宾语", ms: "马来语", bn: "孟加拉语"
+  },
+  th: {
+    en: "อังกฤษ", zh: "จีน", km: "เขมร", th: "ไทย", vi: "เวียดนาม",
+    ja: "ญี่ปุ่น", ko: "เกาหลี", hi: "ฮินดี", es: "สเปน", fr: "ฝรั่งเศส",
+    de: "เยอรมัน", id: "อินโดนีเซีย", pt: "โปรตุเกส", ru: "รัสเซีย", ar: "อาหรับ",
+    it: "อิตาลี", tr: "ตุรกี", ph: "ฟิลิปปินส์", ms: "มาเลย์", bn: "เบงกาลี"
+  },
+  vi: {
+    en: "Tiếng Anh", zh: "Tiếng Trung", km: "Tiếng Khmer", th: "Tiếng Thái", vi: "Tiếng Việt",
+    ja: "Tiếng Nhật", ko: "Tiếng Hàn", hi: "Tiếng Hindi", es: "Tiếng Tây Ban Nha", fr: "Tiếng Pháp",
+    de: "Tiếng Đức", id: "Tiếng Indonesia", pt: "Tiếng Bồ Đào Nha", ru: "Tiếng Nga", ar: "Tiếng Ả Rập",
+    it: "Tiếng Ý", tr: "Tiếng Thổ Nhĩ Kỳ", ph: "Tiếng Filipino", ms: "Tiếng Mã Lai", bn: "Tiếng Bengal"
+  },
+  ja: {
+    en: "英語", zh: "中国語", km: "クメール語", th: "タイ語", vi: "ベトナム語",
+    ja: "日本語", ko: "韓国語", hi: "ヒンディー語", es: "スペイン語", fr: "フランス語",
+    de: "ドイツ語", id: "インドネシア語", pt: "ポルトガル語", ru: "ロシア語", ar: "アラビア語",
+    it: "イタリア語", tr: "トルコ語", ph: "フィリピン語", ms: "マレー語", bn: "ベンガル語"
+  },
+  ko: {
+    en: "영어", zh: "중국어", km: "크메르어", th: "태국어", vi: "베트남어",
+    ja: "일본어", ko: "한국어", hi: "힌디어", es: "스페인어", fr: "프랑스어",
+    de: "독일어", id: "인도네시아어", pt: "포르투갈어", ru: "러시아어", ar: "아랍어",
+    it: "이탈리아어", tr: "터키어", ph: "필리핀어", ms: "말레이어", bn: "벵골어"
+  },
+  hi: {
+    en: "अंग्रेजी", zh: "चीनी", km: "खमेर", th: "थाई", vi: "वियतनामी",
+    ja: "जापानी", ko: "कोरियाई", hi: "हिन्दी", es: "स्पेनिश", fr: "फ्रेंच",
+    de: "जर्मन", id: "इंडोनेशियाई", pt: "पुर्तगाली", ru: "रूसी", ar: "अरबी",
+    it: "इटालियन", tr: "तुर्की", ph: "फिलीपीनो", ms: "मलय", bn: "बंगाली"
+  },
+  es: {
+    en: "Inglés", zh: "Chino", km: "Jemer", th: "Tailandés", vi: "Vietnamita",
+    ja: "Japonés", ko: "Coreano", hi: "Hindi", es: "Español", fr: "Francés",
+    de: "Alemán", id: "Indonesio", pt: "Portugués", ru: "Ruso", ar: "Árabe",
+    it: "Italiano", tr: "Turco", ph: "Filipino", ms: "Malayo", bn: "Bengalí"
+  },
+  fr: {
+    en: "Anglais", zh: "Chinois", km: "Khmer", th: "Thaï", vi: "Vietnamien",
+    ja: "Japonais", ko: "Coréen", hi: "Hindi", es: "Espagnol", fr: "Français",
+    de: "Allemand", id: "Indonésien", pt: "Portugais", ru: "Russe", ar: "Arabe",
+    it: "Italien", tr: "Turc", ph: "Filipino", ms: "Malais", bn: "Bengali"
+  },
+  de: {
+    en: "Englisch", zh: "Chinesisch", km: "Khmer", th: "Thاي", vi: "Vietnamesisch",
+    ja: "Japanisch", ko: "Koreanisch", hi: "Hindi", es: "Spanisch", fr: "Französisch",
+    de: "Deutsch", id: "Indonesisch", pt: "Portugiesisch", ru: "Russisch", ar: "Arabisch",
+    it: "Italienisch", tr: "Türkisch", ph: "Filipino", ms: "Malaiisch", bn: "Bengali"
+  },
+  id: {
+    en: "Inggris", zh: "Tiongkok", km: "Khmer", th: "Thai", vi: "Vietnam",
+    ja: "Jepang", ko: "Korea", hi: "Hindi", es: "Spanyol", fr: "Prancis",
+    de: "Jerman", id: "Indonesia", pt: "Portugis", ru: "Rusia", ar: "Arab",
+    it: "Italia", tr: "Turki", ph: "Filipina", ms: "Melayu", bn: "Benggala"
+  },
+  pt: {
+    en: "Inglês", zh: "Chinês", km: "Cacmer", th: "Tailandês", vi: "Vietnamita",
+    ja: "Japonês", ko: "Coreano", hi: "Hindi", es: "Espanhol", fr: "Francês",
+    de: "Alemão", id: "Indonésio", pt: "Português", ru: "Russo", ar: "Árabe",
+    it: "Italiano", tr: "Turco", ph: "Filipino", ms: "Malaio", bn: "Bengali"
+  },
+  ru: {
+    en: "Английский", zh: "Китайский", km: "Кхмерский", th: "Тайский", vi: "Вьетнамский",
+    ja: "Японский", ko: "Корейский", hi: "Хинди", es: "Испанский", fr: "Французский",
+    de: "Немецкий", id: "Индонезийский", pt: "Португальский", ru: "Русский", ar: "Арабский",
+    it: "Итальянский", tr: "Турецкий", ph: "Филиппинский", ms: "Малайский", bn: "Бенгальский"
+  },
+  ar: {
+    en: "الإنجليزية", zh: "الصينية", km: "الخميرية", th: "التايلاندية", vi: "الفيتنامية",
+    ja: "اليابانية", ko: "الكورية", hi: "الهندية", es: "الإسبانية", fr: "الفرنسية",
+    de: "الألمانية", id: "الإندونيسية", pt: "البرتغالية", ru: "الروسية", ar: "العربية",
+    it: "الإيطالية", tr: "التركية", ph: "الفلبينية", ms: "الملايوية", bn: "البنغالية"
+  },
+  it: {
+    en: "Inglese", zh: "Cinese", km: "Khmer", th: "Tailandese", vi: "Vietnamita",
+    ja: "Giapponese", ko: "Coreano", hi: "Hindi", es: "Spagnolo", fr: "Francese",
+    de: "Tedesco", id: "Indonesiano", pt: "Portoghese", ru: "Russo", ar: "Arabo",
+    it: "Italiano", tr: "Turco", ph: "Filippino", ms: "Malese", bn: "Bengalese"
+  },
+  tr: {
+    en: "İngilizce", zh: "Çince", km: "Kmerce", th: "Tayca", vi: "Vietnamca",
+    ja: "Japonca", ko: "Korece", hi: "Hintçe", es: "İspanyolca", fr: "Fransızca",
+    de: "Almanca", id: "Endonezyaca", pt: "Portekizce", ru: "Rusça", ar: "Arapça",
+    it: "İtalyanca", tr: "Türkçe", ph: "Filipince", ms: "Malayca", bn: "Bengalce"
+  },
+  ph: {
+    en: "English", zh: "Chinese", km: "Khmer", th: "Thai", vi: "Vietnamese",
+    ja: "Japanese", ko: "Korean", hi: "Hindi", es: "Spanish", fr: "French",
+    de: "German", id: "Indonesian", pt: "Portuguese", ru: "Russian", ar: "Arabic",
+    it: "Italian", tr: "Turkish", ph: "Filipino", ms: "Malay", bn: "Bengali"
+  },
+  ms: {
+    en: "Inggeris", zh: "Cina", km: "Khmer", th: "Thai", vi: "Vietnam",
+    ja: "Jepun", ko: "Korea", hi: "Hindi", es: "Sepanyol", fr: "Perancis",
+    de: "Jerman", id: "Indonesia", pt: "Portuguese", ru: "Rusia", ar: "Arab",
+    it: "Itali", tr: "Turki", ph: "Filipina", ms: "Melayu", bn: "Benggali"
+  },
+  bn: {
+    en: "ইংরেজি", zh: "চাইনিজ", km: "খ্‌মের", th: "থাই", vi: "ভিয়েতনামী",
+    ja: "জাপানি", ko: "কোরিয়ান", hi: "হিন্দি", es: "স্প্যানিশ", fr: "ফরাসি",
+    de: "জার্মান", id: "ইন্দোনেশিয়ান", pt: "পর্তুগিজ", ru: "রাশিয়ান", ar: "আরবি",
+    it: "ইতালীয়", tr: "তুর্কি", ph: "ফিলিপিনো", ms: "মালয়", bn: "বাংলা"
+  }
 }
 
 const EN_STRINGS: Strings = {
@@ -156,7 +265,7 @@ const EN_STRINGS: Strings = {
   paceTitle: "Pace & Rhythm",
   paceDesc: "Speech speed stays in sync with the original video.",
   featuresHeading: "AI capabilities",
-  languages: ALL_LANGUAGES_EN,
+  languages: ALL_LANGUAGES.en,
   appearance: "Appearance",
   darkMode: "Dark mode",
   lightMode: "Light mode",
@@ -188,15 +297,6 @@ const EN_STRINGS: Strings = {
 
 export const GLOBAL_DICTIONARY: Record<LangCode, Strings> = {
   en: EN_STRINGS,
-  zh: {
-    ...EN_STRINGS,
-    dubbingOptions: {
-      opt1: { title: "选项 1：纯净配音 (Vlog 模式)", desc: "最适合个人 Vlog 和自然语音讲解。" },
-      opt2: { title: "选项 2：摘要与特效 (解说模式)", desc: "最适合视频总结 (Recap) 与故事讲述。" },
-      opt3: { title: "选项 3：电影级角色配音", desc: "最适合电影、短剧与角色配音。" },
-      opt4: { title: "选项 4：AI 视觉讲故事 (自动脚本)", desc: "最适合自动生成脚本与视觉叙事。" },
-    },
-  },
   km: {
     ...EN_STRINGS,
     appSubtitle: "បកប្រែ និងបញ្ចូលសំឡេងវីដេអូរបស់អ្នកទៅជាភាសាផ្សេងៗ ដោយប្រើ AI ក្នុងពេលបីជំហានងាយៗ",
@@ -241,7 +341,7 @@ export const GLOBAL_DICTIONARY: Record<LangCode, Strings> = {
     paceTitle: "ល្បឿន និងចង្វាក់",
     paceDesc: "ល្បឿននិយាយ នៅតែស៊ីសង្វាក់គ្នាជាមួយវីដេអូដើម។",
     featuresHeading: "សមត្ថភាព AI",
-    languages: ALL_LANGUAGES_KM,
+    languages: ALL_LANGUAGES.km,
     appearance: "រូបរាង",
     darkMode: "ផ្ទាំងពណ៌ខ្មៅ (ពេលយប់)",
     lightMode: "ផ្ទាំងពណ៌ស (ពេលថ្ងៃ)",
@@ -264,35 +364,53 @@ export const GLOBAL_DICTIONARY: Record<LangCode, Strings> = {
       "តើវារក្សាអារម្មណ៍ដើមទេ?",
     ],
     dubbingOptions: {
-      opt1: { 
-        title: "Option 1: Clean Voiceover (Vlog Mode)", 
-        desc: "សាកសមបំផុតសម្រាប់វីដេអូ Vlog ផ្ទាល់ខ្លួន ឬការថតនិយាយធម្មតាដោយរក្សាសម្លេងដើមច្បាស់ល្អ។" 
-      },
-      opt2: { 
-        title: "Option 2: Summary & SFX (Recap)", 
-        desc: "សាកសមសម្រាប់វីដេអូ សង្ខេបសាច់រឿង (Recap), ការเล่าเรื่อง ឬកាត់តបែបរំលេចសំឡេងពិសេស (SFX)។" 
-      },
-      opt3: { 
-        title: "Option 3: Cinematic Character Dubbing", 
-        desc: "សាកសមសម្រាប់វីដេអូ ភាពយន្ត (Movies) ឬតួអង្គសម្ដែង ដែលត្រូវការប្ដូរសម្លេងបែបស៊ីនេម៉ា (Cinematic)។" 
-      },
-      opt4: { 
-        title: "Option 4: AI Visual Storyteller (Auto-Script)", 
-        desc: "សាកសមសម្រាប់វីដេអូ បង្កើតសាច់រឿងស្វ័យប្រវត្ត (Auto-Script) តាមរយៈ AI Visual។" 
-      },
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "សាកសមបំផុតសម្រាប់វីដេអូ Vlog ផ្ទាល់ខ្លួន ឬការថតនិយាយធម្មតា។" },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "សាកសមសម្រាប់វីដេអូ សង្ខេបសាច់រឿង (Recap) និងការเล่าเรื่อง។" },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "សាកសមសម្រាប់ភាពយន្ត (Movies) និងតួអង្គសម្ដែង។" },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "សាកសមសម្រាប់បង្កើតសាច់រឿងស្វ័យប្រវត្ត (Auto-Script)។" },
+    },
+  },
+  zh: {
+    ...EN_STRINGS,
+    settings: "设置",
+    appLanguage: "应用语言",
+    displayMode: "显示模式",
+    appearance: "外观",
+    darkMode: "深色模式",
+    lightMode: "浅色模式",
+    languages: ALL_LANGUAGES.zh,
+    dubbingOptions: {
+      opt1: { title: "选项 1：纯净配音 (Vlog 模式)", desc: "最适合个人 Vlog 和自然语音讲解。" },
+      opt2: { title: "选项 2：摘要与特效 (解说模式)", desc: "最适合视频总结 (Recap) 与故事讲述。" },
+      opt3: { title: "选项 3：电影级角色配音", desc: "最适合电影、短剧与角色配音。" },
+      opt4: { title: "选项 4：AI 视觉讲故事 (自动脚本)", desc: "最适合自动生成脚本与视觉叙事。" },
     },
   },
   th: {
     ...EN_STRINGS,
+    settings: "การตั้งค่า",
+    appLanguage: "ภาษาของแอป",
+    displayMode: "โหมดการแสดงผล",
+    appearance: "รูปลักษณ์",
+    darkMode: "โหมดมืด",
+    lightMode: "โหมดสว่าง",
+    languages: ALL_LANGUAGES.th,
     dubbingOptions: {
       opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "เหมาะสำหรับวิดีโอ Vlog ส่วนตัวและการพูดคุยที่เป็นธรรมชาติ" },
-      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "เหมาะสำหรับวิดีโอสรุปเนื้อหา (Recap) และการเล่าเรื่องพร้อมเอฟเฟกต์เสียง" },
-      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "เหมาะสำหรับภาพยนตร์และการพากย์เสียงตัวละครแบบภาพยนตร์" },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "เหมาะสำหรับวิดีโอสรุปเนื้อหา (Recap) และการเล่าเรื่อง" },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "เหมาะสำหรับภาพยนตร์และการพากย์เสียงตัวละคร" },
       opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "เหมาะสำหรับการสร้างสคริปต์อัตโนมัติและการเล่าเรื่องด้วยภาพ" },
     },
   },
   vi: {
     ...EN_STRINGS,
+    settings: "Cài đặt",
+    appLanguage: "Ngôn ngữ ứng dụng",
+    displayMode: "Chế độ hiển thị",
+    appearance: "Giao diện",
+    darkMode: "Chế độ tối",
+    lightMode: "Chế độ sáng",
+    languages: ALL_LANGUAGES.vi,
     dubbingOptions: {
       opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "Tốt nhất cho Vlog cá nhân và giọng nói tự nhiên." },
       opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "Tốt nhất cho video tóm tắt (Recap) và kể chuyện." },
@@ -300,19 +418,244 @@ export const GLOBAL_DICTIONARY: Record<LangCode, Strings> = {
       opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "Tốt nhất cho tự động tạo kịch bản và kể chuyện trực quan." },
     },
   },
-  ja: { ...EN_STRINGS },
-  ko: { ...EN_STRINGS },
-  hi: { ...EN_STRINGS },
-  es: { ...EN_STRINGS },
-  fr: { ...EN_STRINGS },
-  de: { ...EN_STRINGS },
-  id: { ...EN_STRINGS },
-  pt: { ...EN_STRINGS },
-  ru: { ...EN_STRINGS },
-  ar: { ...EN_STRINGS },
-  it: { ...EN_STRINGS },
-  tr: { ...EN_STRINGS },
-  ph: { ...EN_STRINGS },
-  ms: { ...EN_STRINGS },
-  bn: { ...EN_STRINGS },
+  ja: {
+    ...EN_STRINGS,
+    settings: "設定",
+    appLanguage: "アプリ言語",
+    displayMode: "表示モード",
+    appearance: "外観",
+    darkMode: "ダークモード",
+    lightMode: "ライトモード",
+    languages: ALL_LANGUAGES.ja,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "個人のVlogや自然なスピーチに最適です。" },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "リキャップ動画やストーリーテリングに最適です。" },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "映画やキャラクターの吹き替えに最適です。" },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "自動スクリプト生成とビジュアルストーリーテリングに最適です。" },
+    },
+  },
+  ko: {
+    ...EN_STRINGS,
+    settings: "설정",
+    appLanguage: "앱 언어",
+    displayMode: "디스플레이 모드",
+    appearance: "외관",
+    darkMode: "다크 모드",
+    lightMode: "라이트 모드",
+    languages: ALL_LANGUAGES.ko,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "개인 브이로그 및 자연스러운 스피치에 가장 적합합니다." },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "요약(Recap) 비디오 및 스토리텔링에 가장 적합합니다." },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "영화 및 캐릭터 더빙에 가장 적합합니다." },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "자동 대본 생성 및 시각적 스토리텔링에 가장 적합합니다." },
+    },
+  },
+  hi: {
+    ...EN_STRINGS,
+    settings: "सेटिंग्स",
+    appLanguage: "ऐप की भाषा",
+    displayMode: "प्रदर्शन मोड",
+    appearance: "रूप",
+    darkMode: "डार्क मोड",
+    lightMode: "लाइट मोड",
+    languages: ALL_LANGUAGES.hi,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "व्यक्तिगत व्लॉग और प्राकृतिक भाषण के लिए सबसे अच्छा है।" },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "रीकैप वीडियो और कहानी के लिए सबसे अच्छा है।" },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "फिल्मों और चरित्र डबिंग के लिए सबसे अच्छा है।" },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "ऑटो-स्क्रिप्ट और विजुअल स्टोरीटेलिंग के लिए सबसे अच्छा है।" },
+    },
+  },
+  es: {
+    ...EN_STRINGS,
+    settings: "Ajustes",
+    appLanguage: "Idioma de la aplicación",
+    displayMode: "Modo de visualización",
+    appearance: "Apariencia",
+    darkMode: "Modo oscuro",
+    lightMode: "Modo claro",
+    languages: ALL_LANGUAGES.es,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "Ideal para Vlogs personales y voz natural." },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "Ideal para videos de resumen (Recap) y narración." },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "Ideal para películas y doblaje de personajes." },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "Ideal para guiones automáticos y narración visual." },
+    },
+  },
+  fr: {
+    ...EN_STRINGS,
+    settings: "Paramètres",
+    appLanguage: "Langue de l'application",
+    displayMode: "Mode d'affichage",
+    appearance: "Apparence",
+    darkMode: "Mode sombre",
+    lightMode: "Mode clair",
+    languages: ALL_LANGUAGES.fr,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "Idéal pour les Vlogs personnels et la voix naturelle." },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "Idéal pour les vidéos récapitulatives (Recap) et le storytelling." },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "Idéal pour les films et le doublage de personnages." },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "Idéal pour les scripts automatiques et le storytelling visuel." },
+    },
+  },
+  de: {
+    ...EN_STRINGS,
+    settings: "Einstellungen",
+    appLanguage: "App-Sprache",
+    displayMode: "Anzeigemodus",
+    appearance: "Erscheinungsbild",
+    darkMode: "Dunkler Modus",
+    lightMode: "Heller Modus",
+    languages: ALL_LANGUAGES.de,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "Am besten für persönliche Vlogs und natürliche Sprache." },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "Am besten für Recap-Videos und Storytelling." },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "Am besten für Filme und Charakter-Synchronisation." },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "Am besten für Auto-Script und visuelles Storytelling." },
+    },
+  },
+  id: {
+    ...EN_STRINGS,
+    settings: "Pengaturan",
+    appLanguage: "Bahasa aplikasi",
+    displayMode: "Mode Tampilan",
+    appearance: "Tampilan",
+    darkMode: "Mode Gelap",
+    lightMode: "Mode Terang",
+    languages: ALL_LANGUAGES.id,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "Terbaik untuk Vlog pribadi & suara alami." },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "Terbaik untuk video ringkasan (Recap) & penceritaan." },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "Terbaik untuk film & pengisian suara karakter." },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "Terbaik untuk skrip otomatis & penceritaan visual." },
+    },
+  },
+  pt: {
+    ...EN_STRINGS,
+    settings: "Configurações",
+    appLanguage: "Idioma do aplicativo",
+    displayMode: "Modo de exibição",
+    appearance: "Aparência",
+    darkMode: "Modo escuro",
+    lightMode: "Modo claro",
+    languages: ALL_LANGUAGES.pt,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "Ideal para Vlogs pessoais e fala natural." },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "Ideal para vídeos de resumo (Recap) e narrativa." },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "Ideal para filmes e dublagem de personagens." },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "Ideal para roteiros automáticos e narrativa visual." },
+    },
+  },
+  ru: {
+    ...EN_STRINGS,
+    settings: "Настройки",
+    appLanguage: "Язык приложения",
+    displayMode: "Режим отображения",
+    appearance: "Внешний вид",
+    darkMode: "Темный режим",
+    lightMode: "Светлый режим",
+    languages: ALL_LANGUAGES.ru,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "Идеально для личных влогов и естественной речи." },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "Идеально для видео-рекапов и сторителлинга." },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "Идеально для фильмов и дубляжа персонажей." },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "Идеально для автоскриптов и визуального сторителлинга." },
+    },
+  },
+  ar: {
+    ...EN_STRINGS,
+    settings: "الإعدادات",
+    appLanguage: "لغة التطبيق",
+    displayMode: "وضع العرض",
+    appearance: "المظهر",
+    darkMode: "الوضع الداكن",
+    lightMode: "الوضع الفاتح",
+    languages: ALL_LANGUAGES.ar,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "الأفضل لمدونات الفيديو الشخصية والكلام الطبيعي." },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "الأفضل لفيديوهات الملخص (Recap) وسرد القصص." },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "الأفضل للأفلام ودبلجة الشخصيات." },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "الأفضل للسيناريو التلقائي وسرد القصص المرئي." },
+    },
+  },
+  it: {
+    ...EN_STRINGS,
+    settings: "Impostazioni",
+    appLanguage: "Lingua dell'app",
+    displayMode: "Modalità di visualizzazione",
+    appearance: "Aspetto",
+    darkMode: "Modalità scura",
+    lightMode: "Modalità chiara",
+    languages: ALL_LANGUAGES.it,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "Ideale per Vlog personali e parlato naturale." },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "Ideale per video di riepilogo (Recap) e narrazione." },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "Ideale per film e doppiaggio di personaggi." },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "Ideale per script automatici e narrazione visiva." },
+    },
+  },
+  tr: {
+    ...EN_STRINGS,
+    settings: "Ayarlar",
+    appLanguage: "Uygulama dili",
+    displayMode: "Görünüm Modu",
+    appearance: "Görünüm",
+    darkMode: "Karanlık mod",
+    lightMode: "Aydınlık mod",
+    languages: ALL_LANGUAGES.tr,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "Kişisel Vlog'lar ve doğal konuşma için en iyisi." },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "Özet videoları (Recap) ve hikaye anlatımı için en iyisi." },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "Filmler ve karakter seslendirmesi için en iyisi." },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "Otomatik senaryo ve görsel hikaye anlatımı için en iyisi." },
+    },
+  },
+  ph: {
+    ...EN_STRINGS,
+    settings: "Mga Setting",
+    appLanguage: "Wika ng app",
+    displayMode: "Display Mode",
+    appearance: "Hitsura",
+    darkMode: "Dark mode",
+    lightMode: "Light mode",
+    languages: ALL_LANGUAGES.ph,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "Pinakamusay para sa personal Vlogs at natural na pananalita." },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "Pinakamusay para sa recap videos at pagkukuwento." },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "Pinakamusay para sa mga pelikula at pag-dub ng character." },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "Pinakamusay para sa auto-script at visual storytelling." },
+    },
+  },
+  ms: {
+    ...EN_STRINGS,
+    settings: "Tetapan",
+    appLanguage: "Bahasa aplikasi",
+    displayMode: "Mod Paparan",
+    appearance: "Penampilan",
+    darkMode: "Mod Gelap",
+    lightMode: "Mod Cerah",
+    languages: ALL_LANGUAGES.ms,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "Terbaik untuk Vlog peribadi & ucapan semula jadi." },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "Terbaik untuk video ringkasan (Recap) & penceritaan." },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "Terbaik untuk filem & sulih suara watak." },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "Terbaik untuk skrip automatik & penceritaan visual." },
+    },
+  },
+  bn: {
+    ...EN_STRINGS,
+    settings: "সেটিংস",
+    appLanguage: "অ্যাপের ভাষা",
+    displayMode: "ডিসপ্লে মোড",
+    appearance: "চেহারা",
+    darkMode: "ডার্ক মোড",
+    lightMode: "লাইট মোড",
+    languages: ALL_LANGUAGES.bn,
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "ব্যক্তিগত ভ্লগ এবং স্বাভাবিক বক্তৃতার জন্য সেরা।" },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "রিকা্যাপ ভিডিও এবং গল্প বলার জন্য সেরা।" },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "চলচ্চিত্র এবং চরিত্র ডাবিংয়ের জন্য সেরা।" },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "অটো-স্ক্রিপ্ট এবং ভিজ্যুয়াল storytelling এর জন্য সেরা।" },
+    },
+  },
 }
