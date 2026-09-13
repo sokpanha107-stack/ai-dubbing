@@ -14,12 +14,28 @@ import {
 import type { LangCode } from "@/lib/i18n"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
 
+// 🌟 បានបន្ថែម ២០ ភាសាពេញលេញ សម្រាប់ឱ្យ User ជ្រើសរើសបកប្រែវីដេអូ
 export const DUB_LANGS: { code: LangCode; name: string; flag: string }[] = [
-  { code: "km", name: "ខ្មែរ", flag: "🇰🇭" },
-  { code: "en", name: "អង់គ្លេស", flag: "🇬🇧" },
-  { code: "zh", name: "ចិន", flag: "🇨🇳" },
-  { code: "vi", name: "វៀតណាម", flag: "🇻🇳" },
-  { code: "th", name: "ថៃ", flag: "🇹🇭" },
+  { code: "en", name: "English", flag: "🇬🇧" },
+  { code: "km", name: "ភាសាខ្មែរ", flag: "🇰🇭" },
+  { code: "zh", name: "中文", flag: "🇨🇳" },
+  { code: "th", name: "ไทย", flag: "🇹🇭" },
+  { code: "vi", name: "Tiếng Việt", flag: "🇻🇳" },
+  { code: "ja", name: "日本語", flag: "🇯🇵" },
+  { code: "ko", name: "한국어", flag: "🇰🇷" },
+  { code: "hi", name: "हिन्दी", flag: "🇮🇳" },
+  { code: "es", name: "Español", flag: "🇪🇸" },
+  { code: "fr", name: "Français", flag: "🇫🇷" },
+  { code: "de", name: "Deutsch", flag: "🇩🇪" },
+  { code: "id", name: "Bahasa Indonesia", flag: "🇮🇩" },
+  { code: "pt", name: "Português", flag: "🇧🇷" },
+  { code: "ru", name: "Русский", flag: "🇷🇺" },
+  { code: "ar", name: "العربية", flag: "🇸🇦" },
+  { code: "it", name: "Italiano", flag: "🇮🇹" },
+  { code: "tr", name: "Türkçe", flag: "🇹🇷" },
+  { code: "ph", name: "Filipino", flag: "🇵🇭" },
+  { code: "ms", name: "Bahasa Melayu", flag: "🇲🇾" },
+  { code: "bn", name: "বাংলা", flag: "🇧🇩" },
 ]
 
 type T = ReturnType<typeof import("@/lib/i18n").useI18n>["t"]
@@ -136,7 +152,7 @@ function DashboardContent({
         </p>
       </div>
 
-      {/* Upload Box (កែពីបន្ទាត់ដាច់ៗ border-dashed មកជាបន្ទាត់ជាប់ border រឹងមាំស្អាត) */}
+      {/* Upload Box */}
       {!videoUrl ? (
         <button
           type="button"
