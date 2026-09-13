@@ -28,21 +28,24 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   }
 
   return (
-    <div className="mx-auto flex min-h-[100dvh] w-full max-w-md flex-col bg-background p-4 overflow-y-auto pb-10">
-      <header className="flex items-center justify-between border-b border-border pb-4">
-        <h1 className="text-lg font-bold text-foreground flex items-center gap-1.5">
+    <div className="mx-auto flex min-h-[100dvh] w-full max-w-md flex-col bg-background">
+      <header
+        className="sticky top-0 z-30 flex items-center justify-between gap-2 border-b border-border/60 bg-background/90 px-4 py-2.5 backdrop-blur-md"
+        style={{ paddingTop: "env(safe-area-inset-top, 0.75rem)" }}
+      >
+        <h1 className="text-xs sm:text-sm font-bold text-foreground flex items-center gap-1.5 truncate">
           🛡️ {SAVPD_CONSTANTS.BRAND.TRADEMARK} Admin
         </h1>
         <button
           type="button"
           onClick={onLogout}
-          className="rounded-xl bg-destructive/15 px-3 py-1.5 text-xs font-semibold text-destructive transition active:scale-95"
+          className="rounded-xl bg-destructive/15 px-3 py-1.5 text-xs font-semibold text-destructive transition active:scale-95 shrink-0"
         >
           ចាកចេញ (Logout)
         </button>
       </header>
       
-      <div className="mt-4 flex flex-1 flex-col gap-4">
+      <div className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto pb-10">
         <div className="flex items-center justify-between rounded-2xl bg-primary/10 p-3 text-xs font-semibold text-primary">
           <span className="flex items-center gap-1">
             <ShieldAlert className="h-4 w-4" />
