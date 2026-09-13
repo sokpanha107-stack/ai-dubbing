@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
 import { getAdminConfig, saveAdminConfig, type AdminConfig } from "@/lib/admin-config"
-import { KeyRound, Save, CheckCircle2, ShieldAlert } from "lucide-react"
+import { KeyRound, Save, CheckCircle2, ShieldAlert, Lock } from "lucide-react"
 
 export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [config, setConfig] = useState<AdminConfig>({
@@ -11,6 +11,7 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     elevenlabsApiKey: "",
     translationApiKey: "",
     customPrompt: "",
+    adminPasscode: "@2000",
   })
   const [saved, setSaved] = useState(false)
 
@@ -45,17 +46,32 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         <div className="flex items-center justify-between rounded-2xl bg-primary/10 p-3 text-xs font-semibold text-primary">
           <span className="flex items-center gap-1">
             <ShieldAlert className="h-4 w-4" />
-            Master Key: @2000 ផ្ទៀងផ្ទាត់ជោគជ័យ
+            ប្រព័ន្ធសុវត្ថិភាពកម្រិតខ្ពស់សកម្ម
           </span>
-          <span>ប្រព័ន្ធដំណើរការធម្មតា</span>
+          <span>អនឡាញ</span>
         </div>
 
         {/* API Config Form */}
         <form onSubmit={handleSave} className="space-y-4 rounded-2xl border border-border bg-card p-4 shadow-sm">
+          {/* Change Passcode */}
+          <div className="space-y-1.5">
+            <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
+              <Lock className="h-3.5 w-3.5 text-primary" />
+              Admin Passcode (លេខកូដសម្ងាត់ចូល)
+            </label>
+            <input
+              type="text"
+              value={config.adminPasscode}
+              onChange={(e) => setConfig({ ...config, adminPasscode: e.target.value })}
+              placeholder="@2000"
+              className="w-full rounded-xl border border-border bg-secondary/50 px-3 py-2.5 text-xs text-foreground outline-none transition focus:border-primary"
+            />
+          </div>
+
           <div className="space-y-1.5">
             <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
               <KeyRound className="h-3.5 w-3.5 text-primary" />
-              OpenAI API Key (Script & Whisper)
+              OpenAI API Key
             </label>
             <input
               type="password"
@@ -69,7 +85,7 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           <div className="space-y-1.5">
             <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
               <KeyRound className="h-3.5 w-3.5 text-primary" />
-              ElevenLabs API Key (Voice Dubbing)
+              ElevenLabs API Key
             </label>
             <input
               type="password"
@@ -83,7 +99,7 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           <div className="space-y-1.5">
             <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
               <KeyRound className="h-3.5 w-3.5 text-primary" />
-              Translation API Key (បើមាន)
+              Translation API Key
             </label>
             <input
               type="password"
