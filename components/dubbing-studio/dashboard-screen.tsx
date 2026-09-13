@@ -13,11 +13,11 @@ import {
   X,
   Layers,
 } from "lucide-react"
-import type { LangCode } from "@/lib/i18n"
+import { useTranslations } from "next-intl"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
 import { DUB_MODES, type DubMode } from "@/lib/dub-modes"
 
-export const DUB_LANGS: { code: LangCode; name: string; flag: string }[] = [
+export const DUB_LANGS = [
   { code: "en", name: "English", flag: "🇬🇧" },
   { code: "km", name: "ភាសាខ្មែរ", flag: "🇰🇭" },
   { code: "zh", name: "中文", flag: "🇨🇳" },
@@ -38,13 +38,12 @@ export const DUB_LANGS: { code: LangCode; name: string; flag: string }[] = [
   { code: "ph", name: "Filipino", flag: "🇵🇭" },
   { code: "ms", name: "Bahasa Melayu", flag: "🇲🇾" },
   { code: "bn", name: "বাংলা", flag: "🇧🇩" },
-]
+] as const
 
-type T = ReturnType<typeof import("@/lib/i18n").useI18n>["t"]
+type LangCode = typeof DUB_LANGS[number]["code"]
 type Status = "idle" | "processing" | "done"
 
 export function DashboardScreenContainer({
-  t,
   file,
   videoUrl,
   dragging,
@@ -59,7 +58,6 @@ export function DashboardScreenContainer({
   stage,
   progress,
 }: {
-  t: T
   file: File | null
   videoUrl: string | null
   dragging: boolean
@@ -74,6 +72,7 @@ export function DashboardScreenContainer({
   stage: number
   progress: number
 }) {
+  const t = useTranslations()
   const targetFlag = DUB_LANGS.find((l) => l.code === targetLang)?.flag
   const [dubMode, setDubMode] = useState<DubMode>("clean_vlog")
 
@@ -89,7 +88,6 @@ export function DashboardScreenContainer({
 
       {status === "idle" && (
         <DashboardContent
-          t={t}
           file={file}
           videoUrl={videoUrl}
           dragging={dragging}
@@ -105,14 +103,13 @@ export function DashboardScreenContainer({
         />
       )}
 
-      {status === "processing" && <ProcessingScreen t={t} stage={stage} progress={progress} />}
+      {status === "processing" && <ProcessingScreen stage={stage} progress={progress} />}
 
       {status === "done" && (
         <ResultScreen
-          t={t}
           videoUrl={videoUrl}
           file={file}
-          targetName={t.languages[targetLang]}
+          targetName={t(`languages.${targetLang}`)}
           targetFlag={targetFlag}
           reset={reset}
         />
@@ -122,7 +119,6 @@ export function DashboardScreenContainer({
 }
 
 function DashboardContent({
-  t,
   file,
   videoUrl,
   dragging,
@@ -136,7 +132,6 @@ function DashboardContent({
   setDubMode,
   start,
 }: {
-  t: T
   file: File | null
   videoUrl: string | null
   dragging: boolean
@@ -150,17 +145,18 @@ function DashboardContent({
   setDubMode: (m: DubMode) => void
   start: () => void
 }) {
-  // 🌟 ទាញយកអត្ថបទពន្យល់តាម Option នីមួយៗពី i18n
+  const t = useTranslations()
+
   const getLocalizedOptionText = (modeId: DubMode) => {
     switch (modeId) {
       case "clean_vlog":
-        return t.dubbingOptions.opt1
+        return { title: t("dubbingOptions.opt1.title"), desc: t("dubbingOptions.opt1.desc") }
       case "summary_sfx":
-        return t.dubbingOptions.opt2
+        return { title: t("dubbingOptions.opt2.title"), desc: t("dubbingOptions.opt2.desc") }
       case "cinematic":
-        return t.dubbingOptions.opt3
+        return { title: t("dubbingOptions.opt3.title"), desc: t("dubbingOptions.opt3.desc") }
       case "ai_visual":
-        return t.dubbingOptions.opt4
+        return { title: t("dubbingOptions.opt4.title"), desc: t("dubbingOptions.opt4.desc") }
       default:
         return { title: "Option", desc: "" }
     }
@@ -175,11 +171,10 @@ function DashboardContent({
           {SAVPD_CONSTANTS.BRAND.TRADEMARK}
         </h1>
         <p className="mx-auto mt-1.5 max-w-xs text-pretty text-sm leading-relaxed text-muted-foreground">
-          {t.appSubtitle}
+          {t("appSubtitle")}
         </p>
       </div>
 
-      {/* AI Dubbing Mode Selector with Localized Description */}
       <div className="rounded-3xl border border-border bg-card/60 p-4 shadow-sm space-y-3">
         <div className="flex items-center gap-2">
           <Layers className="h-4 w-4 text-primary" />
@@ -214,7 +209,6 @@ function DashboardContent({
           </svg>
         </div>
 
-        {/* 🌟 បង្ហាញការណែនាំ/ពន្យល់ប្រភេទវីដេអូទៅតាម Option ដែលបានជ្រើសរើស */}
         {currentOptionInfo.desc && (
           <div className="rounded-xl bg-primary/10 px-3.5 py-2.5 text-xs font-medium text-primary leading-relaxed">
             💡 {currentOptionInfo.desc}
@@ -222,7 +216,6 @@ function DashboardContent({
         )}
       </div>
 
-      {/* Upload Box */}
       {!videoUrl ? (
         <button
           type="button"
@@ -244,12 +237,12 @@ function DashboardContent({
           <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/15 text-primary">
             <UploadCloud className="h-8 w-8" />
           </span>
-          <span className="text-base font-semibold text-foreground">{t.dropText}</span>
+          <span className="text-base font-semibold text-foreground">{t("dropText")}</span>
           <span className="flex flex-col items-center gap-2 text-xs text-muted-foreground">
-            <span>{t.dropHint}</span>
+            <span>{t("dropHint")}</span>
             <span className="flex items-center gap-1 rounded-full bg-success/15 px-3 py-1 font-medium text-success">
               <CheckCircle2 className="h-3.5 w-3.5" />
-              {t.noLimit}
+              {t("noLimit")}
             </span>
           </span>
         </button>
@@ -267,16 +260,15 @@ function DashboardContent({
               className="flex shrink-0 items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-muted-foreground transition hover:bg-destructive/15 hover:text-destructive"
             >
               <X className="h-3.5 w-3.5" />
-              {t.delete}
+              {t("delete")}
             </button>
           </div>
         </div>
       )}
 
-      {/* Target Language Selector */}
       <div className="rounded-3xl border border-border bg-card/60 p-5 shadow-sm">
         <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <h3 className="text-sm font-semibold text-foreground">{t.selectTargetLangTitle}</h3>
+          <h3 className="text-sm font-semibold text-foreground">{t("selectTargetLangTitle")}</h3>
           <span className="flex w-fit items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-[11px] font-semibold text-primary">
             <Sparkles className="h-3.5 w-3.5" />
             AI Auto-Detect Source
@@ -291,7 +283,7 @@ function DashboardContent({
           >
             {DUB_LANGS.map((l) => (
               <option key={l.code} value={l.code} className="bg-card py-2 text-base text-foreground">
-                {l.flag} {t.languages[l.code]}
+                {l.flag} {t(`languages.${l.code}`)}
               </option>
             ))}
           </select>
@@ -310,7 +302,6 @@ function DashboardContent({
         </div>
       </div>
 
-      {/* Sticky action */}
       <div className="sticky bottom-0 -mx-4 mt-1 border-t border-border/60 bg-background/85 px-4 pb-2 pt-3 backdrop-blur-xl">
         <button
           type="button"
@@ -318,14 +309,17 @@ function DashboardContent({
           className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition active:scale-[0.99]"
         >
           <Sparkles className="h-5 w-5 transition group-hover:rotate-12" />
-          {t.start}
+          {t("start")}
         </button>
       </div>
     </div>
   )
 }
 
-function ProcessingScreen({ t, stage, progress }: { t: T; stage: number; progress: number }) {
+function ProcessingScreen({ stage, progress }: { stage: number; progress: number }) {
+  const t = useTranslations()
+  const rawStages = t.raw("stages") as string[]
+
   return (
     <div className="flex min-h-[70dvh] flex-col items-center justify-center gap-8 py-6 text-center">
       <div className="relative flex h-32 w-32 items-center justify-center">
@@ -349,12 +343,12 @@ function ProcessingScreen({ t, stage, progress }: { t: T; stage: number; progres
       </div>
 
       <div>
-        <p className="text-lg font-bold text-foreground">{t.processing}</p>
-        <p className="mt-1 text-sm text-muted-foreground">{t.autopilotDesc}</p>
+        <p className="text-lg font-bold text-foreground">{t("processing")}</p>
+        <p className="mt-1 text-sm text-muted-foreground">{t("autopilotDesc")}</p>
       </div>
 
       <ul className="w-full space-y-2.5 text-left">
-        {t.stages.map((s, i) => {
+        {rawStages.map((s, i) => {
           const state = i < stage ? "done" : i === stage ? "active" : "pending"
           return (
             <li
@@ -394,29 +388,29 @@ function ProcessingScreen({ t, stage, progress }: { t: T; stage: number; progres
 }
 
 function ResultScreen({
-  t,
   videoUrl,
   file,
   targetName,
   targetFlag,
   reset,
 }: {
-  t: T
   videoUrl: string | null
   file: File | null
   targetName: string
   targetFlag?: string
   reset: () => void
 }) {
+  const t = useTranslations()
+
   return (
     <div className="flex flex-col gap-5 py-2">
       <div className="text-center">
         <span className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-success/20 text-success">
           <AudioLines className="h-8 w-8" />
         </span>
-        <h2 className="text-xl font-bold text-foreground">{t.doneTitle}</h2>
+        <h2 className="text-xl font-bold text-foreground">{t("doneTitle")}</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          {t.doneSubtitle} {targetName} {targetFlag}
+          {t("doneSubtitle")} {targetName} {targetFlag}
         </p>
       </div>
 
@@ -431,7 +425,7 @@ function ResultScreen({
           className="flex w-full items-center justify-center gap-2 rounded-2xl bg-success py-4 text-base font-bold text-success-foreground transition active:scale-[0.99]"
         >
           <Download className="h-5 w-5" />
-          {t.download}
+          {t("download")}
         </a>
         <button
           type="button"
@@ -439,7 +433,7 @@ function ResultScreen({
           className="flex w-full items-center justify-center gap-2 rounded-2xl border border-border bg-secondary/60 py-3.5 text-sm font-medium text-foreground transition active:scale-[0.99]"
         >
           <RotateCcw className="h-4 w-4" />
-          {t.retry}
+          {t("retry")}
         </button>
       </div>
     </div>
