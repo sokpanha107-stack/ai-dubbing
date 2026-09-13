@@ -150,6 +150,24 @@ function DashboardContent({
   setDubMode: (m: DubMode) => void
   start: () => void
 }) {
+  // 🌟 ទាញយកអត្ថបទពន្យល់តាម Option នីមួយៗពី i18n
+  const getLocalizedOptionText = (modeId: DubMode) => {
+    switch (modeId) {
+      case "clean_vlog":
+        return t.dubbingOptions.opt1
+      case "summary_sfx":
+        return t.dubbingOptions.opt2
+      case "cinematic":
+        return t.dubbingOptions.opt3
+      case "ai_visual":
+        return t.dubbingOptions.opt4
+      default:
+        return { title: "Option", desc: "" }
+    }
+  }
+
+  const currentOptionInfo = getLocalizedOptionText(dubMode)
+
   return (
     <div className="relative flex flex-col gap-6">
       <div className="pt-1 text-center">
@@ -161,9 +179,9 @@ function DashboardContent({
         </p>
       </div>
 
-      {/* AI Dubbing Mode Selector (4 Options) */}
-      <div className="rounded-3xl border border-border bg-card/60 p-4 shadow-sm">
-        <div className="mb-2.5 flex items-center gap-2">
+      {/* AI Dubbing Mode Selector with Localized Description */}
+      <div className="rounded-3xl border border-border bg-card/60 p-4 shadow-sm space-y-3">
+        <div className="flex items-center gap-2">
           <Layers className="h-4 w-4 text-primary" />
           <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Select AI Dubbing Mode</h3>
         </div>
@@ -173,11 +191,14 @@ function DashboardContent({
             onChange={(e) => setDubMode(e.target.value as DubMode)}
             className="w-full cursor-pointer appearance-none rounded-2xl border border-border bg-secondary/60 py-3.5 pl-4 pr-10 text-sm font-semibold text-foreground outline-none transition hover:border-primary/50 focus:border-primary focus:ring-2 focus:ring-ring/40"
           >
-            {DUB_MODES.map((mode) => (
-              <option key={mode.id} value={mode.id} className="bg-card py-2 text-sm text-foreground">
-                {mode.icon} {mode.labelKm}
-              </option>
-            ))}
+            {DUB_MODES.map((mode) => {
+              const optLocalized = getLocalizedOptionText(mode.id)
+              return (
+                <option key={mode.id} value={mode.id} className="bg-card py-2 text-sm text-foreground">
+                  {mode.icon} {optLocalized.title}
+                </option>
+              )
+            })}
           </select>
           <svg
             className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground"
@@ -192,6 +213,13 @@ function DashboardContent({
             />
           </svg>
         </div>
+
+        {/* 🌟 បង្ហាញការណែនាំ/ពន្យល់ប្រភេទវីដេអូទៅតាម Option ដែលបានជ្រើសរើស */}
+        {currentOptionInfo.desc && (
+          <div className="rounded-xl bg-primary/10 px-3.5 py-2.5 text-xs font-medium text-primary leading-relaxed">
+            💡 {currentOptionInfo.desc}
+          </div>
+        )}
       </div>
 
       {/* Upload Box */}
