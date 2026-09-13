@@ -26,17 +26,22 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: 'black-translucent',
     title: 'SAVPD.io™',
+    startupImage: [
+      {
+        url: '/icon-512.png',
+        media: '(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)',
+      },
+    ],
   },
   formatDetection: { telephone: false },
   icons: {
-    icon: '/icon-512.png',
-    apple: '/icon-512.png',
+    icon: [
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
     shortcut: '/icon-512.png',
-  },
-  other: {
-    'mobile-web-app-capable': 'yes',
-    'apple-mobile-web-app-capable': 'yes',
-    'apple-mobile-web-app-status-bar-style': 'black-translucent',
   },
 }
 
@@ -57,6 +62,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="km" className={`${geist.variable} ${notoKhmer.variable} bg-background`}>
+      <head>
+        {/* បង្ខំឱ្យ iOS ប្រើប្រាស់ Apple Touch Icon ផ្ទាល់ខ្លួន */}
+        <link rel="apple-touch-icon" href="/icon-512.png" />
+        <link rel="apple-touch-icon-precomposed" href="/icon-512.png" />
+      </head>
       <body className="font-sans antialiased">
         <ThemeProvider>{children}</ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
