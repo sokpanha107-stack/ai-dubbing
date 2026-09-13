@@ -136,7 +136,7 @@ function DashboardContent({
         </p>
       </div>
 
-      {/* Upload */}
+      {/* Upload Box (កែពីបន្ទាត់ដាច់ៗ border-dashed មកជាបន្ទាត់ជាប់ border រឹងមាំស្អាត) */}
       {!videoUrl ? (
         <button
           type="button"
@@ -151,8 +151,8 @@ function DashboardContent({
             setDragging(false)
             acceptFile(e.dataTransfer.files?.[0])
           }}
-          className={`flex w-full flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed px-6 py-14 text-center transition active:scale-[0.99] ${
-            dragging ? "border-primary bg-primary/10" : "border-border bg-secondary/40 hover:border-primary/60"
+          className={`flex w-full flex-col items-center justify-center gap-3 rounded-3xl border px-6 py-14 text-center transition active:scale-[0.99] ${
+            dragging ? "border-primary bg-primary/10" : "border-border bg-card/60 hover:border-primary/60 shadow-sm"
           }`}
         >
           <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/15 text-primary">
