@@ -1,45 +1,47 @@
-"use client"
+import en from "@/locales/en.json"
+import km from "@/locales/km.json"
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
-import { GLOBAL_DICTIONARY, UI_LANGUAGES, type LangCode, type Strings } from "@/lib/locales-dict"
+// បញ្ជីភាសាគាំទ្រទាំងអស់ក្នុងប្រព័ន្ធ
+export const UI_LANGUAGES = [
+  { code: "en", native: "English", flag: "🇬🇧" },
+  { code: "km", native: "ភាសាខ្មែរ", flag: "🇰🇭" },
+  { code: "zh", native: "中文", flag: "🇨🇳" },
+  { code: "th", native: "ไทย", flag: "🇹🇭" },
+  { code: "vi", native: "Tiếng Việt", flag: "🇻🇳" },
+  { code: "ja", native: "日本語", flag: "🇯🇵" },
+  { code: "ko", native: "한국어", flag: "🇰🇷" },
+  { code: "hi", native: "हिन्दी", flag: "🇮🇳" },
+  { code: "es", native: "Español", flag: "🇪🇸" },
+  { code: "fr", native: "Français", flag: "🇫🇷" },
+  { code: "de", native: "Deutsch", flag: "🇩🇪" },
+  { code: "id", native: "Bahasa Indonesia", flag: "🇮🇩" },
+  { code: "pt", native: "Português", flag: "🇧🇷" },
+  { code: "ru", native: "Русский", flag: "🇷🇺" },
+  { code: "ar", native: "العربية", flag: "🇸🇦" },
+  { code: "it", native: "Italiano", flag: "🇮🇹" },
+  { code: "tr", native: "Türkçe", flag: "🇹🇷" },
+  { code: "ph", native: "Filipino", flag: "🇵🇭" },
+  { code: "ms", native: "Bahasa Melayu", flag: "🇲🇾" },
+  { code: "bn", native: "বাংলা", flag: "🇧🇩" },
+] as const
 
-export { UI_LANGUAGES, type LangCode, type Strings }
+export type LangCode = typeof UI_LANGUAGES[number]["code"]
 
-type I18nContextValue = {
-  lang: LangCode
-  setLang: (lang: LangCode) => void
-  t: Strings
+// ឃ្លាំងផ្ទុកទិន្នន័យ JSON តាមភាសា
+const dictionaries: Record<string, any> = {
+  en,
+  km,
+  // ថ្ងៃក្រោយបើមាន zh.json ឬ th.json គ្រាន់តែ Import មកដាក់ទីនេះដុះពន្លកអូតូ!
 }
 
-const I18nContext = createContext<I18nContextValue | null>(null)
+// មុខងារទាញយកអក្សរតាមភាសា (មានប្រព័ន្ធ Auto-Fallback ទៅ English ស្វ័យប្រវត្ត ការពារ App គាំង)
+export function getDictionary(locale: string) {
+  const selected = dictionaries[locale] || dictionaries.en
+  const fallback = dictionaries.en
 
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<LangCode>("en")
-
-  useEffect(() => {
-    const saved = localStorage.getItem("savpd_lang") as LangCode
-    if (saved && GLOBAL_DICTIONARY[saved]) {
-      setLangState(saved)
-    } else {
-      setLangState("en")
-      localStorage.setItem("savpd_lang", "en")
-    }
-  }, [])
-
-  const setLang = (newLang: LangCode) => {
-    setLangState(newLang)
-    localStorage.setItem("savpd_lang", newLang)
+  return {
+    ...fallback,
+    ...selected,
+    dubbingOptions: selected?.dubbingOptions || fallback.dubbingOptions,
   }
-
-  return (
-    <I18nContext.Provider value={{ lang, setLang, t: GLOBAL_DICTIONARY[lang] || GLOBAL_DICTIONARY["en"] }}>
-      {children}
-    </I18nContext.Provider>
-  )
-}
-
-export function useI18n() {
-  const ctx = useContext(I18nContext)
-  if (!ctx) throw new Error("useI18n must be used within I18nProvider")
-  return ctx
 }
