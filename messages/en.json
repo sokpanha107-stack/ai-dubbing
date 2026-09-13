@@ -63,10 +63,44 @@
     "Which languages are supported?",
     "Does it keep the original emotion?"
   ],
-  "dubbingOptions": [
-    { "id": "opt1", "title": "Option 1: Clean Voiceover", "desc": "Best for personal Vlogs & natural speech." },
-    { "id": "opt2", "title": "Option 2: Summary & SFX", "desc": "Best for Recap videos & storytelling." },
-    { "id": "opt3", "title": "Option 3: Cinematic Character Dubbing", "desc": "Best for Movies & character acting." },
-    { "id": "opt4", "title": "Option 4: AI Visual Storyteller", "desc": "Best for Auto-Script & visual storytelling." }
-  ]
+  "dubbingOptions": {
+    "opt1": {
+      "title": "Option 1: Clean Voiceover",
+      "desc": "Best for personal Vlogs & natural speech."
+    },
+    "opt2": {
+      "title": "Option 2: Summary & SFX",
+      "desc": "Best for Recap videos & storytelling."
+    },
+    "opt3": {
+      "title": "Option 3: Cinematic Character Dubbing",
+      "desc": "Best for Movies & character acting."
+    },
+    "opt4": {
+      "title": "Option 4: AI Visual Storyteller",
+      "desc": "Best for Auto-Script & visual storytelling."
+    }
+  },
+  "languages": {
+    "en": "English",
+    "km": "Khmer",
+    "zh": "Chinese",
+    "th": "Thai",
+    "vi": "Vietnamese",
+    "ja": "Japanese",
+    "ko": "Korean",
+    "hi": "Hindi",
+    "es": "Spanish",
+    "fr": "French",
+    "de": "German",
+    "id": "Indonesian",
+    "pt": "Portuguese",
+    "ru": "Russian",
+    "ar": "Arabic",
+    "it": "Italian",
+    "tr": "Turkish",
+    "ph": "Filipino",
+    "ms": "Malay",
+    "bn": "Bengali"
+  }
 }
