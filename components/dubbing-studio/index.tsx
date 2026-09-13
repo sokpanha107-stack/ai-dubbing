@@ -2,18 +2,19 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Clapperboard, Lock, Settings, X } from "lucide-react"
-import { useI18n, type LangCode } from "@/lib/i18n"
+import { useTranslations } from "next-intl"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
 import { getAdminConfig } from "@/lib/admin-config"
-import { DashboardScreenContainer } from "./dashboard-screen"
+import { DashboardScreenContainer, DUB_LANGS } from "./dashboard-screen"
 import { SharedSettings } from "./shared-settings"
 import { AdminDashboard } from "@/components/admin/admin-dashboard"
 import { PreviewScreen } from "./preview-screen"
 
 type Status = "idle" | "processing" | "done"
+type LangCode = typeof DUB_LANGS[number]["code"]
 
 export function DubbingStudio() {
-  const { t, lang, setLang } = useI18n()
+  const t = useTranslations()
 
   const [isUnlocked, setIsUnlocked] = useState(false)
 
@@ -30,6 +31,10 @@ export function DubbingStudio() {
   const [adminPassword, setAdminPassword] = useState("")
   const [adminError, setAdminError] = useState(false)
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false)
+
+  // ទាញយក array stages ពី messages JSON ដោយសុវត្ថិភាព
+  const stages = t.raw("stages") as string[]
+  const stagesLength = stages?.length || 4
 
   useEffect(() => {
     return () => {
@@ -50,13 +55,13 @@ export function DubbingStudio() {
 
   useEffect(() => {
     if (status !== "processing") return
-    if (stage >= t.stages.length) {
+    if (stage >= stagesLength) {
       const done = setTimeout(() => setStatus("done"), 600)
       return () => clearTimeout(done)
     }
     const next = setTimeout(() => setStage((s) => s + 1), 1100)
     return () => clearTimeout(next)
-  }, [status, stage, t.stages.length])
+  }, [status, stage, stagesLength])
 
   const start = () => {
     if (!file) {
@@ -82,26 +87,22 @@ export function DubbingStudio() {
       setAdminModalOpen(false)
       setAdminPassword("")
       setAdminError(false)
-      setIsAdminLoggedIn(true) // ដាក់បញ្ជាក់រដ្ឋ Admin ឱ្យដូរទម្រង់ភ្លាមៗ
+      setIsAdminLoggedIn(true)
     } else {
       setAdminError(true)
     }
   }
 
-  const progress = status === "done" ? 100 : Math.round((Math.min(stage, t.stages.length) / t.stages.length) * 100)
+  const progress = status === "done" ? 100 : Math.round((Math.min(stage, stagesLength) / stagesLength) * 100)
 
   if (!isUnlocked) {
     return (
       <PreviewScreen
-        t={t}
-        lang={lang}
-        setLang={setLang}
         onLoginSuccess={() => setIsUnlocked(true)}
       />
     )
   }
 
-  // ដាក់ពិនិត្យលក្ខខណ្ឌ Admin Logged In ឱ្យនៅទីនេះ ធានាថាពេល Passcode ត្រូវ វាលោតចូល Admin ភ្លាមៗតែម្តង
   if (isAdminLoggedIn) {
     return <AdminDashboard onLogout={() => setIsAdminLoggedIn(false)} />
   }
@@ -125,7 +126,7 @@ export function DubbingStudio() {
           <button
             type="button"
             onClick={() => setSettingsOpen(true)}
-            aria-label={t.settings}
+            aria-label={t("settings")}
             className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-secondary/60 text-foreground transition active:scale-95"
           >
             <Settings className="h-4.5 w-4.5" />
@@ -188,7 +189,6 @@ export function DubbingStudio() {
       )}
 
       <DashboardScreenContainer
-        t={t}
         file={file}
         videoUrl={videoUrl}
         dragging={dragging}
