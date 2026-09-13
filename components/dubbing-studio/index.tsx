@@ -3,10 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Clapperboard, Lock, Settings, X } from "lucide-react"
 import { useI18n, type LangCode } from "@/lib/i18n"
-import { useTheme } from "@/lib/theme"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
 import { DashboardScreenContainer } from "./dashboard-screen"
-import { SettingsModal } from "./settings-modal"
+import { SharedSettings } from "./shared-settings"
 import { AdminDashboard } from "./admin-dashboard"
 import { PreviewScreen } from "./preview-screen"
 
@@ -14,8 +13,7 @@ type Status = "idle" | "processing" | "done"
 
 export function DubbingStudio() {
   const { t, lang, setLang } = useI18n()
-  const { mode, toggleMode, eyeCare, toggleEyeCare, eyeCareLevel, setEyeCareLevel } = useTheme()
-  
+
   const [isUnlocked, setIsUnlocked] = useState(false)
 
   const [file, setFile] = useState<File | null>(null)
@@ -27,11 +25,11 @@ export function DubbingStudio() {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
+  // Admin States
   const [adminModalOpen, setAdminModalOpen] = useState(false)
   const [adminPassword, setAdminPassword] = useState("")
   const [adminError, setAdminError] = useState(false)
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false)
-  const holdTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     return () => {
@@ -75,21 +73,6 @@ export function DubbingStudio() {
     setVideoUrl(null)
     setStatus("idle")
     setStage(0)
-  }
-
-  const handleTouchStart = () => {
-    holdTimerRef.current = setTimeout(() => {
-      setSettingsOpen(false)
-      setAdminModalOpen(true)
-      setAdminPassword("")
-      setAdminError(false)
-    }, 5000)
-  }
-
-  const handleTouchEnd = () => {
-    if (holdTimerRef.current) {
-      clearTimeout(holdTimerRef.current)
-    }
   }
 
   const handleAdminLogin = (e: React.FormEvent) => {
@@ -146,25 +129,22 @@ export function DubbingStudio() {
         </div>
       </header>
 
-      <SettingsModal
-        t={t}
+      {/* ហៅផ្ទាំង Shared Settings ថ្មីមកប្រើ */}
+      <SharedSettings
         isOpen={settingsOpen}
         onClose={() => setSettingsOpen(false)}
-        mode={mode}
-        toggleMode={toggleMode}
-        eyeCare={eyeCare}
-        toggleEyeCare={toggleEyeCare}
-        eyeCareLevel={eyeCareLevel}
-        setEyeCareLevel={setEyeCareLevel}
-        lang={lang}
-        setLang={setLang}
-        handleTouchStart={handleTouchStart}
-        handleTouchEnd={handleTouchEnd}
+        onAdminClick={() => {
+          setSettingsOpen(false)
+          setAdminModalOpen(true)
+          setAdminPassword("")
+          setAdminError(false)
+        }}
       />
 
+      {/* ផ្ទាំង Login ចូល Admin លោតចេញពេលចុចប៊ូតុងក្នុង About */}
       {adminModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-sm rounded-3xl border border-border bg-card p-6 shadow-2xl">
+          <div className="w-full max-w-sm rounded-3xl border border-border bg-card p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-base font-bold text-foreground flex items-center gap-2">
                 <Lock className="h-4 w-4 text-primary" /> Master Key
