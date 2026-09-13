@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react"
 import type { LangCode } from "@/lib/i18n"
+import { SAVPD_CONSTANTS } from "@/lib/constants"
 
 export const DUB_LANGS: { code: LangCode; name: string; flag: string }[] = [
   { code: "km", name: "ខ្មែរ", flag: "🇰🇭" },
@@ -127,7 +128,9 @@ function DashboardContent({
   return (
     <div className="relative flex flex-col gap-6">
       <div className="pt-1 text-center">
-        <h1 className="text-balance text-2xl font-bold tracking-tight text-foreground">{t.appTitle}</h1>
+        <h1 className="text-balance text-2xl font-bold tracking-tight text-foreground">
+          {SAVPD_CONSTANTS.BRAND.TRADEMARK}
+        </h1>
         <p className="mx-auto mt-1.5 max-w-xs text-pretty text-sm leading-relaxed text-muted-foreground">
           {t.appSubtitle}
         </p>
