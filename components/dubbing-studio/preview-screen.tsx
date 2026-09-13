@@ -5,6 +5,7 @@ import Image from "next/image"
 import { Settings, Moon, Sun, Check, Lock, X, Eye } from "lucide-react"
 import { UI_LANGUAGES, type LangCode } from "@/lib/i18n"
 import { useTheme } from "@/lib/theme"
+import { SAVPD_CONSTANTS } from "@/lib/constants"
 
 // Keep InstallPrompt for PWA guidance, but DeviceBadge is hidden / removed from UI
 import { InstallPrompt } from "./install-prompt"
@@ -61,14 +62,14 @@ export function PreviewScreen({
         <div className="relative h-32 w-32 animate-pulse overflow-hidden rounded-[2rem] shadow-2xl">
           <Image 
             src="/icon-512.png" 
-            alt="AI Dubbing Logo" 
+            alt={`${SAVPD_CONSTANTS.BRAND.TRADEMARK} Logo`} 
             fill
             className="object-cover"
             priority
           />
         </div>
         <h1 className="mt-6 text-2xl font-bold tracking-tight text-foreground animate-in slide-in-from-bottom-4 duration-700">
-          AI dubbing
+          {SAVPD_CONSTANTS.BRAND.TRADEMARK}
         </h1>
       </div>
     )
@@ -83,12 +84,12 @@ export function PreviewScreen({
           <div className="relative h-10 w-10 overflow-hidden rounded-xl shadow-sm">
              <Image 
                src="/icon-512.png" 
-               alt="AI Dubbing Logo Small" 
+               alt={`${SAVPD_CONSTANTS.BRAND.TRADEMARK} Logo Small`} 
                fill
                className="object-cover"
              />
           </div>
-          <span className="text-base font-bold tracking-tight text-foreground">AI dubbing</span>
+          <span className="text-base font-bold tracking-tight text-foreground">{SAVPD_CONSTANTS.BRAND.TRADEMARK}</span>
         </div>
 
         <button
@@ -144,7 +145,7 @@ export function PreviewScreen({
         {/* Smart Install Prompt for PWA */}
         <InstallPrompt />
         <div className="pb-4 pt-2 text-center">
-          <p className="text-[11px] text-muted-foreground">© 2026 AI Dubbing Studio. All rights reserved.</p>
+          <p className="text-[11px] text-muted-foreground">© 2026 {SAVPD_CONSTANTS.BRAND.TRADEMARK}. All rights reserved.</p>
         </div>
       </div>
 
