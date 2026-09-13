@@ -1,6 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, type ReactNode } from "react"
+import { SAVPD_CONSTANTS } from "@/lib/constants"
 
 export type LangCode = "en" | "zh" | "km" | "th" | "vi"
 
@@ -44,14 +45,12 @@ type Strings = {
   paceDesc: string
   featuresHeading: string
   languages: Record<LangCode, string>
-  // Appearance / eye care
   appearance: string
   darkMode: string
   lightMode: string
   eyeCare: string
   eyeCareDesc: string
   eyeCareLevel: string
-  // AI assistant
   assistant: string
   assistantOpen: string
   assistantTitle: string
@@ -67,9 +66,9 @@ type Strings = {
 
 export const TRANSLATIONS: Record<LangCode, Strings> = {
   en: {
-    appTitle: "AI Video Dubbing Studio",
+    appTitle: SAVPD_CONSTANTS.BRAND.TRADEMARK,
     appSubtitle: "Translate and dub your videos into another language with AI in a few easy steps.",
-    footer: "Built for personal use · Personal AI Dubbing Tool",
+    footer: `Built for personal use · ${SAVPD_CONSTANTS.BRAND.NAME} Tool`,
     settings: "Settings",
     appLanguage: "App language",
     step1: "Choose or drop your video",
@@ -114,14 +113,12 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     assistantOpen: "Open AI assistant",
     assistantTitle: "Dubbing Assistant",
     assistantSubtitle: "Ask about how to use this app",
-    assistantGreeting:
-      "Hi! I'm your AI Dubbing assistant. I can only help with questions about this AI Video Dubbing Studio app — how to upload, choose languages, and use Auto-Pilot. How can I help?",
+    assistantGreeting: `Hi! I'm your AI Dubbing assistant. I can only help with questions about this ${SAVPD_CONSTANTS.BRAND.NAME} app — how to upload, choose languages, and use Auto-Pilot. How can I help?`,
     assistantPlaceholder: "Ask about the app...",
     assistantSend: "Send",
     assistantVoice: "Ask by voice",
     assistantListening: "Listening...",
-    assistantRefusal:
-      "Sorry! I can only answer questions related to the technology and use of this AI Video Dubbing Studio app.",
+    assistantRefusal: `Sorry! I can only answer questions related to the technology and use of this ${SAVPD_CONSTANTS.BRAND.NAME} app.`,
     assistantSuggestions: [
       "How do I start Auto-Pilot?",
       "Which languages are supported?",
@@ -129,9 +126,9 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     ],
   },
   zh: {
-    appTitle: "AI 视频配音工作室",
+    appTitle: SAVPD_CONSTANTS.BRAND.TRADEMARK,
     appSubtitle: "只需几个简单步骤，使用 AI 将您的视频翻译并配音成另一种语言。",
-    footer: "为个人使用而打造 · 个人 AI 配音工具",
+    footer: `为个人使用而打造 · ${SAVPD_CONSTANTS.BRAND.NAME} 工具`,
     settings: "设置",
     appLanguage: "应用语言",
     step1: "选择或拖入您的视频",
@@ -176,19 +173,18 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     assistantOpen: "打开 AI 助手",
     assistantTitle: "配音助手",
     assistantSubtitle: "询问如何使用本应用",
-    assistantGreeting:
-      "您好！我是您的 AI 配音助手。我只能回答有关这款 AI 视频配音工作室应用的问题——如何上传、选择语言以及使用自动驾驶。请问需要什么帮助？",
+    assistantGreeting: `您好！我是您的 AI 配音助手。我只能回答有关这款 ${SAVPD_CONSTANTS.BRAND.NAME} 应用的问题——如何上传、选择语言以及使用自动驾驶。请问需要什么帮助？`,
     assistantPlaceholder: "询问关于本应用的问题...",
     assistantSend: "发送",
     assistantVoice: "语音提问",
     assistantListening: "正在聆听...",
-    assistantRefusal: "抱歉！我只能回答与这款 AI 视频配音工作室应用的技术和使用相关的问题。",
+    assistantRefusal: `抱歉！我只能回答与这款 ${SAVPD_CONSTANTS.BRAND.NAME} 应用的技术和使用相关的问题。`,
     assistantSuggestions: ["如何开始自动驾驶？", "支持哪些语言？", "会保留原始情感吗？"],
   },
   km: {
-    appTitle: "ស្ទូឌីយោបញ្ចូលសំឡេងវីដេអូ AI",
+    appTitle: SAVPD_CONSTANTS.BRAND.TRADEMARK,
     appSubtitle: "បកប្រែ និងបញ្ចូលសំឡេងវីដេអូរបស់អ្នកទៅជាភាសាផ្សេងៗ ដោយប្រើ AI ក្នុងពេលបីជំហានងាយៗ",
-    footer: "បង្កើតឡើងសម្រាប់ការប្រើប្រាស់ផ្ទាល់ខ្លួន · Personal AI Dubbing Tool",
+    footer: `បង្កើតឡើងសម្រាប់ការប្រើប្រាស់ផ្ទាល់ខ្លួន · ${SAVPD_CONSTANTS.BRAND.NAME} Tool`,
     settings: "ការកំណត់",
     appLanguage: "ភាសាកម្មវិធី",
     step1: "ជ្រើសរើស ឬទម្លាក់វីដេអូរបស់អ្នក",
@@ -233,14 +229,12 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     assistantOpen: "បើកជំនួយការ AI",
     assistantTitle: "ជំនួយការបញ្ចូលសំឡេង",
     assistantSubtitle: "សួរអំពីរបៀបប្រើ App នេះ",
-    assistantGreeting:
-      "សួស្តី! ខ្ញុំជាជំនួយការ AI Dubbing របស់អ្នក។ ខ្ញុំអាចជួយបានតែសំណួរអំពី App ស្ទូឌីយោបញ្ចូលសំឡេងវីដេអូ AI នេះប៉ុណ្ណោះ — របៀបអាប់ឡូត ជ្រើសរើសភាសា និងប្រើ Auto-Pilot។ តើខ្ញុំអាចជួយអ្វីបាន?",
+    assistantGreeting: `សួស្តី! ខ្ញុំជាជំនួយការ AI របស់អ្នក។ ខ្ញុំអាចជួយបានតែសំណួរអំពី App ${SAVPD_CONSTANTS.BRAND.NAME} នេះប៉ុណ្ណោះ — របៀបអាប់ឡូត ជ្រើសរើសភាសា និងប្រើ Auto-Pilot។ តើខ្ញុំអាចជួយអ្វីបាន?`,
     assistantPlaceholder: "សួរអំពី App នេះ...",
     assistantSend: "ផ្ញើ",
     assistantVoice: "សួរដោយសំឡេង",
     assistantListening: "កំពុងស្តាប់...",
-    assistantRefusal:
-      "សូមអភ័យទោស! ខ្ញុំអាចជួយឆ្លើយតបបានតែព័ត៌មានដែលពាក់ព័ន្ធនឹងបច្ចេកវិទ្យា និងការប្រើប្រាស់ App ស្ទូឌីយោបញ្ចូលសំឡេងវីដេអូ AI នេះប៉ុណ្ណោះ។",
+    assistantRefusal: `សូមអភ័យទោស! ខ្ញុំអាចជួយឆ្លើយតបបានតែព័ត៌មានដែលពាក់ព័ន្ធនឹងបច្ចេកវិទ្យា និងការប្រើប្រាស់ App ${SAVPD_CONSTANTS.BRAND.NAME} នេះប៉ុណ្ណោះ។`,
     assistantSuggestions: [
       "តើខ្ញុំចាប់ផ្តើម Auto-Pilot យ៉ាងដូចម្តេច?",
       "តើ App គាំទ្រភាសាអ្វីខ្លះ?",
@@ -248,9 +242,9 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     ],
   },
   th: {
-    appTitle: "สตูดิโอพากย์วิดีโอด้วย AI",
+    appTitle: SAVPD_CONSTANTS.BRAND.TRADEMARK,
     appSubtitle: "แปลและพากย์เสียงวิดีโอของคุณเป็นอีกภาษาด้วย AI ในไม่กี่ขั้นตอนง่าย ๆ",
-    footer: "สร้างขึ้นเพื่อการใช้งานส่วนตัว · เครื่องมือพากย์เสียง AI ส่วนตัว",
+    footer: `สร้างขึ้นเพื่อการใช้งานส่วนตัว · ${SAVPD_CONSTANTS.BRAND.NAME} เครื่องมือ`,
     settings: "การตั้งค่า",
     appLanguage: "ภาษาของแอป",
     step1: "เลือกหรือวางวิดีโอของคุณ",
@@ -295,19 +289,18 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     assistantOpen: "เปิดผู้ช่วย AI",
     assistantTitle: "ผู้ช่วยพากย์เสียง",
     assistantSubtitle: "สอบถามวิธีใช้แอปนี้",
-    assistantGreeting:
-      "สวัสดี! ฉันคือผู้ช่วย AI พากย์เสียงของคุณ ฉันตอบได้เฉพาะคำถามเกี่ยวกับแอปสตูดิโอพากย์วิดีโอด้วย AI นี้เท่านั้น — วิธีอัปโหลด เลือกภาษา และใช้ Auto-Pilot มีอะไรให้ช่วยไหม?",
+    assistantGreeting: `สวัสดี! ฉันคือผู้ช่วย AI พากย์เสียงของคุณ ฉันตอบได้เฉพาะคำถามเกี่ยวกับแอป ${SAVPD_CONSTANTS.BRAND.NAME} นี้เท่านั้น — วิธีอัปโหลด เลือกภาษา และใช้ Auto-Pilot มีอะไรให้ช่วยไหม?`,
     assistantPlaceholder: "สอบถามเกี่ยวกับแอป...",
     assistantSend: "ส่ง",
     assistantVoice: "ถามด้วยเสียง",
     assistantListening: "กำลังฟัง...",
-    assistantRefusal: "ขออภัย! ฉันตอบได้เฉพาะคำถามที่เกี่ยวข้องกับเทคโนโลยีและการใช้งานแอปสตูดิโอพากย์วิดีโอด้วย AI นี้เท่านั้น",
+    assistantRefusal: `ขออภัย! ฉันตอบได้เฉพาะคำถามที่เกี่ยวข้องกับเทคโนโลยีและการใช้งานแอป ${SAVPD_CONSTANTS.BRAND.NAME} นี้เท่านั้น`,
     assistantSuggestions: ["เริ่ม Auto-Pilot อย่างไร?", "รองรับภาษาใดบ้าง?", "รักษาอารมณ์ต้นฉบับไหม?"],
   },
   vi: {
-    appTitle: "Xưởng Lồng Tiếng Video AI",
+    appTitle: SAVPD_CONSTANTS.BRAND.TRADEMARK,
     appSubtitle: "Dịch và lồng tiếng video của bạn sang ngôn ngữ khác bằng AI chỉ trong vài bước đơn giản.",
-    footer: "Được tạo cho mục đích cá nhân · Công cụ lồng tiếng AI cá nhân",
+    footer: `Được tạo cho mục đích cá nhân · Công cụ ${SAVPD_CONSTANTS.BRAND.NAME}`,
     settings: "Cài đặt",
     appLanguage: "Ngôn ngữ ứng dụng",
     step1: "Chọn hoặc kéo thả video của bạn",
@@ -352,14 +345,12 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     assistantOpen: "Mở trợ lý AI",
     assistantTitle: "Trợ lý lồng tiếng",
     assistantSubtitle: "Hỏi về cách sử dụng ứng dụng này",
-    assistantGreeting:
-      "Xin chào! Tôi là trợ lý AI lồng tiếng của bạn. Tôi chỉ có thể trả lời các câu hỏi về ứng dụng Xưởng Lồng Tiếng Video AI này — cách tải lên, chọn ngôn ngữ và dùng Auto-Pilot. Tôi có thể giúp gì?",
+    assistantGreeting: `Xin chào! Tôi là trợ lý AI lồng tiếng của bạn. Tôi chỉ có thể trả lời các câu hỏi về ứng dụng ${SAVPD_CONSTANTS.BRAND.NAME} này — cách tải lên, chọn ngôn ngữ và dùng Auto-Pilot. Tôi có thể giúp gì?`,
     assistantPlaceholder: "Hỏi về ứng dụng...",
     assistantSend: "Gửi",
     assistantVoice: "Hỏi bằng giọng nói",
     assistantListening: "Đang nghe...",
-    assistantRefusal:
-      "Xin lỗi! Tôi chỉ có thể trả lời các câu hỏi liên quan đến công nghệ và cách sử dụng ứng dụng Xưởng Lồng Tiếng Video AI này.",
+    assistantRefusal: `Xin lỗi! Tôi chỉ có thể trả lời các câu hỏi liên quan đến công nghệ và cách sử dụng ứng dụng ${SAVPD_CONSTANTS.BRAND.NAME} này.`,
     assistantSuggestions: [
       "Làm sao để bắt đầu Auto-Pilot?",
       "Hỗ trợ những ngôn ngữ nào?",
