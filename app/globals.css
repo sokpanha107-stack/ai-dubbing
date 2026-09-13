@@ -141,7 +141,7 @@
 
 /* 🌟 កូដ CSS សម្រាប់កាត់បំបាត់ស៊ុមពណ៌សចេញពី Logo គ្រប់ទីកន្លែងដោយស្វ័យប្រវត្តិ */
 .logo-clean-mask {
-  border-radius: 24% !important;
+  border-radius: 28% !important;
   object-fit: cover;
-  transform: scale(1.12);
+  transform: scale(1.25);
 }
