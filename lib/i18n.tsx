@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, type ReactNode } from "react"
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
 
 export type LangCode = "en" | "zh" | "km" | "th" | "vi"
@@ -404,9 +404,26 @@ type I18nContextValue = {
 const I18nContext = createContext<I18nContextValue | null>(null)
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<LangCode>("km")
+  // 🌟 បង្ខំឱ្យពេលចូលដំបូង ឬ Test Link ថ្មី គឺយកភាសាអង់គ្លេស ("en") មុនគេបង្អស់
+  const [lang, setLangState] = useState<LangCode>("en")
+
+  useEffect(() => {
+    const saved = localStorage.getItem("savpd_lang") as LangCode
+    if (saved && TRANSLATIONS[saved]) {
+      setLangState(saved)
+    } else {
+      setLangState("en")
+      localStorage.setItem("savpd_lang", "en")
+    }
+  }, [])
+
+  const setLang = (newLang: LangCode) => {
+    setLangState(newLang)
+    localStorage.setItem("savpd_lang", newLang)
+  }
+
   return (
-    <I18nContext.Provider value={{ lang, setLang, t: TRANSLATIONS[lang] }}>
+    <I18nContext.Provider value={{ lang, setLang, t: TRANSLATIONS[lang] || TRANSLATIONS["en"] }}>
       {children}
     </I18nContext.Provider>
   )
