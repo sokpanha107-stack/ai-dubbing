@@ -7,10 +7,9 @@ export const defaultLocale = 'en';
 
 export default getRequestConfig(async ({ locale }) => {
   // ផ្ទៀងផ្ទាត់ភាសា បើគ្មានក្នុងបញ្ជីទម្លាក់ទៅ 404
-  if (!locales.includes(locale as any)) notFound();
+  if (!locales.includes(locale)) notFound();
 
   return {
     messages: (await import(`./messages/${locale}.json`)).default
   };
 });
-
