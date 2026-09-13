@@ -21,7 +21,7 @@ export function SharedSettings({
   onClose: () => void
   onAdminClick?: () => void 
 }) {
-  const { t, lang, setLang } = useI18n() // ទាញភាសាពីឃ្លាំងផ្ទាល់
+  const { t, lang, setLang } = useI18n() 
   const { mode, toggleMode, eyeCare, toggleEyeCare, eyeCareLevel, setEyeCareLevel } = useTheme()
   const [activeMenu, setActiveMenu] = useState<MenuState>("main")
 
@@ -29,14 +29,14 @@ export function SharedSettings({
 
   const handleClose = () => {
     onClose()
-    setTimeout(() => setActiveMenu("main"), 300) // Reset ពេលបិទ
+    setTimeout(() => setActiveMenu("main"), 300)
   }
 
   return (
     <div className="fixed inset-0 z-50 flex animate-in flex-col bg-secondary/30 backdrop-blur-md fade-in zoom-in-95 duration-200">
       <div className="flex h-full flex-col bg-background shadow-2xl sm:mx-auto sm:mt-10 sm:h-[600px] sm:w-full sm:max-w-md sm:rounded-[2rem] sm:border sm:border-border overflow-hidden">
         
-        {/* Dynamic Header */}
+        {/* Header */}
         <div className="flex items-center justify-between border-b border-border px-4 py-4" style={{ paddingTop: "max(1rem, env(safe-area-inset-top))" }}>
           {activeMenu === "main" ? (
             <>
@@ -52,17 +52,17 @@ export function SharedSettings({
                 {t.settings}
               </button>
               <h2 className="text-base font-bold text-foreground">
-                {activeMenu === "display" ? t.displayMode : activeMenu === "language" ? t.appLanguage : "About"}
+                {activeMenu === "display" ? t.displayMode : activeMenu === "language" ? t.appLanguage : "About App"}
               </h2>
               <div className="w-[72px]" />
             </>
           )}
         </div>
 
-        {/* Menu Content */}
+        {/* Content */}
         <div className="flex-1 space-y-6 overflow-y-auto bg-secondary/15 p-4">
           
-          {/* Main Menu (Level 1) */}
+          {/* Main Menu */}
           {activeMenu === "main" && (
             <div className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card">
               <button onClick={() => setActiveMenu("display")} className="flex w-full items-center justify-between border-b border-border p-4 text-left transition hover:bg-secondary/50 active:bg-secondary">
@@ -83,9 +83,7 @@ export function SharedSettings({
                   <span className="font-medium text-foreground">{t.appLanguage}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">
-                    {UI_LANGUAGES.find(l => l.code === lang)?.native}
-                  </span>
+                  <span className="text-sm text-muted-foreground">{UI_LANGUAGES.find(l => l.code === lang)?.native}</span>
                   <ChevronRight className="h-5 w-5 text-muted-foreground" />
                 </div>
               </button>
@@ -102,7 +100,7 @@ export function SharedSettings({
             </div>
           )}
 
-          {/* Display Mode (Level 2) */}
+          {/* Display Mode */}
           {activeMenu === "display" && (
             <div className="animate-in slide-in-from-right-4 fade-in duration-200">
               <div className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-3 shadow-sm">
@@ -134,21 +132,14 @@ export function SharedSettings({
             </div>
           )}
 
-          {/* Language (Level 2) */}
+          {/* Language */}
           {activeMenu === "language" && (
             <div className="animate-in slide-in-from-right-4 fade-in duration-200">
               <div className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
                 {UI_LANGUAGES.map((l, index) => (
-                  <button 
-                    key={l.code} 
-                    type="button" 
-                    onClick={() => { setLang(l.code); setTimeout(() => setActiveMenu("main"), 300); }} 
-                    className={`flex w-full items-center gap-3 p-4 text-sm transition hover:bg-secondary/50 active:bg-secondary ${index !== UI_LANGUAGES.length - 1 ? "border-b border-border" : ""}`}
-                  >
+                  <button key={l.code} type="button" onClick={() => { setLang(l.code); setTimeout(() => setActiveMenu("main"), 300); }} className={`flex w-full items-center gap-3 p-4 text-sm transition hover:bg-secondary/50 active:bg-secondary ${index !== UI_LANGUAGES.length - 1 ? "border-b border-border" : ""}`}>
                     <span className="text-xl">{l.flag}</span>
-                    <span className={`flex-1 text-left ${lang === l.code ? "font-semibold text-primary" : "text-foreground"}`}>
-                      {l.native}
-                    </span>
+                    <span className={`flex-1 text-left ${lang === l.code ? "font-semibold text-primary" : "text-foreground"}`}>{l.native}</span>
                     {lang === l.code && <Check className="h-5 w-5 text-primary" />}
                   </button>
                 ))}
@@ -156,7 +147,7 @@ export function SharedSettings({
             </div>
           )}
 
-          {/* About & Admin (Level 2) - ញាត់ Install និឹង Admin នៅទីនេះ */}
+          {/* About */}
           {activeMenu === "about" && (
             <div className="animate-in slide-in-from-right-4 fade-in duration-200 flex flex-col gap-6">
               <div className="flex flex-col items-center text-center mt-4">
@@ -167,19 +158,14 @@ export function SharedSettings({
                 <p className="text-sm text-muted-foreground mt-1">Version 1.0.0</p>
                 <p className="text-xs text-muted-foreground mt-4 max-w-xs">{t.footer}</p>
               </div>
-              
               <div className="mt-2 space-y-4">
-                {/* លាក់សញ្ញាឧទាននៅទីនេះ */}
                 <InstallPrompt />
-                
-                {/* ប៊ូតុង Admin លាក់ក្នុង About */}
-                <button 
-                  onClick={onAdminClick}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-sm font-bold text-destructive transition active:scale-95"
-                >
-                  <ShieldAlert className="h-5 w-5" />
-                  Admin Access
-                </button>
+                {onAdminClick && (
+                  <button onClick={onAdminClick} className="flex w-full items-center justify-center gap-2 rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-sm font-bold text-destructive transition active:scale-95">
+                    <ShieldAlert className="h-5 w-5" />
+                    Admin Access
+                  </button>
+                )}
               </div>
             </div>
           )}
