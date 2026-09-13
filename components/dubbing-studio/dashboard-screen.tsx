@@ -206,7 +206,8 @@ function DashboardContent({
       {/* Target Language Selector */}
       <div className="rounded-3xl border border-border bg-card/60 p-5 shadow-sm">
         <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <h3 className="text-sm font-semibold text-foreground">{t.step2}</h3>
+          {/* 🌟 ប្រើប្រាស់ t.selectTargetLangTitle ជំនួសឱ្យ t.step2 ធម្មតា */}
+          <h3 className="text-sm font-semibold text-foreground">{t.selectTargetLangTitle}</h3>
           <span className="flex w-fit items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-[11px] font-semibold text-primary">
             <Sparkles className="h-3.5 w-3.5" />
             AI Auto-Detect Source
