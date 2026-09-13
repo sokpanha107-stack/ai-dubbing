@@ -32,6 +32,11 @@ export const UI_LANGUAGES: { code: LangCode; native: string; flag: string }[] = 
   { code: "bn", native: "বাংলা", flag: "🇧🇩" },
 ]
 
+type DubbingOptionInfo = {
+  title: string
+  desc: string
+}
+
 type Strings = {
   appTitle: string
   appSubtitle: string
@@ -50,7 +55,7 @@ type Strings = {
   noLimit: string
   delete: string
   step2: string
-  selectTargetLangTitle: string // 🌟 ពាក្យថ្មីសម្រាប់ចំណងជើងជ្រើសរើសភាសាគោលដៅបកប្រែ
+  selectTargetLangTitle: string
   sourceLabel: string
   targetLabel: string
   swap: string
@@ -88,6 +93,13 @@ type Strings = {
   assistantListening: string
   assistantRefusal: string
   assistantSuggestions: [string, string, string]
+  // 🌟 Option សម្រាប់ការបកប្រែរបៀប Dubbing
+  dubbingOptions: {
+    opt1: DubbingOptionInfo
+    opt2: DubbingOptionInfo
+    opt3: DubbingOptionInfo
+    opt4: DubbingOptionInfo
+  }
 }
 
 const ALL_LANGUAGES_EN = {
@@ -170,71 +182,24 @@ const EN_STRINGS: Strings = {
     "Which languages are supported?",
     "Does it keep the original emotion?",
   ],
+  dubbingOptions: {
+    opt1: { title: "Option 1: Clean Voiceover", desc: "Best for personal Vlogs & natural speech." },
+    opt2: { title: "Option 2: Summary & SFX", desc: "Best for Recap videos & storytelling." },
+    opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "Best for Movies & character acting." },
+    opt4: { title: "Option 4: AI Visual Storyteller", desc: "Best for Auto-Script & visual storytelling." },
+  },
 }
 
 export const TRANSLATIONS: Record<LangCode, Strings> = {
   en: EN_STRINGS,
   zh: {
     ...EN_STRINGS,
-    appSubtitle: "只需几个简单步骤，使用 AI 将您的视频翻译并配音成另一种语言。",
-    footer: `为个人使用而打造 · ${SAVPD_CONSTANTS.BRAND.NAME} 工具`,
-    settings: "设置",
-    appLanguage: "应用语言",
-    displayMode: "显示模式",
-    securityTitle: "系统安全",
-    securityDesc: "请输入密码以访问工作区",
-    passcodePlaceholder: "输入密码",
-    invalidPasscode: "密码无效！",
-    accessSystem: "进入系统",
-    step1: "选择或拖入您的视频",
-    dropText: "将文件拖放到此处，或点击选择",
-    dropHint: "支持 MP4、MOV、WEBM 等",
-    noLimit: "不限时长和大小",
-    delete: "移除",
-    step2: "选择语言",
-    selectTargetLangTitle: "选择目标配音语言",
-    sourceLabel: "原始语言",
-    targetLabel: "目标语言",
-    swap: "交换语言",
-    start: "开始翻译和配音",
-    processing: "AI 配音进行中...",
-    stages: [
-      "正在从视频中提取音频",
-      "正在将语音转为文字",
-      "正在结合语境进行翻译",
-      "正在克隆带情感和音调的声音",
-      "正在将音频合并到视频",
-    ],
-    doneTitle: "全部完成！",
-    doneSubtitle: "您的视频已配音为",
-    download: "下载视频",
-    retry: "重新开始",
-    autopilotTitle: "智能 AI 自动驾驶",
-    autopilotDesc: "全自动运行 — 无需手动编辑。",
-    contextTitle: "语境守护",
-    contextDesc: "词义、措辞和数字在全部 20 种语言中保持准确。",
-    emotionTitle: "情感与音调",
-    emotionDesc: "保留原声的笑声、愤怒、恐惧与喜悦。",
-    paceTitle: "语速与节奏",
-    paceDesc: "说话速度与原始视频保持同步。",
-    featuresHeading: "AI 能力",
-    appearance: "外观",
-    darkMode: "深色模式",
-    lightMode: "浅色模式",
-    eyeCare: "护眼（蓝光过滤）",
-    eyeCareDesc: "暖色滤镜，减少夜间用眼疲劳。",
-    eyeCareLevel: "过滤强度",
-    assistant: "AI 助手",
-    assistantOpen: "打开 AI 助手",
-    assistantTitle: "配音助手",
-    assistantSubtitle: "询问如何使用本应用",
-    assistantGreeting: `您好！我是您的 AI 配音助手。我只能回答有关这款 ${SAVPD_CONSTANTS.BRAND.NAME} 应用的问题——如何上传、选择语言以及使用自动驾驶。请问需要什么帮助？`,
-    assistantPlaceholder: "询问关于本应用的问题...",
-    assistantSend: "发送",
-    assistantVoice: "语音提问",
-    assistantListening: "正在聆听...",
-    assistantRefusal: `抱歉！我只能回答与这款 ${SAVPD_CONSTANTS.BRAND.NAME} 应用的技术和使用相关的问题。`,
-    assistantSuggestions: ["如何开始自动驾驶？", "支持哪些语言？", "会保留原始情感吗？"],
+    dubbingOptions: {
+      opt1: { title: "选项 1：纯净配音 (Vlog 模式)", desc: "最适合个人 Vlog 和自然语音讲解。" },
+      opt2: { title: "选项 2：摘要与特效 (解说模式)", desc: "最适合视频总结 (Recap) 与故事讲述。" },
+      opt3: { title: "选项 3：电影级角色配音", desc: "最适合电影、短剧与角色配音。" },
+      opt4: { title: "选项 4：AI 视觉讲故事 (自动脚本)", desc: "最适合自动生成脚本与视觉叙事。" },
+    },
   },
   km: {
     ...EN_STRINGS,
@@ -291,145 +256,53 @@ export const TRANSLATIONS: Record<LangCode, Strings> = {
     assistantOpen: "បើកជំនួយការ AI",
     assistantTitle: "ជំនួយការបញ្ចូលសំឡេង",
     assistantSubtitle: "សួរអំពីរបៀបប្រើ App នេះ",
-    assistantGreeting: `សួស្តី! ខ្ញុំជាជំនួយការ AI របស់អ្នក។ ខ្ញុំអាចជួយបានតែសំណួរអំពី App ${SAVPD_CONSTANTS.BRAND.NAME} នេះប៉ុណ្ណោះ — របៀបអាប់ឡូត ជ្រើសរើសភាសា និងប្រើ Auto-Pilot។ តើខ្ញុំអាចជួយអ្វីได้?`,
+    assistantGreeting: `សួស្តី! ខ្ញុំជាជំនួយការ AI របស់អ្នក។ ខ្ញុំអាចជួយបានតែសំណួរអំពី App ${SAVPD_CONSTANTS.BRAND.NAME} នេះប៉ុណ្ណោះ — របៀបអាប់ឡូត ជ្រើសរើសភាសា និងប្រើ Auto-Pilot។ តើខ្ញុំអាចជួយអ្វីបាន?`,
     assistantPlaceholder: "សួរអំពី App នេះ...",
     assistantSend: "ផ្ញើ",
     assistantVoice: "សួរដោយសំឡេង",
     assistantListening: "កំពុងស្តាប់...",
-    assistantRefusal: `សូមអភ័យទោស! ខ្ញុំអាចជួយឆ្លើយតបបានតែព័ត៌មានដែលពាក់ព័ន្ធនឹងបច្ចេកវិទ្យា និងការប្រើប្រាស់ App ${SAVPD_CONSTANTS.BRAND.NAME} នេះប៉ុណ្ណោះ។`,
+    assistantRefusal: `សូមអភ័យទោស! ខ្ញុំអាចជួយឆ្លើយតបបានតែព័ត៌មានដែលពាក់ព័ន្ធនឹងបច្ចេកវិទ្យា និងการប្រើប្រាស់ App ${SAVPD_CONSTANTS.BRAND.NAME} នេះប៉ុណ្ណោះ។`,
     assistantSuggestions: [
       "តើខ្ញុំចាប់ផ្តើម Auto-Pilot យ៉ាងដូចម្តេច?",
       "តើ App គាំទ្រភាសាអ្វីខ្លះ?",
       "តើវារក្សាអារម្មណ៍ដើមទេ?",
     ],
+    dubbingOptions: {
+      opt1: { 
+        title: "Option 1: Clean Voiceover (Vlog Mode)", 
+        desc: "សាកសមបំផុតសម្រាប់វីដេអូ Vlog ផ្ទាល់ខ្លួន ឬការថតនិយាយធម្មតាដោយរក្សាសម្លេងដើមច្បាស់ល្អ។" 
+      },
+      opt2: { 
+        title: "Option 2: Summary & SFX (Recap)", 
+        desc: "សាកសមសម្រាប់វីដេអូ សង្ខេបសាច់រឿង (Recap), ការเล่าเรื่อง ឬកាត់តបែបរំលេចសំឡេងពិសេស (SFX)។" 
+      },
+      opt3: { 
+        title: "Option 3: Cinematic Character Dubbing", 
+        desc: "សាកសមសម្រាប់វីដេអូ ភាពយន្ត (Movies) ឬតួអង្គសម្ដែង ដែលត្រូវការប្ដូរសម្លេងបែបស៊ីនេម៉ា (Cinematic)។" 
+      },
+      opt4: { 
+        title: "Option 4: AI Visual Storyteller (Auto-Script)", 
+        desc: "សាកសមសម្រាប់វីដេអូ បង្កើតសាច់រឿងស្វ័យប្រវត្ត (Auto-Script) តាមរយៈ AI Visual។" 
+      },
+    },
   },
   th: {
     ...EN_STRINGS,
-    appSubtitle: "แปลและพากย์เสียงวิดีโอของคุณเป็นอีกภาษาด้วย AI ในไม่กี่ขั้นตอนง่าย ๆ",
-    footer: `สร้างขึ้นเพื่อการใช้งานส่วนตัว · ${SAVPD_CONSTANTS.BRAND.NAME} เครื่องมือ`,
-    settings: "การตั้งค่า",
-    appLanguage: "ภาษาของแอป",
-    displayMode: "โหมดการแสดงผล",
-    securityTitle: "ความปลอดภัยของระบบ",
-    securityDesc: "โปรดป้อนรหัสผ่านเพื่อเข้าถึงพื้นที่ทำงาน",
-    passcodePlaceholder: "ป้อนรหัสผ่าน",
-    invalidPasscode: "รหัสผ่านไม่ถูกต้อง!",
-    accessSystem: "เข้าสู่ระบบ",
-    step1: "เลือกหรือวางวิดีโอของคุณ",
-    dropText: "ลากและวางไฟล์ที่นี่ หรือคลิกเพื่อเลือก",
-    dropHint: "รองรับ MP4, MOV, WEBM และอื่น ๆ",
-    noLimit: "ไม่จำกัดความยาวหรือขนาด",
-    delete: "ลบ",
-    step2: "เลือกภาษา",
-    selectTargetLangTitle: "เลือกภาษาเป้าหมาย (สำหรับพากย์เสียง)",
-    sourceLabel: "ภาษาต้นทาง",
-    targetLabel: "ภาษาปลายทาง",
-    swap: "สลับภาษา",
-    start: "เริ่มแปลและพากย์เสียง",
-    processing: "กำลังพากย์เสียงด้วย AI...",
-    stages: [
-      "กำลังแยกเสียงออกจากวิดีโอ",
-      "กำลังแปลงเสียงพูดเป็นข้อความ",
-      "กำลังแปลโดยรักษาบริบท",
-      "กำลังโคลนเสียงพร้อมอารมณ์และโทน",
-      "กำลังรวมเสียงเข้ากับวิดีโอ",
-    ],
-    doneTitle: "เสร็จเรียบร้อยแล้ว!",
-    doneSubtitle: "วิดีโอของคุณถูกพากย์เป็น",
-    download: "ดาวน์โหลดวิดีโอ",
-    retry: "เริ่มใหม่",
-    autopilotTitle: "AI อัตโนมัติอัจฉริยะ",
-    autopilotDesc: "ทำงานอัตโนมัติเต็มรูปแบบ — ไม่ต้องแก้ไขด้วยตนเอง",
-    contextTitle: "ป้องกันบริบท",
-    contextDesc: "ความหมาย ถ้อยคำ และตัวเลข ยังคงถูกต้องในทั้ง 20 ภาษา",
-    emotionTitle: "อารมณ์และโทนเสียง",
-    emotionDesc: "รักษาเสียงหัวเราะ ความโกรธ ความกลัว และความสุขจากต้นฉบับ",
-    paceTitle: "จังหวะและความเร็ว",
-    paceDesc: "ความเร็วในการพูดยังคงสอดคล้องกับวิดีโอต้นฉบับ",
-    featuresHeading: "ความสามารถของ AI",
-    appearance: "ลักษณะที่แสดง",
-    darkMode: "โหมดมืด (กลางคืน)",
-    lightMode: "โหมดสว่าง (กลางวัน)",
-    eyeCare: "ถนอมสายตา (กรองแสงสีฟ้า)",
-    eyeCareDesc: "ฟิลเตอร์โทนอุ่นเพื่อลดอาการตาล้าในเวลากลางคืน",
-    eyeCareLevel: "ความเข้มของฟิลเตอร์",
-    assistant: "ผู้ช่วย AI",
-    assistantOpen: "เปิดผู้ช่วย AI",
-    assistantTitle: "ผู้ช่วยพากย์เสียง",
-    assistantSubtitle: "สอบถามวิธีใช้แอปนี้",
-    assistantGreeting: `สวัสดี! ฉันคือผู้ช่วย AI พากย์เสียงของคุณ ฉันตอบได้เฉพาะคำถามเกี่ยวกับแอป ${SAVPD_CONSTANTS.BRAND.NAME} นี้เท่านั้น — วิธีอัปโหลด เลือกภาษา และใช้ Auto-Pilot มีอะไรให้ช่วยไหม?`,
-    assistantPlaceholder: "สอบถามเกี่ยวกับแอป...",
-    assistantSend: "ส่ง",
-    assistantVoice: "ถามด้วยเสียง",
-    assistantListening: "กำลังฟัง...",
-    assistantRefusal: `ขออภัย! ฉันตอบได้เฉพาะคำถามที่เกี่ยวข้องกับเทคโนโลยีและการใช้งานแอป ${SAVPD_CONSTANTS.BRAND.NAME} นี้เท่านั้น`,
-    assistantSuggestions: ["เริ่ม Auto-Pilot อย่างไร?", "รองรับภาษาใดบ้าง?", "รักษาอารมณ์ต้นฉบับไหม?"],
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "เหมาะสำหรับวิดีโอ Vlog ส่วนตัวและการพูดคุยที่เป็นธรรมชาติ" },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "เหมาะสำหรับวิดีโอสรุปเนื้อหา (Recap) และการเล่าเรื่องพร้อมเอฟเฟกต์เสียง" },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "เหมาะสำหรับภาพยนตร์และการพากย์เสียงตัวละครแบบภาพยนตร์" },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "เหมาะสำหรับการสร้างสคริปต์อัตโนมัติและการเล่าเรื่องด้วยภาพ" },
+    },
   },
   vi: {
     ...EN_STRINGS,
-    appSubtitle: "Dịch và lồng tiếng video của bạn sang ngôn ngữ khác bằng AI chỉ trong vài bước đơn giản.",
-    footer: `Được tạo cho mục đích cá nhân · Công cụ ${SAVPD_CONSTANTS.BRAND.NAME}`,
-    settings: "Cài đặt",
-    appLanguage: "Ngôn ngữ ứng dụng",
-    displayMode: "Chế độ hiển thị",
-    securityTitle: "Bảo mật hệ thống",
-    securityDesc: "Vui lòng nhập mật mã để truy cập",
-    passcodePlaceholder: "Nhập mật mã",
-    invalidPasscode: "Mật mã không hợp lệ!",
-    accessSystem: "Truy cập hệ thống",
-    step1: "Chọn hoặc kéo thả video của bạn",
-    dropText: "Kéo và thả tệp vào đây, hoặc nhấp để chọn",
-    dropHint: "Hỗ trợ MP4, MOV, WEBM và nhiều hơn nữa",
-    noLimit: "Không giới hạn thời lượng hay dung lượng",
-    delete: "Xóa",
-    step2: "Chọn ngôn ngữ",
-    selectTargetLangTitle: "Chọn ngôn ngữ mục tiêu (để lồng tiếng)",
-    sourceLabel: "Ngôn ngữ gốc",
-    targetLabel: "Ngôn ngữ đích",
-    swap: "Hoán đổi ngôn ngữ",
-    start: "Bắt đầu dịch & lồng tiếng",
-    processing: "Đang lồng tiếng bằng AI...",
-    stages: [
-      "Đang tách âm thanh khỏi video",
-      "Đang chuyển giọng nói thành văn bản",
-      "Đang dịch với bảo vệ ngữ cảnh",
-      "Đang nhân bản giọng với cảm xúc & âm sắc",
-      "Đang ghép âm thanh vào video",
-    ],
-    doneTitle: "Hoàn tất!",
-    doneSubtitle: "Video của bạn đã được lồng tiếng sang",
-    download: "Tải video",
-    retry: "Làm lại",
-    autopilotTitle: "AI Tự Động Thông Minh",
-    autopilotDesc: "Hoàn toàn tự động — không cần chỉnh sửa thủ công.",
-    contextTitle: "Bảo Vệ Ngữ Cảnh",
-    contextDesc: "Ý nghĩa, cách diễn đạt và con số luôn chính xác trên cả 20 ngôn ngữ.",
-    emotionTitle: "Cảm Xúc & Âm Sắc",
-    emotionDesc: "Giữ nguyên tiếng cười, giận dữ, sợ hãi và niềm vui từ bản gốc.",
-    paceTitle: "Nhịp Độ & Tiết Tấu",
-    paceDesc: "Tốc độ nói luôn đồng bộ với video gốc.",
-    featuresHeading: "Khả năng của AI",
-    appearance: "Giao diện",
-    darkMode: "Chế độ tối (ban đêm)",
-    lightMode: "Chế độ sáng (ban ngày)",
-    eyeCare: "Bảo vệ mắt (lọc ánh sáng xanh)",
-    eyeCareDesc: "Bộ lọc tông ấm giúp giảm mỏi mắt vào ban đêm.",
-    eyeCareLevel: "Cường độ lọc",
-    assistant: "Trợ lý AI",
-    assistantOpen: "Mở trợ lý AI",
-    assistantTitle: "Trợ lý lồng tiếng",
-    assistantSubtitle: "Hỏi về cách sử dụng ứng dụng này",
-    assistantGreeting: `Xin chào! Tôi là trợ lý AI lồng tiếng của bạn. Tôi chỉ có thể trả lời các câu hỏi về ứng dụng ${SAVPD_CONSTANTS.BRAND.NAME} này — cách tải lên, chọn ngôn ngữ và dùng Auto-Pilot. Tôi có thể giúp gì?`,
-    assistantPlaceholder: "Hỏi về ứng dụng...",
-    assistantSend: "Gửi",
-    assistantVoice: "Hỏi bằng giọng nói",
-    assistantListening: "Đang nghe...",
-    assistantRefusal: `Xin lỗi! Tôi chỉ có thể trả lời các câu hỏi liên quan đến công nghệ và cách sử dụng ứng dụng ${SAVPD_CONSTANTS.BRAND.NAME} này.`,
-    assistantSuggestions: [
-      "Làm sao để bắt đầu Auto-Pilot?",
-      "Hỗ trợ những ngôn ngữ nào?",
-      "Có giữ nguyên cảm xúc gốc không?",
-    ],
+    dubbingOptions: {
+      opt1: { title: "Option 1: Clean Voiceover (Vlog Mode)", desc: "Tốt nhất cho Vlog cá nhân và giọng nói tự nhiên." },
+      opt2: { title: "Option 2: Summary & SFX (Recap)", desc: "Tốt nhất cho video tóm tắt (Recap) và kể chuyện." },
+      opt3: { title: "Option 3: Cinematic Character Dubbing", desc: "Tốt nhất cho phim ảnh và lồng tiếng nhân vật." },
+      opt4: { title: "Option 4: AI Visual Storyteller (Auto-Script)", desc: "Tốt nhất cho tự động tạo kịch bản và kể chuyện trực quan." },
+    },
   },
   ja: { ...EN_STRINGS },
   ko: { ...EN_STRINGS },
