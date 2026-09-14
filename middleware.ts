@@ -1,72 +1,15 @@
-import { Analytics } from '@vercel/analytics/next'
-import type { Metadata, Viewport } from 'next'
-import { Geist, Noto_Sans_Khmer } from 'next/font/google'
-import { NextIntlClientProvider } from 'next-intl'
-import { getMessages, setRequestLocale } from 'next-intl/server'
-import { ThemeProvider } from '@/lib/theme'
-import '../globals.css'
+import createMiddleware from 'next-intl/middleware';
 
-const geist = Geist({ subsets: ['latin'], variable: '--font-geist' })
-const notoKhmer = Noto_Sans_Khmer({ subsets: ['khmer'], weight: ['400', '500', '600', '700'], variable: '--font-noto-khmer' })
+const locales = [
+  'en', 'km', 'fr', 'es', 'zh', 'ja', 'ko', 'th', 'vi', 'id', 
+  'ms', 'my', 'lo', 'tl', 'ar', 'ru', 'de', 'pt', 'it', 'hi'
+];
 
-export const metadata: Metadata = {
-  title: 'SAVPD.io™ — Professional Web Application',
-  description: 'បកប្រែ និងបញ្ចូលសំឡេងវីដេអូដោយ AI — Translate and dub your videos with AI across multiple languages.',
-  generator: 'v0.app',
-  applicationName: 'SAVPD.io™',
-  manifest: '/manifest.webmanifest',
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'black-translucent',
-    title: 'SAVPD.io™',
-    startupImage: [
-      { url: '/icon-512.png', media: '(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)' },
-    ],
-  },
-  formatDetection: { telephone: false },
-  icons: {
-    icon: [{ url: '/icon-512.png', sizes: '512x512', type: 'image/png' }],
-    apple: [{ url: '/icon-512.png', sizes: '512x512', type: 'image/png' }],
-    shortcut: '/icon-512.png',
-  },
-}
+export default createMiddleware({
+  locales,
+  defaultLocale: 'en'
+});
 
-export const viewport: Viewport = { colorScheme: 'dark', themeColor: '#0b0f1a', width: 'device-width', initialScale: 1, maximumScale: 1, userScalable: false, viewportFit: 'cover' }
-
-// ប្រាប់ Next.js ពី Locales ទាំង ២០ ពេល Build
-export function generateStaticParams() {
-  const locales = [
-    'en', 'km', 'fr', 'es', 'zh', 'ja', 'ko', 'th', 'vi', 'id', 
-    'ms', 'my', 'lo', 'tl', 'ar', 'ru', 'de', 'pt', 'it', 'hi'
-  ];
-  return locales.map((locale) => ({ locale }));
-}
-
-export default async function LocaleLayout({
-  children,
-  params
-}: Readonly<{
-  children: React.ReactNode
-  params: Promise<{ locale: string }>
-}>) {
-  const { locale } = await params;
-  
-  // ប្រាប់ Next.js ពី Locale ពេល Prerender
-  setRequestLocale(locale);
-  const messages = await getMessages();
-
-  return (
-    <html lang={locale} className={`${geist.variable} ${notoKhmer.variable} bg-background`}>
-      <head>
-        <link rel="apple-touch-icon" href="/icon-512.png" />
-        <link rel="apple-touch-icon-precomposed" href="/icon-512.png" />
-      </head>
-      <body className="font-sans antialiased">
-        <NextIntlClientProvider messages={messages}>
-          <ThemeProvider>{children}</ThemeProvider>
-        </NextIntlClientProvider>
-        {process.env.NODE_ENV === 'production' && <Analytics />}
-      </body>
-    </html>
-  )
-}
+export const config = {
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)']
+};
