@@ -1,228 +1,117 @@
-"use client"
+// components/dubbing-studio/index.tsx (ឬ file Component មេរបស់ Dashboard)
+'use client';
 
-import { useCallback, useEffect, useRef, useState } from "react"
-import { Clapperboard, Lock, Settings, X } from "lucide-react"
-import { useTranslations } from "next-intl"
-import { SAVPD_CONSTANTS } from "@/lib/constants"
-import { getAdminConfig } from "@/lib/admin-config"
-import { DashboardScreenContainer, DUB_LANGS } from "./dashboard-screen"
-import { SharedSettings } from "./shared-settings"
-import { AdminDashboard } from "@/components/admin/admin-dashboard"
-import { PreviewScreen } from "./preview-screen"
-
-type Status = "idle" | "processing" | "done"
-type LangCode = typeof DUB_LANGS[number]["code"]
+import React, { useState } from 'react';
+import { SUPPORTED_PLATFORMS } from '@/lib/constants/platforms';
+import { SUPPORTED_LANGUAGES } from '@/lib/constants/languages';
 
 export function DubbingStudio() {
-  const t = useTranslations()
+  const [videoStyle, setVideoStyle] = useState('top-down');
+  const [targetLang, setTargetLang] = useState('km');
+  const [platform, setPlatform] = useState('tiktok');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [status, setStatus] = useState('រង់ចាំការបញ្ជា...');
 
-  const [isUnlocked, setIsUnlocked] = useState(false)
-
-  // បន្ថែមមុខងារ Auto-Unlock នេះដើម្បីរំលងការ Login
-  useEffect(() => {
-    if (!isUnlocked) {
-      const timer = setTimeout(() => {
-        setIsUnlocked(true)
-      }, 2500) // 2500ms = 2.5 វិនាទី (អាចសារ៉េពេលនេះឱ្យត្រូវនឹង Splash របស់អ្នក)
-      return () => clearTimeout(timer)
-    }
-  }, [isUnlocked])
-
-  const [file, setFile] = useState<File | null>(null)
-  const [videoUrl, setVideoUrl] = useState<string | null>(null)
-  const [dragging, setDragging] = useState(false)
-  const [targetLang, setTargetLang] = useState<LangCode>("km")
-  const [status, setStatus] = useState<Status>("idle")
-  const [stage, setStage] = useState(0)
-  const [settingsOpen, setSettingsOpen] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  const [adminModalOpen, setAdminModalOpen] = useState(false)
-  const [adminPassword, setAdminPassword] = useState("")
-  const [adminError, setAdminError] = useState(false)
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false)
-
-  // ទាញយក array stages ពី messages JSON ដោយសុវត្ថិភាព
-  const stages = t.raw("stages") as string[]
-  const stagesLength = stages?.length || 4
-
-  useEffect(() => {
-    return () => {
-      if (videoUrl) URL.revokeObjectURL(videoUrl)
-    }
-  }, [videoUrl])
-
-  const acceptFile = useCallback(
-    (f: File | undefined) => {
-      if (!f || !f.type.startsWith("video/")) return
-      if (videoUrl) URL.revokeObjectURL(videoUrl)
-      setFile(f)
-      setVideoUrl(URL.createObjectURL(f))
-      setStatus("idle")
-    },
-    [videoUrl],
-  )
-
-  useEffect(() => {
-    if (status !== "processing") return
-    if (stage >= stagesLength) {
-      const done = setTimeout(() => setStatus("done"), 600)
-      return () => clearTimeout(done)
-    }
-    const next = setTimeout(() => setStage((s) => s + 1), 1100)
-    return () => clearTimeout(next)
-  }, [status, stage, stagesLength])
-
-  const start = () => {
-    if (!file) {
-      inputRef.current?.click()
-      return
-    }
-    setStage(0)
-    setStatus("processing")
-  }
-
-  const reset = () => {
-    if (videoUrl) URL.revokeObjectURL(videoUrl)
-    setFile(null)
-    setVideoUrl(null)
-    setStatus("idle")
-    setStage(0)
-  }
-
-  const handleAdminLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    const currentConfig = getAdminConfig()
-    if (adminPassword === currentConfig.adminPasscode) {
-      setAdminModalOpen(false)
-      setAdminPassword("")
-      setAdminError(false)
-      setIsAdminLoggedIn(true)
-    } else {
-      setAdminError(true)
-    }
-  }
-
-  const progress = status === "done" ? 100 : Math.round((Math.min(stage, stagesLength) / stagesLength) * 100)
-
-  if (!isUnlocked) {
-    return (
-      <PreviewScreen
-        onLoginSuccess={() => setIsUnlocked(true)}
-      />
-    )
-  }
-
-  if (isAdminLoggedIn) {
-    return <AdminDashboard onLogout={() => setIsAdminLoggedIn(false)} />
-  }
+  const handleProcess = async () => {
+    setIsProcessing(true);
+    setStatus('🚀 កំពុងដំណើរការ AI ស្វ័យប្រវត្តិ...');
+    // จำลองการทำงาน API
+    setTimeout(() => {
+      setIsProcessing(false);
+      setStatus('✨ ជោគជ័យ!');
+    }, 2000);
+  };
 
   return (
-    <div className="mx-auto flex min-h-[100dvh] w-full max-w-md flex-col bg-background">
-      <header
-        className="sticky top-0 z-30 flex items-center justify-between gap-2 border-b border-border/60 bg-background/80 px-4 py-3 backdrop-blur-xl"
-        style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}
-      >
-        <div className="flex items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/15 text-primary">
-            <Clapperboard className="h-5 w-5" />
-          </span>
-          <span className="text-sm font-bold leading-tight text-foreground">
-            {SAVPD_CONSTANTS.BRAND.TRADEMARK}
-          </span>
-        </div>
+    <div className="max-w-md mx-auto p-4 bg-gray-950 text-white rounded-3xl border border-gray-800 shadow-2xl space-y-4">
+      
+      {/* 🌟 1. ផ្នែក Upload វីដេអូ (តូចល្មម មិនញ៉េរញ៉ៃ) */}
+      <div className="border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-2xl p-4 text-center cursor-pointer bg-gray-900/50 transition-all">
+        <div className="text-2xl mb-1">📁</div>
+        <p className="text-xs font-semibold text-gray-200">ទម្លាក់វីដេអូ ឬចុចទីនេះเพื่อ Upload</p>
+        <p className="text-[10px] text-gray-400 mt-0.5">MP4, MOV, WEBM</p>
+      </div>
 
-        <div>
+      {/* 🌟 2. ជ្រើសរើសស្ទីលសាច់រឿង (Option ទាំង 4 ប៊ូតុងតូចៗស្អាត) */}
+      <div>
+        <label className="block text-[11px] text-gray-400 mb-1.5 font-medium uppercase tracking-wider">
+          ១. ជ្រើសរើសស្ទីលសាច់រឿង:
+        </label>
+        <div className="grid grid-cols-2 gap-2">
           <button
             type="button"
-            onClick={() => setSettingsOpen(true)}
-            aria-label={t("settings")}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-secondary/60 text-foreground transition active:scale-95"
+            onClick={() => setVideoStyle('top-down')}
+            className={`p-2.5 rounded-xl border text-left text-xs transition-all ${
+              videoStyle === 'top-down' ? 'bg-blue-600/20 border-blue-500 text-white' : 'bg-gray-900 border-gray-800 text-gray-400'
+            }`}
           >
-            <Settings className="h-4.5 w-4.5" />
+            <div className="font-bold">🎬 Top-Down</div>
+            <div className="text-[9px] opacity-70">កាត់ចែកជាភាគ</div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setVideoStyle('bottom-up')}
+            className={`p-2.5 rounded-xl border text-left text-xs transition-all ${
+              videoStyle === 'bottom-up' ? 'bg-indigo-600/20 border-indigo-500 text-white' : 'bg-gray-900 border-gray-800 text-gray-400'
+            }`}
+          >
+            <div className="font-bold">🧩 Bottom-Up</div>
+            <div className="text-[9px] opacity-70">ផ្គុំរឿងរាយ</div>
           </button>
         </div>
-      </header>
+      </div>
 
-      <SharedSettings
-        isOpen={settingsOpen}
-        onClose={() => setSettingsOpen(false)}
-        onAdminClick={() => {
-          setSettingsOpen(false)
-          setAdminModalOpen(true)
-          setAdminPassword("")
-          setAdminError(false)
-        }}
-      />
-
-      {adminModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-sm rounded-3xl border border-border bg-card p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-base font-bold text-foreground flex items-center gap-2">
-                <Lock className="h-4 w-4 text-primary" /> Master Key
-              </h3>
-              <button
-                type="button"
-                onClick={() => setAdminModalOpen(false)}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleAdminLogin} className="space-y-4">
-              <div>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={adminPassword}
-                  onChange={(e) => {
-                    setAdminPassword(e.target.value)
-                    setAdminError(false)
-                  }}
-                  className="w-full rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 text-sm font-semibold text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-ring/40"
-                  autoFocus
-                />
-                {adminError && <p className="mt-1.5 text-xs text-destructive font-medium">Invalid Password</p>}
-              </div>
-
-              <button
-                type="submit"
-                className="w-full rounded-2xl bg-primary py-3.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 transition active:scale-[0.99]"
-              >
-                Login Admin
-              </button>
-            </form>
-          </div>
+      {/* 🌟 3. ရើសភាសាគោលដៅ និង Platform តម្រៀបទន្ទឹមគ្នា ឬមានរបៀប */}
+      <div className="grid grid-cols-2 gap-2">
+        {/* ភាសា */}
+        <div>
+          <label className="block text-[11px] text-gray-400 mb-1 font-medium">២. ភាសាគោលដៅ:</label>
+          <select 
+            value={targetLang} 
+            onChange={(e) => setTargetLang(e.target.value)}
+            className="w-full p-2.5 bg-gray-900 text-white rounded-xl border border-gray-800 text-xs focus:outline-none focus:border-blue-500"
+          >
+            {SUPPORTED_LANGUAGES.map((lang) => (
+              <option key={lang.code} value={lang.code}>
+                {lang.flag} {lang.nativeName}
+              </option>
+            ))}
+          </select>
         </div>
-      )}
 
-      <DashboardScreenContainer
-        file={file}
-        videoUrl={videoUrl}
-        dragging={dragging}
-        setDragging={setDragging}
-        acceptFile={acceptFile}
-        inputRef={inputRef}
-        reset={reset}
-        targetLang={targetLang}
-        setTargetLang={setTargetLang}
-        start={start}
-        status={status}
-        stage={stage}
-        progress={progress}
-      />
+        {/* Platform */}
+        <div>
+          <label className="block text-[11px] text-gray-400 mb-1 font-medium">៣. ទិសដៅ Platform:</label>
+          <select 
+            value={platform} 
+            onChange={(e) => setPlatform(e.target.value)}
+            className="w-full p-2.5 bg-gray-900 text-white rounded-xl border border-gray-800 text-xs focus:outline-none focus:border-blue-500"
+          >
+            {Object.values(SUPPORTED_PLATFORMS).map((p: any) => (
+              <option key={p.id} value={p.id}>
+                📱 {p.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
 
-      <input
-        ref={inputRef}
-        type="file"
-        accept="video/*"
-        className="sr-only"
-        onChange={(e) => acceptFile(e.target.files?.[0])}
-      />
+      {/* ស្ថានភាពប្រព័ន្ធ */}
+      <div className="p-2.5 bg-gray-900/60 rounded-xl border border-gray-800/80 text-center">
+        <p className="text-[10px] text-gray-400">{status}</p>
+      </div>
+
+      {/* 🌟 4. ប៊ូតុងបញ្ជាចុងក្រោយ */}
+      <button 
+        type="button"
+        onClick={handleProcess}
+        disabled={isProcessing}
+        className="w-full py-3 rounded-xl font-bold text-xs bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-90 transition-all shadow-lg shadow-blue-600/20"
+      >
+        {isProcessing ? '⏳ កំពុងដំណើរការ...' : '🚀 ចាប់ផ្តើម AI Workflow ស្វ័យប្រវត្តិ'}
+      </button>
+
     </div>
-  )
+  );
 }
-
-export default DubbingStudio
