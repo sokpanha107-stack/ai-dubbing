@@ -1,5 +1,5 @@
 // components/dubbing-studio/auto-pipeline-panel.tsx
-'use client'; // ប្រាប់ Next.js ថានេះជា Client Component សម្រាប់ Render UI
+'use client'; 
 
 import React, { useState } from 'react';
 
@@ -9,18 +9,28 @@ export default function AutoPipelinePanel() {
 
   const handleAutoPilotClick = async () => {
     setIsProcessing(true);
-    setStatus('កំពុងវិភាគវីដេអូ និងបកប្រែ (AI Agent ដើរតួ)...');
-    
-    // ទីកន្លែងនេះនៅថ្ងៃមុខយើងនឹងសរសេរកូដហៅទៅកាន់ pipeline.ts របស់យើង
-    // ខាងក្រោមនេះគ្រាន់តែជាការក្លែងធ្វើសកម្មភាព (Simulation) ដើម្បីមើល UI សិន
-    setTimeout(() => {
-      setStatus('កំពុងកាត់ត និងបន្លំក្បួនខ្នាត (Transformer ដើរតួ)...');
-    }, 2500);
+    setStatus('🚀 កំពុងបញ្ជូនបញ្ជាទៅកាន់ម៉ាស៊ីន AI...');
 
-    setTimeout(() => {
-      setStatus('✨ ជោគជ័យ! វីដេអូរួចរាល់សម្រាប់ Export។');
+    try {
+      // ហៅទៅកាន់ API Endpoint ដែលយើងទើបតែបង្កើត (app/api/auto-pilot/route.ts)
+      const response = await fetch('/api/auto-pilot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ videoUrl: 'test-video.mp4', targetLanguage: 'Khmer' })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus(`✨ ជោគជ័យ! ${data.message}`);
+      } else {
+        setStatus(`❌ បរាជ័យ: ${data.message}`);
+      }
+    } catch (error) {
+      setStatus('❌ មានបញ្ហាក្នុងការភ្ជាប់ទៅកាន់ Server');
+    } finally {
       setIsProcessing(false);
-    }, 5000);
+    }
   };
 
   return (
