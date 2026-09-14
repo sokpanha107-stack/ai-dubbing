@@ -1,5 +1,5 @@
 // app/page.tsx
-import { AutoPipelinePanel } from "@/components/dubbing-studio/auto-pipeline-panel"; // ឬ path ទៅតាមទីតាំងជាក់ស្តែងរបស់សម្លាញ់
+import AutoPipelinePanel from "@/components/dubbing-studio/auto-pipeline-panel";
 import { setRequestLocale } from "next-intl/server";
 
 export default async function Page({
