@@ -1,0 +1,110 @@
+{
+  "Public": {
+    "appTitle": "SAVPD.io™",
+    "appSubtitle": "Traduza e duble os seus vídeos para outro idioma com IA em poucos passos simples.",
+    "footer": "Criado para uso pessoal · Ferramenta SAVPD.io",
+    "appLanguage": "Idioma do aplicativo",
+    "displayMode": "Modo de Exibição",
+    "step1": "Escolha ou arraste o seu vídeo",
+    "dropText": "Arraste e solte um arquivo aqui, ou clique para selecionar",
+    "dropHint": "MP4, MOV, WEBM e mais",
+    "noLimit": "Sem limite de duração ou tamanho",
+    "delete": "Remover",
+    "step2": "Escolha os idiomas",
+    "selectTargetLangTitle": "Selecione o Idioma de Destino (para Dublagem)",
+    "sourceLabel": "Idioma de origem",
+    "targetLabel": "Idioma de destino",
+    "swap": "Trocar idiomas",
+    "start": "Iniciar tradução e dublagem",
+    "processing": "Dublagem por IA em andamento...",
+    "stages": [
+      "Extraindo áudio do vídeo",
+      "Transcrevendo fala em texto",
+      "Traduzindo com proteção de contexto",
+      "Clonando voz com emoção e tom",
+      "Mesclando áudio no vídeo"
+    ],
+    "doneTitle": "Tudo pronto!",
+    "doneSubtitle": "O seu vídeo foi dublado para",
+    "download": "Baixar vídeo",
+    "retry": "Recomeçar",
+    "autopilotTitle": "Piloto Automático Inteligente por IA",
+    "autopilotDesc": "Totalmente automático — sem necessidade de edição manual.",
+    "contextTitle": "Proteção de Contexto",
+    "contextDesc": "O significado, a fraseologia e os números permanecem precisos em todos os idiomas.",
+    "emotionTitle": "Emoção e Tom",
+    "emotionDesc": "Risadas, raiva, medo e alegria são preservados do original.",
+    "paceTitle": "Ritmo e Cadência",
+    "paceDesc": "A velocidade da fala permanece sincronizada com o vídeo original.",
+    "featuresHeading": "Recursos de IA",
+    "appearance": "Aparência",
+    "darkMode": "Modo escuro",
+    "lightMode": "Modo claro",
+    "eyeCare": "Proteção para os olhos (filtro de luz azul)",
+    "eyeCareDesc": "Filtro quente para reduzir o cansaço visual à noite.",
+    "eyeCareLevel": "Intensidadel do filtro",
+    "assistant": "Assistente de IA",
+    "assistantOpen": "Abrir assistente de IA",
+    "assistantTitle": "Assistente de Dublagem",
+    "assistantSubtitle": "Pergunte sobre como usar este aplicativo",
+    "assistantGreeting": "Olá! Eu sou o seu assistente de dublagem por IA. Só posso ajudar com perguntas sobre o aplicativo SAVPD.io — como enviar arquivos, escolher idiomas e usar o piloto automático. Como posso ajudar?",
+    "assistantPlaceholder": "Pergunte sobre o aplicativo...",
+    "assistantSend": "Enviar",
+    "assistantVoice": "Perguntar por voz",
+    "assistantListening": "Ouvindo...",
+    "assistantRefusal": "Desculpe! Só posso responder a perguntas relacionadas à tecnologia e ao uso deste aplicativo SAVPD.io.",
+    "assistantSuggestions": [
+      "Como inicio o piloto automático?",
+      "Quais idiomas são suportados?",
+      "Ele mantém a emoção original?"
+    ],
+    "dubbingOptions": {
+      "clean_vlog": {
+        "title": "Opção 1: Narração Limpa (Modo Vlog)",
+        "desc": "Recomendado para: Vlogs pessoais, tutoriais, entrevistas e podcasts."
+      },
+      "summary_sfx": {
+        "title": "Opção 2: Resumo e Efeitos Sonoros (Modo Recapitulação)",
+        "desc": "Recomendado para: Resumos de filmes, resumos de notícias e histórias curtas."
+      },
+      "cinematic": {
+        "title": "Opção 3: Dublagem de Personagem Cinemática",
+        "desc": "Recomendado para: Longas-metragens, dramas de TV e desenhos animados."
+      },
+      "ai_visual": {
+        "title": "Opção 4: Narrador Visual por IA",
+        "desc": "Recomendado para: Vídeos mudos, vitrines B-Roll e demonstrações de produtos."
+      }
+    },
+    "languages": {
+      "en": "Inglês",
+      "km": "Khmer",
+      "zh": "Chinês",
+      "th": "Tailandês",
+      "vi": "Vietnamita",
+      "ja": "Japonês",
+      "ko": "Coreano",
+      "hi": "Hindi",
+      "es": "Espanhol",
+      "fr": "Francês",
+      "de": "Alemão",
+      "id": "Indonésio",
+      "pt": "Português",
+      "ru": "Russo",
+      "ar": "Árabe",
+      "it": "Italiano",
+      "tr": "Turco",
+      "ph": "Filipino",
+      "ms": "Malaio",
+      "bn": "Bengali"
+    }
+  },
+  "Admin": {
+    "settings": "Configurações",
+    "securityTitle": "Segurança do Sistema",
+    "securityDesc": "Por favor, insira a senha para acessar o espaço de trabalho",
+    "passcodePlaceholder": "Inserir senha",
+    "invalidPasscode": "Senha inválida!",
+    "accessSystem": "Acessar Sistema"
+  }
+}
