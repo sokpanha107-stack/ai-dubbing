@@ -2,16 +2,21 @@
 'use client'; 
 
 import React, { useState } from 'react';
+import { SUPPORTED_PLATFORMS } from '@/lib/constants/platforms';
 
 export default function AutoPipelinePanel() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState('រង់ចាំការបញ្ជា...');
+  
+  // 🎛️ បន្ថែម State សម្រាប់គ្រប់គ្រងស្ទីលវីដេអូទាំង ៤ និងភាសា ព្រមទាំង Platform និង Episodic Mode
+  const [videoStyle, setVideoStyle] = useState('top-down');
+  const [targetLang, setTargetLang] = useState('khmer');
   const [platform, setPlatform] = useState('tiktok');
   const [episodicMode, setEpisodicMode] = useState(true);
 
   const handleAutoPilotClick = async () => {
     setIsProcessing(true);
-    setStatus(`🚀 កំពុងបញ្ជូនបញ្ជាទៅកាន់ AI (Platform: ${platform.toUpperCase()}, Episodic: ${episodicMode ? 'Bật' : 'Tắt'})...`);
+    setStatus(`🚀 កំពុងបញ្ជូនបញ្ជាទៅកាន់ AI Engine (Style: ${videoStyle}, Platform: ${platform.toUpperCase()}, Episodic: ${episodicMode ? 'เปิด' : 'ปิด'})...`);
 
     try {
       const response = await fetch('/api/auto-pilot', {
@@ -19,6 +24,8 @@ export default function AutoPipelinePanel() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           videoUrl: 'full-story-source.mp4', 
+          videoStyle,
+          targetLanguage: targetLang,
           targetPlatform: platform,
           episodicSplit: episodicMode 
         })
@@ -32,31 +39,64 @@ export default function AutoPipelinePanel() {
         setStatus(`❌ បរាជ័យ: ${data.message}`);
       }
     } catch (error) {
-      setStatus('❌ មានបញ្ហាក្នុងការភ្ជាប់ទៅកាន់ Server');
+      setStatus('❌ មានបញ្ហាក្នុងการភ្ជាប់ទៅកាន់ Server');
     } finally {
       setIsProcessing(false);
     }
   };
 
   return (
-    <div className="p-6 bg-gray-900 text-white rounded-xl shadow-lg border border-gray-700 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">🤖 ប្រព័ន្ធបញ្ជាស្វ័យប្រវត្តិ (Auto-Pilot Pro)</h2>
+    <div className="p-6 bg-gray-900 text-white rounded-xl shadow-lg border border-gray-700 max-w-lg mx-auto">
+      <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+        🎛️ savpd.io Master Chef Control Center
+      </h2>
       
-      {/* ជ្រើសរើស Platform */}
+      {/* ១. ជ្រើសរើសស្ទីលវីដេអូ (4 Core Styles) */}
       <div className="mb-4">
-        <label className="block text-sm text-gray-400 mb-2">១. ជ្រើសរើសទិសដៅ Platform:</label>
+        <label className="block text-sm text-gray-400 mb-2">១. ជ្រើសរើសទម្រង់ស្ទីលវីដេអូ:</label>
+        <select 
+          value={videoStyle} 
+          onChange={(e) => setVideoStyle(e.target.value)}
+          className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-700 text-sm focus:outline-none focus:border-blue-500"
+        >
+          <option value="top-down">🎬 Top-Down (ទម្លាក់រឿងទាំងដុំ ឱ្យ AI កាត់ចែកជាភាគ)</option>
+          <option value="bottom-up">🧩 Bottom-Up (ទម្លាក់រឿងរាយ ឱ្យ AI ផ្គុំចូលគ្នា)</option>
+          <option value="cinematic">🎥 Cinematic Style (រចនាប័ទ្មភាពយន្តធំ)</option>
+          <option value="voiceover">🎙️ Voiceover Narration (បែបនិទានរឿង)</option>
+        </select>
+      </div>
+
+      {/* ២. ជ្រើសរើសភាសាគោលដៅ */}
+      <div className="mb-4">
+        <label className="block text-sm text-gray-400 mb-2">២. ជ្រើសរើសភាសាគោលដៅ:</label>
+        <select 
+          value={targetLang} 
+          onChange={(e) => setTargetLang(e.target.value)}
+          className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-700 text-sm focus:outline-none focus:border-blue-500"
+        >
+          <option value="khmer">🇰🇭 ភាសាខ្មែរ (Khmer)</option>
+          <option value="english">🇬🇧 ភាសាអង់គ្លេស (English)</option>
+          <option value="thai">🇹🇭 ភាសាថៃ (Thai)</option>
+        </select>
+      </div>
+
+      {/* ៣. ជ្រើសរើស Platform (ទាញយកទិន្នន័យស្វ័យប្រវត្តិពី SUPPORTED_PLATFORMS) */}
+      <div className="mb-4">
+        <label className="block text-sm text-gray-400 mb-2">៣. ជ្រើសរើសទិសដៅ Platform:</label>
         <select 
           value={platform} 
           onChange={(e) => setPlatform(e.target.value)}
           className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-700 text-sm focus:outline-none focus:border-blue-500"
         >
-          <option value="tiktok">TikTok (Sweet Spot: 1 - 5 នាទី)</option>
-          <option value="facebook">Facebook Video (Sweet Spot: 8 - 10 នាទី)</option>
-          <option value="youtube">YouTube Long-form (Sweet Spot: 8 - 15 នាទី)</option>
+          {Object.values(SUPPORTED_PLATFORMS).map((p: any) => (
+            <option key={p.id} value={p.id}>
+              📱 {p.name} — ({p.description})
+            </option>
+          ))}
         </select>
       </div>
 
-      {/* មុខងារ Episodic Splitter */}
+      {/* ៤. មុខងារ Episodic Splitter Mode */}
       <div className="mb-6 flex items-center justify-between bg-gray-800 p-3 rounded-lg border border-gray-700">
         <div>
           <p className="text-sm font-semibold">ប្រព័ន្ធកាត់ចែកជាភាគ (Episodic Mode)</p>
@@ -70,11 +110,13 @@ export default function AutoPipelinePanel() {
         />
       </div>
 
+      {/* ស្ថានភាពប្រព័ន្ធ */}
       <div className="mb-6 p-4 bg-gray-800 rounded-lg">
         <p className="text-sm text-gray-400">ស្ថានភាពប្រព័ន្ធ:</p>
         <p className="text-sm font-semibold text-blue-400 mt-1">{status}</p>
       </div>
 
+      {/* ប៊ូតុងបញ្ជា */}
       <button 
         onClick={handleAutoPilotClick}
         disabled={isProcessing}
