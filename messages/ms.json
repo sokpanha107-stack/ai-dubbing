@@ -1,0 +1,110 @@
+{
+  "Public": {
+    "appTitle": "SAVPD.io™",
+    "appSubtitle": "Terjemah dan alih suara video anda ke bahasa lain dengan AI dalam beberapa langkah mudah.",
+    "footer": "Dibina untuk kegunaan peribadi · Alat SAVPD.io",
+    "appLanguage": "Bahasa aplikasi",
+    "displayMode": "Mod Paparan",
+    "step1": "Pilih atau letakkan video anda",
+    "dropText": "Seret dan letakkan fail di sini, atau klik untuk memilih",
+    "dropHint": "MP4, MOV, WEBM dan banyak lagi",
+    "noLimit": "Tiada had tempoh atau saiz",
+    "delete": "Buang",
+    "step2": "Pilih bahasa",
+    "selectTargetLangTitle": "Pilih Bahasa Sasaran (untuk Alih Suara)",
+    "sourceLabel": "Bahasa asal",
+    "targetLabel": "Bahasa sasaran",
+    "swap": "Tukar bahasa",
+    "start": "Mula terjemah & alih suara",
+    "processing": "Alih suara AI sedang berjalan...",
+    "stages": [
+      "Mengekstrak audio daripada video",
+      "Mentranskrip pertuturan kepada teks",
+      "Menterjemah dengan pelindung konteks",
+      "Mengklon suara dengan emosi & nada",
+      "Menggabungkan audio ke dalam video"
+    ],
+    "doneTitle": "Semua selesai!",
+    "doneSubtitle": "Video anda telah dialih suara ke",
+    "download": "Muat turun video",
+    "retry": "Mula semula",
+    "autopilotTitle": "Auto-Pilot AI Pintar",
+    "autopilotDesc": "Automatik penuh — tiada penyuntingan manual diperlukan.",
+    "contextTitle": "Pelindung Konteks",
+    "contextDesc": "Makna, frasa dan nombor kekal tepat merentas semua bahasa.",
+    "emotionTitle": "Emosi & Nada",
+    "emotionDesc": "Ketawa, kemarahan, ketakutan dan kegembiraan dikekalkan daripada asal.",
+    "paceTitle": "Kelajuan & Irama",
+    "paceDesc": "Kelajuan pertuturan kekal selari dengan video asal.",
+    "featuresHeading": "Keupayaan AI",
+    "appearance": "Penampilan",
+    "darkMode": "Mod gelap",
+    "lightMode": "Mod cerah",
+    "eyeCare": "Penjagaan mata (penapis cahaya biru)",
+    "eyeCareDesc": "Penapis suam untuk mengurangkan ketegangan mata pada waktu malam.",
+    "eyeCareLevel": "Kekuatan penapis",
+    "assistant": "Pembantu AI",
+    "assistantOpen": "Buka pembantu AI",
+    "assistantTitle": "Pembantu Alih Suara",
+    "assistantSubtitle": "Tanya tentang cara menggunakan aplikasi ini",
+    "assistantGreeting": "Helo! Saya pembantu alih suara AI anda. Saya hanya boleh membantu dengan soalan tentang aplikasi SAVPD.io ini — cara memuat naik, memilih bahasa dan menggunakan Auto-Pilot. Ada yang boleh saya bantu?",
+    "assistantPlaceholder": "Tanya tentang aplikasi...",
+    "assistantSend": "Hantar",
+    "assistantVoice": "Tanya melalui suara",
+    "assistantListening": "Mendengar...",
+    "assistantRefusal": "Maaf! Saya hanya boleh menjawab soalan yang berkaitan dengan teknologi dan penggunaan aplikasi SAVPD.io ini.",
+    "assistantSuggestions": [
+      "Bagaimana saya mula menggunakan Auto-Pilot?",
+      "Apakah bahasa yang disokong?",
+      "Adakah ia mengekalkan emosi asal?"
+    ],
+    "dubbingOptions": {
+      "clean_vlog": {
+        "title": "Pilihan 1: Alih Suara Bersih (Mod Vlog)",
+        "desc": "Disyorkan untuk: Vlog Peribadi, Tutorial, Temu bual & Podcast."
+      },
+      "summary_sfx": {
+        "title": "Pilihan 2: Ringkasan & SFX (Mod Rekap)",
+        "desc": "Disyorkan untuk: Rekap Filem, Ringkasan Berita & Cerita Pendek."
+      },
+      "cinematic": {
+        "title": "Pilihan 3: Alih Suara Watak Sinematik",
+        "desc": "Disyorkan untuk: Filem Feature, Drama TV & Kartun Animasi."
+      },
+      "ai_visual": {
+        "title": "Pilihan 4: Pencerita Visual AI",
+        "desc": "Disyorkan untuk: Video Senyap, Pameran B-Roll & Demo Produk."
+      }
+    },
+    "languages": {
+      "en": "Bahasa Inggeris",
+      "km": "Bahasa Khmer",
+      "zh": "Bahasa Cina",
+      "th": "Bahasa Thai",
+      "vi": "Bahasa Vietnam",
+      "ja": "Bahasa Jepun",
+      "ko": "Bahasa Korea",
+      "hi": "Bahasa Hindi",
+      "es": "Bahasa Sepanyol",
+      "fr": "Bahasa Perancis",
+      "de": "Bahasa Jerman",
+      "id": "Bahasa Indonesia",
+      "pt": "Bahasa Portugis",
+      "ru": "Bahasa Rusia",
+      "ar": "Bahasa Arab",
+      "it": "Bahasa Itali",
+      "tr": "Bahasa Turki",
+      "ph": "Bahasa Filipina",
+      "ms": "Bahasa Melayu",
+      "bn": "Bahasa Bengali"
+    }
+  },
+  "Admin": {
+    "settings": "Tetapan",
+    "securityTitle": "Keselamatan Sistem",
+    "securityDesc": "Sila masukkan kod laluan untuk mengakses ruang kerja",
+    "passcodePlaceholder": "Masukkan kod laluan",
+    "invalidPasscode": "Kod laluan tidak sah!",
+    "accessSystem": "Akses Sistem"
+  }
+}
