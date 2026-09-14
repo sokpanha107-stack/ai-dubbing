@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { Geist, Noto_Sans_Khmer } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
+import { setRequestLocale } from 'next-intl/server'
 import { ThemeProvider } from '@/lib/theme'
 import './globals.css'
 
@@ -63,6 +64,10 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const locale = await getLocale()
+  
+  // បង្ការបញ្ហា Static Rendering / Not-Found របស់ next-intl
+  setRequestLocale(locale)
+
   const messages = await getMessages()
 
   return (
