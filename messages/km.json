@@ -66,19 +66,19 @@
   "dubbingOptions": {
     "opt1": {
       "title": "Option 1: Clean Voiceover (Vlog Mode)",
-      "desc": "សាកសមបំផុតសម្រាប់វីដេអូ Vlog ផ្ទាល់ខ្លួន ឬការថតនិយាយធម្មតា។"
+      "desc": "ណែនាំសម្រាប់៖ វីដេអូ Vlog ផ្ទាល់ខ្លួន, ការបង្រៀន (Tutorials) និងការនិយាយទូទៅ។ លក្ខណៈពិសេស៖ Original Voice Clarity & Noise Removal ផ្ដោតលើសំឡេងអ្នកនិយាយច្បាស់គ្មានការរំខាន។"
     },
     "opt2": {
-      "title": "Option 2: Summary & SFX (Recap)",
-      "desc": "សាកសមសម្រាប់វីដេអូសង្ខេបសាច់រឿង (Recap) និងការរៀបរាប់។"
+      "title": "Option 2: Summary & SFX (Recap Mode)",
+      "desc": "ណែនាំសម្រាប់៖ វីដេអូសង្ខេបរឿង (Movie Recap), វីដេអូព័ត៌មាន និងការនិទានរឿងខ្លីៗ។ លក្ខណៈពិសេស៖ Dynamic Background SFX Retention & Narrative Cadence រក្សាសំឡេងបែបផែនឱ្យត្រូវជាមួយចង្វាក់និទាន។"
     },
     "opt3": {
       "title": "Option 3: Cinematic Character Dubbing",
-      "desc": "សាកសមសម្រាប់ភាពយន្ត (Movies) និងការបញ្ចូលសំឡេងតួអង្គ។"
+      "desc": "ណែនាំសម្រាប់៖ ខ្សែភាពយន្ត (Movies), រឿងភាគ (Dramas) និងគំនូរជីវចល (Animations)។ លក្ខណៈពិសេស៖ Multi-Character Emotional Cloning & Dialogue Sync ក្លូនសំឡេងតួអង្គច្រើនដាច់ដោយឡែកពីគ្នា ព្រមទាំងទឹកដមអារម្មណ៍។"
     },
     "opt4": {
-      "title": "Option 4: AI Visual Storyteller (Auto-Script)",
-      "desc": "សាកសមសម្រាប់ការបង្កើតសាច់រឿងស្វ័យប្រវត្ត (Auto-Script)។"
+      "title": "Option 4: AI Visual Storyteller",
+      "desc": "ណែនាំសម្រាប់៖ វីដេអូឯកសារ (Documentaries), ការធ្វើបទបង្ហាញផលិតផល និងវីដេអូគ្មានសំឡេងនិយាយ។ លក្ខណៈពិសេស៖ Auto-Script Generation & Contextual Voiceover បង្កើតអត្ថបទនិយាយស្វ័យប្រវត្តិតាមរយៈរូបភាពវីដេអូជាក់ស្ដែង។"
     }
   },
   "languages": {
