@@ -18,6 +18,16 @@ export function DubbingStudio() {
 
   const [isUnlocked, setIsUnlocked] = useState(false)
 
+  // បន្ថែមមុខងារ Auto-Unlock នេះដើម្បីរំលងការ Login
+  useEffect(() => {
+    if (!isUnlocked) {
+      const timer = setTimeout(() => {
+        setIsUnlocked(true)
+      }, 2500) // 2500ms = 2.5 វិនាទី (អាចសារ៉េពេលនេះឱ្យត្រូវនឹង Splash របស់អ្នក)
+      return () => clearTimeout(timer)
+    }
+  }, [isUnlocked])
+
   const [file, setFile] = useState<File | null>(null)
   const [videoUrl, setVideoUrl] = useState<string | null>(null)
   const [dragging, setDragging] = useState(false)
