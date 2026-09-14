@@ -1,0 +1,109 @@
+{
+  "Public": {
+    "appTitle": "SAVPD.io™",
+    "appSubtitle": "AIを使って、数ステップで簡単に動画を別の言語に翻訳・吹き替えできます。",
+    "footer": "個人利用向けに作成 · SAVPD.io ツール",
+    "appLanguage": "アプリの言語",
+    "displayMode": "表示モード",
+    "step1": "動画を選択またはドロップ",
+    "dropText": "ここにファイルをドラッグ＆ドロップするか、クリックして選択してください",
+    "dropHint": "MP4、MOV、WEBM など",
+    "noLimit": "時間やサイズの制限なし",
+    "delete": "削除",
+    "step2": "言語を選択",
+    "selectTargetLangTitle": "ターゲット言語を選択（吹き替え用）",
+    "sourceLabel": "元の言語",
+    "targetLabel": "ターゲット言語",
+    "swap": "言語を入れ替える",
+    "start": "翻訳と吹き替えを開始",
+    "processing": "AI 吹き替え処理中...",
+    "stages": [
+      "動画から音声を抽出中",
+      "音声をテキストに文字起こし中",
+      "文脈を保持して翻訳中",
+      "感情とトーンを保持して音声をクローン中",
+      "音声を動画に合成中"
+    ],
+    "doneTitle": "完了しました！",
+    "doneSubtitle": "動画が次の言語に吹き替えられました：",
+    "download": "動画をダウンロード",
+    "retry": "最初からやり直す",
+    "autopilotTitle": "スマート AI オートパイロット",
+    "autopilotDesc": "完全自動 — 手動での編集は不要です。",
+    "contextTitle": "文脈ガード",
+    "contextDesc": "すべての言語で、意味、言い回し、数値が正確に保たれます。",
+    "emotionTitle": "感情とトーン",
+    "emotionDesc": "オリジナルの笑い、怒り、恐怖、喜びが保持されます。",
+    "paceTitle": "ペースとリズム",
+    "paceDesc": "話す速度は元の動画と同期したままです。",
+    "featuresHeading": "AI の機能",
+    "appearance": "外観",
+    "darkMode": "ダークモード",
+    "lightMode": "ライトモード",
+    "eyeCare": "アイケア (ブルーライトフィルター)",
+    "eyeCareDesc": "夜間の目の疲れを軽減する暖色フィルター。",
+    "eyeCareLevel": "フィルター強度",
+    "assistant": "AI アシスタント",
+    "assistantOpen": "AI アシスタントを開く",
+    "assistantTitle": "吹き替えアシスタント",
+    "assistantSubtitle": "このアプリの使い方について質問する",
+    "assistantGreeting": "こんにちは！私は AI 吹き替えアシスタントです。SAVPD.io アプリの使用方法（アップロード方法、言語の選択、オートパイロットの使用など）に関する質問にのみお答えできます。ご用件は何でしょうか？",
+    "assistantPlaceholder": "アプリについて質問する...",
+    "assistantSend": "送信",
+    "assistantVoice": "音声で質問",
+    "assistantListening": "聞き取っています...",
+    "assistantRefusal": "申し訳ありません。SAVPD.io アプリの技術および使用に関する質問にのみお答えできます。",
+    "assistantSuggestions": [
+      "オートパイロットを開始するには？",
+      "対応している言語は？",
+      "元の感情は保持されますか？"
+    ],
+    "dubbingOptions": {
+      "clean_vlog": {
+        "title": "オプション 1: クリアなナレーション (Vlog モード)",
+        "desc": "おすすめ: 個人 Vlog、チュートリアル、インタビュー、ポッドキャスト。"
+      },
+      "summary_sfx": {
+        "title": "オプション 2: 要約と SFX (解説モード)",
+        "desc": "おすすめ: 映画の要約、ニュースの要約、短編小説。"
+      },
+      "cinematic": {
+        "title": "オプション 3: シネマティックキャラクター吹き替え",
+        "desc": "おすすめ: 長編映画、テレビドラマ、アニメ。"
+      },
+      "ai_visual": {
+        "title": "オプション 4: AI ビジュアルストーリーテラー",
+        "desc": "おすすめ: 無音動画、Bロールショーケース、製品デモ。"
+      }
+    },
+    "languages": {
+      "en": "英語",
+      "km": "クメール語",
+      "zh": "中国語",
+      "th": "タイ語",
+      "vi": "ベトナム語",
+      "ja": "日本語",
+      "ko": "韓国語",
+      "hi": "ヒンディー語",
+      "es": "スペイン語",
+      "fr": "フランス語",
+      "de": "ドイツ語",
+      "id": "インドネシア語",
+      "pt": "ポルトガル語",
+      "ru": "ロシア語",
+      "ar": "アラビア語",
+      "it": "イタリア語",
+      "tr": "トルコ語",
+      "ph": "フィリピン語", "ms": "マレー語",
+      "bn": "ベンガル語"
+    }
+  },
+  "Admin": {
+    "settings": "設定",
+    "securityTitle": "システムセキュリティ",
+    "securityDesc": "ワークスペースにアクセスするにはパスコードを入力してください",
+    "passcodePlaceholder": "パスコードを入力",
+    "invalidPasscode": "無効なパスコードです！",
+    "accessSystem": "システムにアクセス"
+  }
+}
