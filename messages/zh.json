@@ -1,0 +1,110 @@
+{
+  "Public": {
+    "appTitle": "SAVPD.io™",
+    "appSubtitle": "只需几个简单的步骤，即可利用 AI 将您的视频翻译并配音成另一种语言。",
+    "footer": "专为个人使用打造 · SAVPD.io 工具",
+    "appLanguage": "应用语言",
+    "displayMode": "显示模式",
+    "step1": "选择或拖放您的视频",
+    "dropText": "将文件拖放到此处，或点击选择",
+    "dropHint": "支持 MP4、MOV、WEBM 等格式",
+    "noLimit": "无时长或大小限制",
+    "delete": "移除",
+    "step2": "选择语言",
+    "selectTargetLangTitle": "选择目标语言（用于配音）",
+    "sourceLabel": "源语言",
+    "targetLabel": "目标语言",
+    "swap": "交换语言",
+    "start": "开始翻译与配音",
+    "processing": "AI 配音进行中...",
+    "stages": [
+      "提取视频音频",
+      "将语音转换为文本",
+      "带有上下文保护的翻译",
+      "克隆带有情感和语气的语音",
+      "将音频合并到视频中"
+    ],
+    "doneTitle": "全部完成！",
+    "doneSubtitle": "您的视频已被配音为",
+    "download": "下载视频",
+    "retry": "重新开始",
+    "autopilotTitle": "智能 AI 自动驾驶",
+    "autopilotDesc": "全自动 — 无需手动编辑。",
+    "contextTitle": "上下文保护",
+    "contextDesc": "意义、措辞和数字在所有语言中保持准确。",
+    "emotionTitle": "情感与语气",
+    "emotionDesc": "保留原有的笑声、愤怒、恐惧和喜悦。",
+    "paceTitle": "语速与节奏",
+    "paceDesc": "语速与原视频保持同步。",
+    "featuresHeading": "AI 功能",
+    "appearance": "外观",
+    "darkMode": "深色模式",
+    "lightMode": "浅色模式",
+    "eyeCare": "护眼模式（蓝光过滤）",
+    "eyeCareDesc": "夜间减少眼睛疲劳的暖色滤镜。",
+    "eyeCareLevel": "滤镜强度",
+    "assistant": "AI 助手",
+    "assistantOpen": "打开 AI 助手",
+    "assistantTitle": "配音助手",
+    "assistantSubtitle": "询问如何使用此应用",
+    "assistantGreeting": "您好！我是您的 AI 配音助手。我只能帮您解答有关 SAVPD.io 应用的问题——例如如何上传、选择语言以及使用自动驾驶功能。我能帮您什么？",
+    "assistantPlaceholder": "询问有关应用的问题...",
+    "assistantSend": "发送",
+    "assistantVoice": "语音提问",
+    "assistantListening": "聆听中...",
+    "assistantRefusal": "抱歉！我只能回答与 SAVPD.io 应用的技术和使用相关的问题。",
+    "assistantSuggestions": [
+      "如何启动自动驾驶？",
+      "支持哪些语言？",
+      "它会保留原有的情感吗？"
+    ],
+    "dubbingOptions": {
+      "clean_vlog": {
+        "title": "选项 1：纯净配音（Vlog 模式）",
+        "desc": "推荐用于：个人 Vlog、教程、采访和播客。"
+      },
+      "summary_sfx": {
+        "title": "选项 2：摘要与音效（回顾模式）",
+        "desc": "推荐用于：电影解说、新闻摘要和短篇故事。"
+      },
+      "cinematic": {
+        "title": "选项 3：电影级角色配音",
+        "desc": "推荐用于：故事片、电视剧和动画片。"
+      },
+      "ai_visual": {
+        "title": "选项 4：AI 视觉叙事",
+        "desc": "推荐用于：无声视频、空镜头展示和产品演示。"
+      }
+    },
+    "languages": {
+      "en": "英语",
+      "km": "高棉语",
+      "zh": "中文",
+      "th": "泰语",
+      "vi": "越南语",
+      "ja": "日语",
+      "ko": "韩语",
+      "hi": "印地语",
+      "es": "西班牙语",
+      "fr": "法语",
+      "de": "德语",
+      "id": "印尼语",
+      "pt": "葡萄牙语",
+      "ru": "俄语",
+      "ar": "阿拉伯语",
+      "it": "意大利语",
+      "tr": "土耳其语",
+      "ph": "菲律宾语",
+      "ms": "马来语",
+      "bn": "孟加拉语"
+    }
+  },
+  "Admin": {
+    "settings": "设置",
+    "securityTitle": "系统安全",
+    "securityDesc": "请输入密码以访问工作区",
+    "passcodePlaceholder": "输入密码",
+    "invalidPasscode": "密码无效！",
+    "accessSystem": "进入系统"
+  }
+}
