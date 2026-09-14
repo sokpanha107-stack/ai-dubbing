@@ -65,20 +65,20 @@
   ],
   "dubbingOptions": {
     "opt1": {
-      "title": "Option 1: Clean Voiceover",
-      "desc": "Best for personal Vlogs & natural speech."
+      "title": "Option 1: Clean Voiceover (Vlog Mode)",
+      "desc": "Recommended for: Personal Vlogs, Tutorials, and Speaking Videos. Specialization: Original Voice Clarity & Noise Removal for crisp, distraction-free speech."
     },
     "opt2": {
-      "title": "Option 2: Summary & SFX",
-      "desc": "Best for Recap videos & storytelling."
+      "title": "Option 2: Summary & SFX (Recap Mode)",
+      "desc": "Recommended for: Movie Recaps, News Summaries, and Short Stories. Specialization: Dynamic Background SFX Retention & Narrative Cadence synchronization."
     },
     "opt3": {
       "title": "Option 3: Cinematic Character Dubbing",
-      "desc": "Best for Movies & character acting."
+      "desc": "Recommended for: Feature Films, TV Dramas, and Animated Series. Specialization: Multi-Character Emotional Voice Cloning & Precise Dialogue Timing."
     },
     "opt4": {
       "title": "Option 4: AI Visual Storyteller",
-      "desc": "Best for Auto-Script & visual storytelling."
+      "desc": "Recommended for: Silent Videos, Documentaries, and Visual Showcases. Specialization: Automated Script Generation & Contextual Scene Narration."
     }
   },
   "languages": {
