@@ -1,0 +1,110 @@
+{
+  "Public": {
+    "appTitle": "SAVPD.io™",
+    "appSubtitle": "몇 가지 간단한 단계만 거치면 AI를 사용하여 동영상을 다른 언어로 번역하고 더빙할 수 있습니다.",
+    "footer": "개인용으로 제작됨 · SAVPD.io 도구",
+    "appLanguage": "앱 언어",
+    "displayMode": "디스플레이 모드",
+    "step1": "동영상 선택 또는 드래그",
+    "dropText": "여기에 파일을 끌어다 놓거나 클릭하여 선택하세요",
+    "dropHint": "MP4, MOV, WEBM 등",
+    "noLimit": "재생 시간이나 크기 제한 없음",
+    "delete": "제거",
+    "step2": "언어 선택",
+    "selectTargetLangTitle": "대상 언어 선택 (더빙용)",
+    "sourceLabel": "원본 언어",
+    "targetLabel": "대상 언어",
+    "swap": "언어 바꾸기",
+    "start": "번역 및 더빙 시작",
+    "processing": "AI 더빙 진행 중...",
+    "stages": [
+      "동영상에서 오디오 추출 중",
+      "음성을 텍스트로 변환 중",
+      "문맥을 유지하며 번역 중",
+      "감정과 톤을 살려 음성 복제 중",
+      "동영상에 오디오 병합 중"
+    ],
+    "doneTitle": "모두 완료되었습니다!",
+    "doneSubtitle": "동영상이 다음 언어로 더빙되었습니다:",
+    "download": "동영상 다운로드",
+    "retry": "처음부터 다시 시작",
+    "autopilotTitle": "스마트 AI 오토파일럿",
+    "autopilotDesc": "완전 자동 — 수동 편집이 필요 없습니다.",
+    "contextTitle": "문맥 보호",
+    "contextDesc": "모든 언어에서 의미, 표현, 숫자가 정확하게 유지됩니다.",
+    "emotionTitle": "감정 및 톤",
+    "emotionDesc": "웃음, 분노, 두려움, 기쁨 등 원본의 감정이 보존됩니다.",
+    "paceTitle": "속도 및 리듬",
+    "paceDesc": "말하기 속도가 원본 동영상과 동기화된 상태로 유지됩니다.",
+    "featuresHeading": "AI 기능",
+    "appearance": "화면 스타일",
+    "darkMode": "다크 모드",
+    "lightMode": "라이트 모드",
+    "eyeCare": "시력 보호 (청색광 차단 필터)",
+    "eyeCareDesc": "야간 눈의 피로를 줄여주는 따뜻한 색감의 필터입니다.",
+    "eyeCareLevel": "필터 강도",
+    "assistant": "AI 어시스턴트",
+    "assistantOpen": "AI 어시스턴트 열기",
+    "assistantTitle": "더빙 어시스턴트",
+    "assistantSubtitle": "이 앱 사용법에 대해 물어보세요",
+    "assistantGreeting": "안녕하세요! AI 더빙 어시스턴트입니다. 업로드 방법, 언어 선택, 오토파일럿 사용 등 SAVPD.io 앱 사용에 관한 질문에만 답변해 드릴 수 있습니다. 무엇을 도와드릴까요?",
+    "assistantPlaceholder": "앱에 대해 질문하기...",
+    "assistantSend": "보내기",
+    "assistantVoice": "음성으로 질문",
+    "assistantListening": "듣고 있는 중...",
+    "assistantRefusal": "죄송합니다! SAVPD.io 앱의 기술 및 사용과 관련된 질문에만 답변할 수 있습니다.",
+    "assistantSuggestions": [
+      "오토파일럿을 어떻게 시작하나요?",
+      "지원되는 언어는 무엇인가요?",
+      "원래 감정이 유지되나요?"
+    ],
+    "dubbingOptions": {
+      "clean_vlog": {
+        "title": "옵션 1: 깨끗한 보이스오버 (브이로그 모드)",
+        "desc": "추천 대상: 개인 브이로그, 튜토리얼, 인터뷰 및 팟캐스트."
+      },
+      "summary_sfx": {
+        "title": "옵션 2: 요약 및 효과음 (요약 모드)",
+        "desc": "추천 대상: 영화 요약, 뉴스 요약 및 단편 스토리."
+      },
+      "cinematic": {
+        "title": "옵션 3: 시네마틱 캐릭터 더빙",
+        "desc": "추천 대상: 장편 영화, TV 드라마 및 애니메이션."
+      },
+      "ai_visual": {
+        "title": "옵션 4: AI 비주얼 스토리텔러",
+        "desc": "추천 대상: 무음 동영상, B-롤 쇼케이스 및 제품 데모."
+      }
+    },
+    "languages": {
+      "en": "영어",
+      "km": "크메르어",
+      "zh": "중국어",
+      "th": "태국어",
+      "vi": "베트남어",
+      "ja": "일본어",
+      "ko": "한국어",
+      "hi": "힌디어",
+      "es": "스페인어",
+      "fr": "프랑스어",
+      "de": "독일어",
+      "id": "인도네시아어",
+      "pt": "포르투갈어",
+      "ru": "러시아어",
+      "ar": "아랍어",
+      "it": "이탈리아어",
+      "tr": "튀르키예어",
+      "ph": "필리핀어",
+      "ms": "말레이어",
+      "bn": "벵골어"
+    }
+  },
+  "Admin": {
+    "settings": "설정",
+    "securityTitle": "시스템 보안",
+    "securityDesc": "작업 공간에 엑세스하려면 비밀번호를 입력하세요",
+    "passcodePlaceholder": "비밀번호 입력",
+    "invalidPasscode": "잘못된 비밀번호입니다!",
+    "accessSystem": "시스템 접속"
+  }
+}
