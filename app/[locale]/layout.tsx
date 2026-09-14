@@ -33,6 +33,12 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { colorScheme: 'dark', themeColor: '#0b0f1a', width: 'device-width', initialScale: 1, maximumScale: 1, userScalable: false, viewportFit: 'cover' }
 
+// 👈 នេះគឺជាចំណុចដែលខ្វះ! បន្ថែមវាដើម្បីប្រាប់ Next.js ពី Locales ពេល Build កុំឱ្យគាំង
+export function generateStaticParams() {
+  // ប្រសិនបើសម្លាញ់មានភាសាផ្សេងទៀត អាចបន្ថែមចូលទីនេះបាន (ឧ. 'th', 'vi')
+  return [{ locale: 'en' }, { locale: 'km' }];
+}
+
 export default async function LocaleLayout({
   children,
   params
