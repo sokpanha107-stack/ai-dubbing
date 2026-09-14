@@ -64,21 +64,21 @@
     "Does it keep the original emotion?"
   ],
   "dubbingOptions": {
-    "opt1": {
+    "clean_vlog": {
       "title": "Option 1: Clean Voiceover (Vlog Mode)",
-      "desc": "Recommended for: Personal Vlogs, Tutorials, and Speaking Videos. Specialization: Original Voice Clarity & Noise Removal for crisp, distraction-free speech."
+      "desc": "Recommended for: Personal Vlogs, Tutorials, Interviews & Podcasts."
     },
-    "opt2": {
+    "summary_sfx": {
       "title": "Option 2: Summary & SFX (Recap Mode)",
-      "desc": "Recommended for: Movie Recaps, News Summaries, and Short Stories. Specialization: Dynamic Background SFX Retention & Narrative Cadence synchronization."
+      "desc": "Recommended for: Movie Recaps, News Summaries & Short Stories."
     },
-    "opt3": {
+    "cinematic": {
       "title": "Option 3: Cinematic Character Dubbing",
-      "desc": "Recommended for: Feature Films, TV Dramas, and Animated Series. Specialization: Multi-Character Emotional Voice Cloning & Precise Dialogue Timing."
+      "desc": "Recommended for: Feature Films, TV Dramas & Animated Cartoons."
     },
-    "opt4": {
+    "ai_visual": {
       "title": "Option 4: AI Visual Storyteller",
-      "desc": "Recommended for: Silent Videos, Documentaries, and Visual Showcases. Specialization: Automated Script Generation & Contextual Scene Narration."
+      "desc": "Recommended for: Silent Videos, B-Roll Showcases & Product Demos."
     }
   },
   "languages": {
