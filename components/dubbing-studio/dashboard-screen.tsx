@@ -72,7 +72,8 @@ export function DashboardScreenContainer({
   stage: number
   progress: number
 }) {
-  const t = useTranslations()
+  // បន្ថែម Namespace "Public" នៅទីនេះ
+  const t = useTranslations("Public") 
   const targetFlag = DUB_LANGS.find((l) => l.code === targetLang)?.flag
   const [dubMode, setDubMode] = useState<DubMode>("clean_vlog")
 
@@ -145,7 +146,8 @@ function DashboardContent({
   setDubMode: (m: DubMode) => void
   start: () => void
 }) {
-  const t = useTranslations()
+  // បន្ថែម Namespace "Public" នៅទីនេះ
+  const t = useTranslations("Public")
 
   const currentModeObj = DUB_MODES.find((m) => m.id === dubMode) || DUB_MODES[0]
 
@@ -193,7 +195,6 @@ function DashboardContent({
           </svg>
         </div>
 
-        {/* ប្រអប់បង្ហាញការណែនាំ និង Specialization */}
         <div className="rounded-2xl border border-primary/20 bg-primary/10 p-3.5 space-y-1.5 text-xs text-foreground leading-relaxed">
           <div className="font-semibold text-primary flex items-center gap-1.5">
             <span>💡</span>
@@ -306,7 +307,8 @@ function DashboardContent({
 }
 
 function ProcessingScreen({ stage, progress }: { stage: number; progress: number }) {
-  const t = useTranslations()
+  // បន្ថែម Namespace "Public" នៅទីនេះ
+  const t = useTranslations("Public")
   const rawStages = t.raw("stages") as string[]
 
   return (
@@ -389,7 +391,8 @@ function ResultScreen({
   targetFlag?: string
   reset: () => void
 }) {
-  const t = useTranslations()
+  // បន្ថែម Namespace "Public" នៅទីនេះ
+  const t = useTranslations("Public")
 
   return (
     <div className="flex flex-col gap-5 py-2">
