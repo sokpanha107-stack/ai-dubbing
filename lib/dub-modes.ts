@@ -1,9 +1,31 @@
 // lib/dub-modes.ts
 export type DubMode = "clean_vlog" | "summary_sfx" | "cinematic" | "ai_visual"
 
-export const DUB_MODES: { id: DubMode; labelKm: string; icon: string }[] = [
-  { id: "clean_vlog", labelKm: "Option 1: Clean Voiceover (Vlog Mode)", icon: "🎙️" },
-  { id: "summary_sfx", labelKm: "Option 2: Summary & Modified SFX (Recap)", icon: "🎬" },
-  { id: "cinematic", labelKm: "Option 3: Full Cinematic Character Dubbing", icon: "🎭" },
-  { id: "ai_visual", labelKm: "Option 4: AI Visual Storyteller (Auto-Script)", icon: "✨" },
+export interface DubModeItem {
+  id: DubMode
+  icon: string
+  specialization: string // បច្ចេកទេសឯកទេស (ភាសាអង់គ្លេស)
+}
+
+export const DUB_MODES: DubModeItem[] = [
+  {
+    id: "clean_vlog",
+    icon: "🎙️",
+    specialization: "Specialization: Original Voice Clarity & Noise Removal",
+  },
+  {
+    id: "summary_sfx",
+    icon: "🎬",
+    specialization: "Specialization: Background SFX Retention & Recap Cadence",
+  },
+  {
+    id: "cinematic",
+    icon: "🎭",
+    specialization: "Specialization: Multi-Character Emotional Voice Cloning",
+  },
+  {
+    id: "ai_visual",
+    icon: "✨",
+    specialization: "Specialization: Computer Vision Scene Script & Narration",
+  },
 ]
