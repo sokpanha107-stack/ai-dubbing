@@ -1,0 +1,110 @@
+{
+  "Public": {
+    "appTitle": "SAVPD.io™",
+    "appSubtitle": "Terjemahkan dan sulih suara video Anda ke bahasa lain dengan AI dalam beberapa langkah mudah.",
+    "footer": "Dibuat untuk penggunaan pribadi · Alat SAVPD.io",
+    "appLanguage": "Bahasa aplikasi",
+    "displayMode": "Mode Tampilan",
+    "step1": "Pilih atau letakkan video Anda",
+    "dropText": "Seret dan letakkan file di sini, atau klik untuk memilih",
+    "dropHint": "MP4, MOV, WEBM, dan lainnya",
+    "noLimit": "Tanpa batasan durasi atau ukuran",
+    "delete": "Hapus",
+    "step2": "Pilih bahasa",
+    "selectTargetLangTitle": "Pilih Bahasa Target (untuk Sulih Suara)",
+    "sourceLabel": "Bahasa sumber",
+    "targetLabel": "Bahasa target",
+    "swap": "Tukar bahasa",
+    "start": "Mulai terjemahan & sulih suara",
+    "processing": "Sulih suara AI sedang berlangsung...",
+    "stages": [
+      "Mengekstrak audio dari video",
+      "Mentranskripsikan ucapan ke teks",
+      "Menerjemahkan dengan pelindung konteks",
+      "Mengkloning suara dengan emosi & nada",
+      "Menggabungkan audio ke dalam video"
+    ],
+    "doneTitle": "Semua selesai!",
+    "doneSubtitle": "Video Anda telah disulih suara ke",
+    "download": "Unduh video",
+    "retry": "Mulai ulang",
+    "autopilotTitle": "Auto-Pilot AI Cerdas",
+    "autopilotDesc": "Otomatis penuh — tidak perlu pengeditan manual.",
+    "contextTitle": "Pelindung Konteks",
+    "contextDesc": "Makna, frasa, dan angka tetap akurat di semua bahasa.",
+    "emotionTitle": "Emosi & Nada",
+    "emotionDesc": "Tawa, kemarahan, ketakutan, dan kegembiraan dipertahankan dari aslinya.",
+    "paceTitle": "Kecepatan & Irama",
+    "paceDesc": "Kecepatan bicara tetap sinkron dengan video asli.",
+    "featuresHeading": "Kemampuan AI",
+    "appearance": "Tampilan",
+    "darkMode": "Mode gelap",
+    "lightMode": "Mode terang",
+    "eyeCare": "Perawatan mata (filter cahaya biru)",
+    "eyeCareDesc": "Filter hangat untuk mengurangi ketegangan mata di malam hari.",
+    "eyeCareLevel": "Kekuatan filter",
+    "assistant": "Asisten AI",
+    "assistantOpen": "Buka asisten AI",
+    "assistantTitle": "Asisten Sulih Suara",
+    "assistantSubtitle": "Tanyakan tentang cara menggunakan aplikasi ini",
+    "assistantGreeting": "Halo! Saya asisten sulih suara AI Anda. Saya hanya dapat membantu pertanyaan tentang aplikasi SAVPD.io ini — cara mengunggah, memilih bahasa, dan menggunakan Auto-Pilot. Ada yang bisa saya bantu?",
+    "assistantPlaceholder": "Tanya tentang aplikasi...",
+    "assistantSend": "Kirim",
+    "assistantVoice": "Tanya lewat suara",
+    "assistantListening": "Mendengarkan...",
+    "assistantRefusal": "Maaf! Saya hanya dapat menjawab pertanyaan yang berkaitan dengan teknologi dan penggunaan aplikasi SAVPD.io ini.",
+    "assistantSuggestions": [
+      "Bagaimana cara memulai Auto-Pilot?",
+      "Bahasa apa saja yang didukung?",
+      "Apakah ini mempertahankan emosi asli?"
+    ],
+    "dubbingOptions": {
+      "clean_vlog": {
+        "title": "Opsi 1: Sulih Suara Bersih (Mode Vlog)",
+        "desc": "Direkomendasikan untuk: Vlog Pribadi, Tutorial, Wawancara & Podcast."
+      },
+      "summary_sfx": {
+        "title": "Opsi 2: Ringkasan & SFX (Mode Rekap)",
+        "desc": "Direkomendasikan untuk: Rekap Film, Ringkasan Berita & Cerita Pendek."
+      },
+      "cinematic": {
+        "title": "Opsi 3: Sulih Suara Karakter Sinematik",
+        "desc": "Direkomendasikan untuk: Film Fitur, Drama TV & Kartun Animasi."
+      },
+      "ai_visual": {
+        "title": "Opsi 4: Pencerita Visual AI",
+        "desc": "Direkomendasikan untuk: Video Senyap, Showcase B-Roll & Demo Produk."
+      }
+    },
+    "languages": {
+      "en": "Inggris",
+      "km": "Khmer",
+      "zh": "Tionghoa",
+      "th": "Thai",
+      "vi": "Vietnam",
+      "ja": "Jepang",
+      "ko": "Korea",
+      "hi": "Hindi",
+      "es": "Spanyol",
+      "fr": "Prancis",
+      "de": "Jerman",
+      "id": "Indonesia",
+      "pt": "Portugis",
+      "ru": "Rusia",
+      "ar": "Arab",
+      "it": "Italia",
+      "tr": "Turki",
+      "ph": "Filipina",
+      "ms": "Melayu",
+      "bn": "Benggala"
+    }
+  },
+  "Admin": {
+    "settings": "Pengaturan",
+    "securityTitle": "Keamanan Sistem",
+    "securityDesc": "Silakan masukkan kode sandi untuk mengakses ruang kerja",
+    "passcodePlaceholder": "Masukkan kode sandi",
+    "invalidPasscode": "Kode sandi tidak valid!",
+    "accessSystem": "Akses Sistem"
+  }
+}
