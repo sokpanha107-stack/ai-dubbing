@@ -1,16 +1,23 @@
-import { getRequestConfig } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { getRequestConfig } from 'next-intl/server';
 
-// បញ្ជីភាសាដែលគាំទ្រក្នុងប្រព័ន្ធ (២០ ភាសា)
-export const locales = ['en', 'km', 'zh', 'th', 'vi', 'ja', 'ko', 'hi', 'es', 'fr', 'de', 'id', 'pt', 'ru', 'ar', 'it', 'tr', 'ph', 'ms', 'bn'];
+// 1. กำหนดรายชื่อភាសាទាំង ២០ របស់យើងជាផ្លូវការនៅទីនេះ ដើម្បីឱ្យ system ស្គាល់ទូទាំង app
+export const locales = [
+  'en', 'km', 'zh', 'th', 'vi', 'ja', 'ko', 'hi', 
+  'es', 'fr', 'de', 'id', 'pt', 'ru', 'ar', 'it', 
+  'tr', 'ph', 'ms', 'bn'
+];
+
 export const defaultLocale = 'en';
 
 export default getRequestConfig(async ({ locale }) => {
-  // ផ្ទៀងផ្ទាត់ភាសា បើគ្មានក្នុងបញ្ជីទម្លាក់ទៅ 404
-  if (!locales.includes(locale as any)) notFound();
+  // 2. ផ្ទៀងផ្ទាត់ថាតើ locale ដែលសុំមកស្ថិតក្នុងបញ្ជី ២០ ភាសាដែរឬទេ
+  if (!locales.includes(locale as any)) {
+    notFound();
+  }
 
   return {
-    locale, // <-- នេះហើយជាចំណុចសំខាន់ដែលត្រូវបន្ថែម ដើម្បីបំបាត់ Error របស់ Vercel
-    messages: (await import(`./messages/${locale}.json`)).default
+    // 3. ផ្សារភ្ជាប់និងទាញយកហ្វាល់ JSON មកតាម Dynamic អូតូ ទៅកាន់ Dictionary របស់ app
+    messages: (await import(`./messages/${locale}.json`)).default,
   };
 });
