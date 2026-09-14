@@ -13,7 +13,6 @@ import { useTheme } from "@/lib/theme"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
 import { InstallPrompt } from "./install-prompt"
 
-// កំណត់បញ្ជីភាសាទាំង ២០ ជាមួយទង់ជាតិ និងឈ្មោះការពារ (Fallback)
 const UI_LANGUAGES = [
   { code: "en", flag: "🇬🇧", fallbackName: "English" },
   { code: "km", flag: "🇰🇭", fallbackName: "Khmer" },
@@ -48,11 +47,13 @@ export function SharedSettings({
   onClose: () => void
   onAdminClick?: () => void 
 }) {
-  const t = useTranslations()
+  // ប្រើប្រាស់ Namespace ឱ្យចំទីតាំង JSON
+  const tPublic = useTranslations("Public")
+  const tAdmin = useTranslations("Admin")
+  
   const { mode, toggleMode, eyeCare, toggleEyeCare, eyeCareLevel, setEyeCareLevel } = useTheme()
   const [activeMenu, setActiveMenu] = useState<MenuState>("main")
 
-  // ចាប់យកភាសាពិតប្រាកដពី URL និងប្រើ Next.js Router សម្រាប់ប្ដូរភាសា
   const router = useRouter()
   const pathname = usePathname()
   const params = useParams()
@@ -84,23 +85,23 @@ export function SharedSettings({
     }
   }
 
-  // មុខងារសម្រាប់ផ្លាស់ប្តូរភាសាពិតប្រាកដ ដោយដូរ URL Route
+  // ប្តូរភាសា និងបង្ខំឱ្យ Refresh ដើម្បីទាញយក JSON ថ្មីភ្លាមៗ
   const switchLanguage = (newLang: string) => {
-    setTimeout(() => setActiveMenu("main"), 300) // បិទ Menu
+    setTimeout(() => setActiveMenu("main"), 300)
     if (newLang === currentLang) return
     
-    // លុបកូដភាសាចាស់ចេញពី URL រួចដាក់កូដភាសាថ្មីចូល
     const currentPathWithoutLocale = pathname.replace(`/${currentLang}`, "")
     const newPath = `/${newLang}${currentPathWithoutLocale === "" ? "" : currentPathWithoutLocale}`
     
     router.replace(newPath || `/${newLang}`)
+    router.refresh() // <- ចំណុចសំខាន់ដើម្បីឱ្យវាដូរ ១០០%
   }
 
-  // មុខងារជំនួយសម្រាប់ទាញយកឈ្មោះភាសា (ការពារកុំឱ្យលោត languages.en)
+  // ទាញយកឈ្មោះភាសាការពារ Error (ហៅចូល Public.languages)
   const getLanguageName = (code: string) => {
-    const translated = t(`languages.${code}`)
+    const translated = tPublic(`languages.${code}` as any)
     const fallback = UI_LANGUAGES.find(l => l.code === code)?.fallbackName
-    return translated === `languages.${code}` ? fallback : translated
+    return translated.includes("languages.") ? fallback : translated
   }
 
   return (
@@ -111,7 +112,7 @@ export function SharedSettings({
         <div className="flex items-center justify-between border-b border-border px-4 py-4" style={{ paddingTop: "max(1rem, env(safe-area-inset-top))" }}>
           {activeMenu === "main" ? (
             <>
-              <h2 className="text-lg font-bold text-foreground">{t('settings')}</h2>
+              <h2 className="text-lg font-bold text-foreground">{tAdmin('settings')}</h2>
               <button type="button" onClick={handleClose} className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-foreground transition active:scale-95">
                 <X className="h-5 w-5" />
               </button>
@@ -120,10 +121,10 @@ export function SharedSettings({
             <>
               <button type="button" onClick={() => setActiveMenu("main")} className="flex items-center gap-1 pr-4 text-primary transition active:scale-95 text-sm font-medium">
                 <ChevronLeft className="h-5 w-5" />
-                {t('settings')}
+                {tAdmin('settings')}
               </button>
               <h2 className="text-base font-bold text-foreground">
-                {activeMenu === "display" ? t('displayMode') : activeMenu === "language" ? t('appLanguage') : "About App"}
+                {activeMenu === "display" ? tPublic('displayMode') : activeMenu === "language" ? tPublic('appLanguage') : "About App"}
               </h2>
               <div className="w-[72px]" />
             </>
@@ -141,7 +142,7 @@ export function SharedSettings({
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
                     <Monitor className="h-4.5 w-4.5" />
                   </div>
-                  <span className="font-medium text-foreground">{t('displayMode')}</span>
+                  <span className="font-medium text-foreground">{tPublic('displayMode')}</span>
                 </div>
                 <ChevronRight className="h-5 w-5 text-muted-foreground" />
               </button>
@@ -151,7 +152,7 @@ export function SharedSettings({
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
                     <Globe className="h-4.5 w-4.5" />
                   </div>
-                  <span className="font-medium text-foreground">{t('appLanguage')}</span>
+                  <span className="font-medium text-foreground">{tPublic('appLanguage')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">{getLanguageName(currentLang)}</span>
@@ -179,7 +180,7 @@ export function SharedSettings({
                   <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-foreground">
                     {mode === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
                   </span>
-                  <span className="flex-1 text-left font-medium">{mode === "dark" ? t('darkMode') : t('lightMode')}</span>
+                  <span className="flex-1 text-left font-medium">{mode === "dark" ? tPublic('darkMode') : tPublic('lightMode')}</span>
                   <span className={`relative h-5 w-9 shrink-0 rounded-full transition ${mode === "dark" ? "bg-primary" : "bg-muted"}`}>
                     <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-all ${mode === "dark" ? "left-4" : "left-0.5"}`} />
                   </span>
@@ -188,14 +189,14 @@ export function SharedSettings({
                   <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${eyeCare ? "bg-warning/20 text-warning" : "bg-secondary text-foreground"}`}>
                     <Eye className="h-4 w-4" />
                   </span>
-                  <span className="flex-1 text-left font-medium">{t('eyeCare')}</span>
+                  <span className="flex-1 text-left font-medium">{tPublic('eyeCare')}</span>
                   <span className={`relative h-5 w-9 shrink-0 rounded-full transition ${eyeCare ? "bg-warning" : "bg-muted"}`}>
                     <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-all ${eyeCare ? "left-4" : "left-0.5"}`} />
                   </span>
                 </button>
                 {eyeCare && (
                   <div className="px-2 pt-3 pb-1 animate-in fade-in slide-in-from-top-1 duration-200 border-t border-border mt-2">
-                    <label className="mb-2.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t('eyeCareLevel')}</label>
+                    <label className="mb-2.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">{tPublic('eyeCareLevel')}</label>
                     <input type="range" min={10} max={70} value={eyeCareLevel} onChange={(e) => setEyeCareLevel(Number(e.target.value))} className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-muted accent-warning" />
                   </div>
                 )}
@@ -235,7 +236,7 @@ export function SharedSettings({
                 <h3 className="text-xl font-bold text-foreground">{SAVPD_CONSTANTS.BRAND.TRADEMARK}</h3>
                 
                 <p className="text-xs text-muted-foreground mt-4 max-w-xs select-none">
-                  {t('footer')}{" "}
+                  {tPublic('footer')}{" "}
                   <span 
                     onMouseDown={startHolding}
                     onMouseUp={cancelHolding}
@@ -252,7 +253,7 @@ export function SharedSettings({
               </div>
 
               <div className="space-y-3">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground px-1">{t('featuresHeading')}</h4>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground px-1">{tPublic('featuresHeading')}</h4>
                 
                 <div className="grid grid-cols-1 gap-3">
                   <div className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm">
@@ -260,8 +261,8 @@ export function SharedSettings({
                       <Sparkles className="h-5 w-5" />
                     </span>
                     <div>
-                      <h5 className="text-sm font-bold text-foreground">{t('autopilotTitle')}</h5>
-                      <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{t('autopilotDesc')}</p>
+                      <h5 className="text-sm font-bold text-foreground">{tPublic('autopilotTitle')}</h5>
+                      <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{tPublic('autopilotDesc')}</p>
                     </div>
                   </div>
 
@@ -270,8 +271,8 @@ export function SharedSettings({
                       <ShieldCheck className="h-5 w-5" />
                     </span>
                     <div>
-                      <h5 className="text-sm font-bold text-foreground">{t('contextTitle')}</h5>
-                      <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{t('contextDesc')}</p>
+                      <h5 className="text-sm font-bold text-foreground">{tPublic('contextTitle')}</h5>
+                      <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{tPublic('contextDesc')}</p>
                     </div>
                   </div>
 
@@ -280,8 +281,8 @@ export function SharedSettings({
                       <HeartPulse className="h-5 w-5" />
                     </span>
                     <div>
-                      <h5 className="text-sm font-bold text-foreground">{t('emotionTitle')}</h5>
-                      <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{t('emotionDesc')}</p>
+                      <h5 className="text-sm font-bold text-foreground">{tPublic('emotionTitle')}</h5>
+                      <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{tPublic('emotionDesc')}</p>
                     </div>
                   </div>
 
@@ -290,8 +291,8 @@ export function SharedSettings({
                       <Gauge className="h-5 w-5" />
                     </span>
                     <div>
-                      <h5 className="text-sm font-bold text-foreground">{t('paceTitle')}</h5>
-                      <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{t('paceDesc')}</p>
+                      <h5 className="text-sm font-bold text-foreground">{tPublic('paceTitle')}</h5>
+                      <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{tPublic('paceDesc')}</p>
                     </div>
                   </div>
                 </div>
