@@ -47,7 +47,6 @@ export function SharedSettings({
   onClose: () => void
   onAdminClick?: () => void 
 }) {
-  // ប្រើប្រាស់ Namespace ឱ្យចំទីតាំង JSON
   const tPublic = useTranslations("Public")
   const tAdmin = useTranslations("Admin")
   
@@ -59,6 +58,7 @@ export function SharedSettings({
   const params = useParams()
   const currentLang = (params?.locale as string) || "en"
 
+  // ตัวจับเวลาสำหรับการกดសង្កត់លើរូបគ្រាប់ភ្នែក (5 Seconds Long Press for Admin)
   const holdTimerRef = useRef<NodeJS.Timeout | null>(null)
   const [isHolding, setIsHolding] = useState(false)
 
@@ -69,14 +69,19 @@ export function SharedSettings({
     setTimeout(() => setActiveMenu("main"), 300)
   }
 
+  // មុខងារចាប់ផ្តើមសង្កត់លើគ្រាប់ភ្នែក ៥ វិនាទី
   const startHolding = () => {
     setIsHolding(true)
     holdTimerRef.current = setTimeout(() => {
-      if (onAdminClick) onAdminClick()
+      if (onAdminClick) {
+        onClose() // បិទ Settings មុននឹងបើក Admin
+        onAdminClick()
+      }
       setIsHolding(false)
     }, 5000)
   }
 
+  // មុខងារលុបចោលបើលែងដៃមុន ៥ វិនាទី
   const cancelHolding = () => {
     setIsHolding(false)
     if (holdTimerRef.current) {
@@ -85,7 +90,6 @@ export function SharedSettings({
     }
   }
 
-  // ប្តូរភាសា និងបង្ខំឱ្យ Refresh ដើម្បីទាញយក JSON ថ្មីភ្លាមៗ
   const switchLanguage = (newLang: string) => {
     setTimeout(() => setActiveMenu("main"), 300)
     if (newLang === currentLang) return
@@ -94,10 +98,9 @@ export function SharedSettings({
     const newPath = `/${newLang}${currentPathWithoutLocale === "" ? "" : currentPathWithoutLocale}`
     
     router.replace(newPath || `/${newLang}`)
-    router.refresh() // <- ចំណុចសំខាន់ដើម្បីឱ្យវាដូរ ១០០%
+    router.refresh()
   }
 
-  // ទាញយកឈ្មោះភាសាការពារ Error (ហៅចូល Public.languages)
   const getLanguageName = (code: string) => {
     const translated = tPublic(`languages.${code}` as any)
     const fallback = UI_LANGUAGES.find(l => l.code === code)?.fallbackName
@@ -172,7 +175,7 @@ export function SharedSettings({
             </div>
           )}
 
-          {/* Display Mode */}
+          {/* Display Mode (កន្លែងដាក់កូដសង្កត់លើគ្រាប់ភ្នែក ៥ វិនាទី) */}
           {activeMenu === "display" && (
             <div className="animate-in slide-in-from-right-4 fade-in duration-200">
               <div className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-3 shadow-sm">
@@ -185,8 +188,22 @@ export function SharedSettings({
                     <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-all ${mode === "dark" ? "left-4" : "left-0.5"}`} />
                   </span>
                 </button>
-                <button type="button" onClick={toggleEyeCare} className="flex w-full items-center gap-3 rounded-xl p-2 text-sm text-foreground transition hover:bg-secondary active:scale-[0.98]">
-                  <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${eyeCare ? "bg-warning/20 text-warning" : "bg-secondary text-foreground"}`}>
+
+                {/* 👁️ គ្រាប់ភ្នែក Eye Care ភ្ជាប់ជាមួយមុខងារចុចសង្កត់ ៥ វិនាទីដើម្បីបើក Admin */}
+                <button 
+                  type="button" 
+                  onClick={toggleEyeCare}
+                  onMouseDown={startHolding}
+                  onMouseUp={cancelHolding}
+                  onMouseLeave={cancelHolding}
+                  onTouchStart={startHolding}
+                  onTouchEnd={cancelHolding}
+                  className="flex w-full items-center gap-3 rounded-xl p-2 text-sm text-foreground transition hover:bg-secondary active:scale-[0.98] select-none"
+                  title="Eye Care"
+                >
+                  <span className={`flex h-8 w-8 items-center justify-center rounded-lg transition ${
+                    isHolding ? "bg-primary text-primary-foreground scale-110 animate-pulse" : eyeCare ? "bg-warning/20 text-warning" : "bg-secondary text-foreground"
+                  }`}>
                     <Eye className="h-4 w-4" />
                   </span>
                   <span className="flex-1 text-left font-medium">{tPublic('eyeCare')}</span>
@@ -194,6 +211,7 @@ export function SharedSettings({
                     <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-all ${eyeCare ? "left-4" : "left-0.5"}`} />
                   </span>
                 </button>
+
                 {eyeCare && (
                   <div className="px-2 pt-3 pb-1 animate-in fade-in slide-in-from-top-1 duration-200 border-t border-border mt-2">
                     <label className="mb-2.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">{tPublic('eyeCareLevel')}</label>
@@ -226,7 +244,7 @@ export function SharedSettings({
             </div>
           )}
 
-          {/* About */}
+          {/* About (ដកចេញពីសញ្ញាឧទានធម្មតា ព្រោះយើងប្តូរទៅដាក់លើគ្រាប់ភ្នែករួចហើយ) */}
           {activeMenu === "about" && (
             <div className="animate-in slide-in-from-right-4 fade-in duration-200 flex flex-col gap-6">
               <div className="flex flex-col items-center text-center mt-4">
@@ -236,19 +254,7 @@ export function SharedSettings({
                 <h3 className="text-xl font-bold text-foreground">{SAVPD_CONSTANTS.BRAND.TRADEMARK}</h3>
                 
                 <p className="text-xs text-muted-foreground mt-4 max-w-xs select-none">
-                  {tPublic('footer')}{" "}
-                  <span 
-                    onMouseDown={startHolding}
-                    onMouseUp={cancelHolding}
-                    onTouchStart={startHolding}
-                    onTouchEnd={cancelHolding}
-                    className={`inline-flex items-center justify-center font-bold cursor-pointer transition ${
-                      isHolding ? "text-primary scale-125 animate-pulse" : "text-muted-foreground hover:text-foreground"
-                    }`}
-                    title="Secret trigger"
-                  >
-                    (!)
-                  </span>
+                  {tPublic('footer')}
                 </p>
               </div>
 
