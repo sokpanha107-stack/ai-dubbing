@@ -1,0 +1,110 @@
+{
+  "Public": {
+    "appTitle": "SAVPD.io™",
+    "appSubtitle": "Übersetze und synchronisiere deine Videos mit KI in wenigen einfachen Schritten in eine andere Sprache.",
+    "footer": "Entwickelt für den persönlichen Gebrauch · SAVPD.io Tool",
+    "appLanguage": "App-Sprache",
+    "displayMode": "Anzeigemodus",
+    "step1": "Video auswählen oder ablegen",
+    "dropText": "Datei hierher ziehen oder zum Auswählen klicken",
+    "dropHint": "MP4, MOV, WEBM und mehr",
+    "noLimit": "Keine Zeit- oder Größenbeschränkung",
+    "delete": "Entfernen",
+    "step2": "Sprachen auswählen",
+    "selectTargetLangTitle": "Zielsprache auswählen (für Synchronisation)",
+    "sourceLabel": "Quellsprache",
+    "targetLabel": "Zielsprache",
+    "swap": "Sprachen tauschen",
+    "start": "Übersetzung & Synchronisation starten",
+    "processing": "KI-Synchronisation läuft...",
+    "stages": [
+      "Audio aus Video extrahieren",
+      "Sprache in Text transkribieren",
+      "Mit Kontextschutz übersetzen",
+      "Stimme mit Emotion und Tonfall klonen",
+      "Audio in Video einfügen"
+    ],
+    "doneTitle": "Fertig!",
+    "doneSubtitle": "Dein Video wurde synchronisiert in",
+    "download": "Video herunterladen",
+    "retry": "Neu starten",
+    "autopilotTitle": "Intelligenter KI-Autopilot",
+    "autopilotDesc": "Vollautomatisch — keine manuelle Bearbeitung erforderlich.",
+    "contextTitle": "Kontextschutz",
+    "contextDesc": "Bedeutung, Formulierung und Zahlen bleiben in allen Sprachen präzise.",
+    "emotionTitle": "Emotion & Tonfall",
+    "emotionDesc": "Lachen, Wut, Angst und Freude werden vom Original übernommen.",
+    "paceTitle": "Tempo & Rhythmus",
+    "paceDesc": "Die Sprechgeschwindigkeit bleibt mit dem Originalvideo synchron.",
+    "featuresHeading": "KI-Funktionen",
+    "appearance": "Erscheinungsbild",
+    "darkMode": "Dunkelmodus",
+    "lightMode": "Hellmodus",
+    "eyeCare": "Augenschutz (Blaulichtfilter)",
+    "eyeCareDesc": "Warmer Filter zur Reduzierung der Augenbelastung bei Nacht.",
+    "eyeCareLevel": "Filterstärke",
+    "assistant": "KI-Assistent",
+    "assistantOpen": "KI-Assistent öffnen",
+    "assistantTitle": "Synchronisations-Assistent",
+    "assistantSubtitle": "Frage zur Verwendung dieser App",
+    "assistantGreeting": "Hallo! Ich bin dein KI-Synchronisationsassistent. Ich kann dir nur bei Fragen zur SAVPD.io-App helfen — zum Hochladen, Sprachauswahl und zur Nutzung des Autopiloten. Wie kann ich helfen?",
+    "assistantPlaceholder": "Frage zur App stellen...",
+    "assistantSend": "Senden",
+    "assistantVoice": "Per Sprache fragen",
+    "assistantListening": "Höre zu...",
+    "assistantRefusal": "Entschuldigung! Ich kann nur Fragen beantworten, die sich auf die Technologie und Nutzung dieser SAVPD.io-App beziehen.",
+    "assistantSuggestions": [
+      "Wie starte ich den Autopiloten?",
+      "Welche Sprachen werden unterstützt?",
+      "Bleiben die Originalemotionen erhalten?"
+    ],
+    "dubbingOptions": {
+      "clean_vlog": {
+        "title": "Option 1: Sauberes Voiceover (Vlog-Modus)",
+        "desc": "Empfohlen für: Persönliche Vlogs, Tutorials, Interviews & Podcasts."
+      },
+      "summary_sfx": {
+        "title": "Option 2: Zusammenfassung & SFX (Recap-Modus)",
+        "desc": "Empfohlen für: Filmbeschreibungen, Nachrichtenzusammenfassungen & Kurzgeschichten."
+      },
+      "cinematic": {
+        "title": "Option 3: Kinoreife Charakter-Synchronisation",
+        "desc": "Empfohlen für: Spielfilme, TV-Serien & Zeichentrickfilme."
+      },
+      "ai_visual": {
+        "title": "Option 4: KI-Visual-Storyteller",
+        "desc": "Empfohlen für: Stumme Videos, B-Roll-Präsentationen & Produkt Demos."
+      }
+    },
+    "languages": {
+      "en": "Englisch",
+      "km": "Khmer",
+      "zh": "Chinesisch",
+      "th": "Thailändisch",
+      "vi": "Vietnamesisch",
+      "ja": "Japanisch",
+      "ko": "Koreanisch",
+      "hi": "Hindi",
+      "es": "Spanisch",
+      "fr": "Französisch",
+      "de": "Deutsch",
+      "id": "Indonesisch",
+      "pt": "Portugiesisch",
+      "ru": "Russisch",
+      "ar": "Arabisch",
+      "it": "Italienisch",
+      "tr": "Türkisch",
+      "ph": "Filipinisch",
+      "ms": "Malaiisch",
+      "bn": "Bengalisch"
+    }
+  },
+  "Admin": {
+    "settings": "Einstellungen",
+    "securityTitle": "Systemsicherheit",
+    "securityDesc": "Bitte gib den Passcode ein, um auf den Arbeitsbereich zuzugreifen",
+    "passcodePlaceholder": "Passcode eingeben",
+    "invalidPasscode": "Ungültiger Passcode!",
+    "accessSystem": "Auf System zugreifen"
+  }
+}
