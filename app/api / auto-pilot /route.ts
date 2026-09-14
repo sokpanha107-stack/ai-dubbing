@@ -3,33 +3,38 @@ import { NextResponse } from 'next/server';
 
 // ថ្ងៃមុខយើងនឹង Import យក File ពី lib/ មកប្រើនៅទីនេះ
 // import { SavpdAIAgent } from '@/lib/ai-agent/agent-core';
+// import { VideoTransformer } from '@/lib/video-processor/transformer';
 
 export async function POST(req: Request) {
   try {
-    // ១. ទទួលសំណើ (Data) ពីផ្ទាំង UI ពេលគេចុចប៊ូតុង
+    // ១. ទទួលទិន្នន័យថ្មីៗពីផ្ទាំង UI (Platform និង Episodic Mode)
     const body = await req.json();
-    const { videoUrl, targetLanguage } = body;
+    const { videoUrl, targetPlatform, episodicSplit } = body;
 
-    console.log(`[API Route] ទទួលបានបញ្ជា! កំពុងដំណើរការវីដេអូទៅជាភាសា: ${targetLanguage || 'Khmer'}`);
+    console.log(`[API Route] ទទួលបានបញ្ជា! 
+      - Platform: ${targetPlatform?.toUpperCase()}
+      - Episodic Mode: ${episodicSplit ? 'បើក (កាត់ចែកជាភាគ)' : 'បិទ'}`);
 
-    // ២. ទីតាំងសម្រាប់ដាស់ AI Agent, API Router និង Video Transformer ឱ្យធ្វើការរួមគ្នា
+    // ២. ទីតាំងសម្រាប់ដាស់ AI Agent និង Video Transformer ឱ្យដំណើរការតាម Platform
     // ឧទាហរណ៍: 
-    // await agent.analyzeInput();
-    // await router.generateVoiceWithFallback();
-    // await transformer.applySmartZoom();
+    // await agent.analyzeAndSplit(videoUrl, targetPlatform);
+    // await transformer.processEpisodes(targetPlatform);
     
     // ៣. បញ្ជូនលទ្ធផលត្រឡប់ទៅប្រាប់ផ្ទាំង UI វិញ
     return NextResponse.json({ 
       success: true, 
-      message: 'ម៉ាស៊ីន Auto-Pilot ដំណើរការជោគជ័យ!',
+      message: `ម៉ាស៊ីន Auto-Pilot បានកែច្នៃវីដេអូរួចរាល់សម្រាប់ ${targetPlatform?.toUpperCase()}!`,
       status: 'completed',
-      exportUrl: '/temp/final-video-khmer.mp4'
+      exportFiles: [
+        { episode: 1, url: `/exports/${targetPlatform}-ep1.mp4` },
+        { episode: 2, url: `/exports/${targetPlatform}-ep2.mp4` }
+      ]
     });
 
   } catch (error) {
     console.error('[API Route] មានបញ្ហា:', error);
     return NextResponse.json(
-      { success: false, message: 'ម៉ាស៊ីនជួបបញ្ហារអាក់រអួល' }, 
+      { success: false, message: 'ម៉ាស៊ីនជួបបញ្ហារអាក់រអួលពេលកំពុងដំណើរការ' }, 
       { status: 500 }
     );
   }
