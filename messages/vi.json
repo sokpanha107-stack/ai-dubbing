@@ -1,0 +1,110 @@
+{
+  "Public": {
+    "appTitle": "SAVPD.io™",
+    "appSubtitle": "Dịch và lồng tiếng video của bạn sang ngôn ngữ khác bằng AI chỉ trong vài bước đơn giản.",
+    "footer": "Được xây dựng cho mục đích cá nhân · Công cụ SAVPD.io",
+    "appLanguage": "Ngôn ngữ ứng dụng",
+    "displayMode": "Chế độ hiển thị",
+    "step1": "Chọn hoặc thả video của bạn",
+    "dropText": "Kéo và thả tệp vào đây, hoặc nhấp để chọn",
+    "dropHint": "MP4, MOV, WEBM và nhiều định dạng khác",
+    "noLimit": "Không giới hạn thời lượng hoặc kích thước",
+    "delete": "Xóa",
+    "step2": "Chọn ngôn ngữ",
+    "selectTargetLangTitle": "Chọn ngôn ngữ đích (để lồng tiếng)",
+    "sourceLabel": "Ngôn ngữ nguồn",
+    "targetLabel": "Ngôn ngữ đích",
+    "swap": "Đổi ngôn ngữ",
+    "start": "Bắt đầu dịch và lồng tiếng",
+    "processing": "Đang xử lý lồng tiếng bằng AI...",
+    "stages": [
+      "Đang trích xuất âm thanh từ video",
+      "Đang chuyển đổi giọng nói thành văn bản",
+      "Đang dịch với bộ bảo vệ ngữ cảnh",
+      "Đang nhân bản giọng nói với cảm xúc và tông giọng",
+      "Đang hợp nhất âm thanh vào video"
+    ],
+    "doneTitle": "Hoàn tất!",
+    "doneSubtitle": "Video của bạn đã được lồng tiếng sang",
+    "download": "Tải xuống video",
+    "retry": "Bắt đầu lại",
+    "autopilotTitle": "Tự động lái thông minh bằng AI",
+    "autopilotDesc": "Hoàn toàn tự động — không cần chỉnh sửa thủ công.",
+    "contextTitle": "Bảo vệ ngữ cảnh",
+    "contextDesc": "Ý nghĩa, cách diễn đạt và số liệu luôn chính xác ở mọi ngôn ngữ.",
+    "emotionTitle": "Cảm xúc và tông giọng",
+    "emotionDesc": "Tiếng cười, sự tức giận, nỗi sợ hãi và niềm vui được giữ lại từ bản gốc.",
+    "paceTitle": "Nhịp độ và tốc độ",
+    "paceDesc": "Tốc độ nói được đồng bộ với video gốc.",
+    "featuresHeading": "Tính năng của AI",
+    "appearance": "Giao diện",
+    "darkMode": "Chế độ tối",
+    "lightMode": "Chế độ sáng",
+    "eyeCare": "Bảo vệ mắt (Bộ lọc ánh sáng xanh)",
+    "eyeCareDesc": "Bộ lọc ấm giúp giảm mỏi mắt vàoban đêm.",
+    "eyeCareLevel": "Mức độ bộ lọc",
+    "assistant": "Trợ lý AI",
+    "assistantOpen": "Mở trợ lý AI",
+    "assistantTitle": "Trợ lý lồng tiếng",
+    "assistantSubtitle": "Hỏi về cách sử dụng ứng dụng này",
+    "assistantGreeting": "Xin chào! Tôi là trợ lý lồng tiếng AI của bạn. Tôi chỉ có thể trả lời các câu hỏi về cách sử dụng ứng dụng SAVPD.io này — cách tải lên, chọn ngôn ngữ và sử dụng chế độ tự động. Tôi có thể giúp gì cho bạn?",
+    "assistantPlaceholder": "Hỏi về ứng dụng...",
+    "assistantSend": "Gửi",
+    "assistantVoice": "Hỏi bằng giọng nói",
+    "assistantListening": "Đang nghe...",
+    "assistantRefusal": "Xin lỗi! Tôi chỉ có thể trả lời các câu hỏi liên quan đến công nghệ và cách sử dụng ứng dụng SAVPD.io này.",
+    "assistantSuggestions": [
+      "Làm thế nào để bắt đầu chế độ tự động?",
+      "Hỗ trợ những ngôn ngữ nào?",
+      "Nó có giữ nguyên cảm xúc ban đầu không?"
+    ],
+    "dubbingOptions": {
+      "clean_vlog": {
+        "title": "Tùy chọn 1: Giọng đọc sạch sẽ (Chế độ Vlog)",
+        "desc": "Đề xuất cho: Vlog cá nhân, video hướng dẫn, phỏng vấn và podcast."
+      },
+      "summary_sfx": {
+        "title": "Tùy chọn 2: Tóm tắt & Hiệu ứng âm thanh (Chế độ Tóm tắt)",
+        "desc": "Đề xuất cho: Tóm tắt phim, tóm tắt tin tức và truyện ngắn."
+      },
+      "cinematic": {
+        "title": "Tùy chọn 3: Lồng tiếng nhân vật điện ảnh",
+        "desc": "Đề xuất cho: Phim truyện, phim truyền hình và hoạt hình."
+      },
+      "ai_visual": {
+        "title": "Tùy chọn 4: Người kể chuyện trực quan bằng AI",
+        "desc": "Đề xuất cho: Video không lời thoại, video B-roll và giới thiệu sản phẩm."
+      }
+    },
+    "languages": {
+      "en": "Tiếng Anh",
+      "km": "Tiếng Khmer",
+      "zh": "Tiếng Trung",
+      "th": "Tiếng Thái",
+      "vi": "Tiếng Việt",
+      "ja": "Tiếng Nhật",
+      "ko": "Tiếng Hàn",
+      "hi": "Tiếng Hindi",
+      "es": "Tiếng Tây Ban Nha",
+      "fr": "Tiếng Pháp",
+      "de": "Tiếng Đức",
+      "id": "Tiếng Indonesia",
+      "pt": "Tiếng Bồ Đào Nha",
+      "ru": "Tiếng Nga",
+      "ar": "Tiếng Ả Rập",
+      "it": "Tiếng Ý",
+      "tr": "Tiếng Thổ Nhĩ Kỳ",
+      "ph": "Tiếng Philipin",
+      "ms": "Tiếng Mã Lai",
+      "bn": "Tiếng Bengal"
+    }
+  },
+  "Admin": {
+    "settings": "Cài đặt",
+    "securityTitle": "Bảo mật hệ thống",
+    "securityDesc": "Vui lòng nhập mật mã để truy cập không gian làm việc",
+    "passcodePlaceholder": "Nhập mật mã",
+    "invalidPasscode": "Mật mã không hợp lệ!",
+    "accessSystem": "Truy cập hệ thống"
+  }
+}
