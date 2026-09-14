@@ -1,0 +1,110 @@
+{
+  "Public": {
+    "appTitle": "SAVPD.io™",
+    "appSubtitle": "Isalin at i-dub ang iyong mga video sa ibang wika gamit ang AI sa ilang madaling hakbang.",
+    "footer": "Binuo para sa personal na paggamit · Tool ng SAVPD.io",
+    "appLanguage": "Wika ng app",
+    "displayMode": "Mode ng Pagpapakita",
+    "step1": "Piliin o i-drop ang iyong video",
+    "dropText": "I-drag at i-drop ang isang file dito, o i-click upang piliin",
+    "dropHint": "MP4, MOV, WEBM at marami pa",
+    "noLimit": "Walang limitasyon sa tagal o laki",
+    "delete": "Alisin",
+    "step2": "Piliin ang mga wika",
+    "selectTargetLangTitle": "Piliin ang Target na Wika (para sa Pag-dub)",
+    "sourceLabel": "Pinagmulang wika",
+    "targetLabel": "Target na wika",
+    "swap": "Pagpalitin ang mga wika",
+    "start": "Simulan ang pagsasalin at pag-dub",
+    "processing": "Kasalukuyang nag-u-dub ang AI...",
+    "stages": [
+      "Kinukuha ang audio mula sa video",
+      "Binabago ang pananalita sa teksto",
+      "Isinasalin gamit ang context guard",
+      "Kina-clone ang boses na may emosyon at tono",
+      "Pinagsasama ang audio sa video"
+    ],
+    "doneTitle": "Tapos na ang lahat!",
+    "doneSubtitle": "Ang iyong video ay na-dub na sa",
+    "download": "I-download ang video",
+    "retry": "Magsimulang muli",
+    "autopilotTitle": "Matalinong AI Auto-Pilot",
+    "autopilotDesc": "Ganap na awtomatiko — walang kinakailangang manu-manong pag-edit.",
+    "contextTitle": "Context Guard",
+    "contextDesc": "Ang kahulugan, pagkakabuo ng parirala, at mga numero ay nananatiling tumpak sa lahat ng wika.",
+    "emotionTitle": "Emosyon at Tono",
+    "emotionDesc": "Ang pagtawa, galit, takot, at kagalakan ay napanatili mula sa orihinal.",
+    "paceTitle": "Bilis at Ritmo",
+    "paceDesc": "Ang bilis ng pananalita ay nananatiling naka-sync sa orihinal na video.",
+    "featuresHeading": "Mga kakayahan ng AI",
+    "appearance": "Hitsura",
+    "darkMode": "Dark mode",
+    "lightMode": "Light mode",
+    "eyeCare": "Pangangalaga sa mata (blue light filter)",
+    "eyeCareDesc": "Mainit na filter upangawasan ang pagkapagod ng mata sa gabi.",
+    "eyeCareLevel": "Lakas ng filter",
+    "assistant": "AI Assistant",
+    "assistantOpen": "Buksan ang AI assistant",
+    "assistantTitle": "Assistant sa Pag-dub",
+    "assistantSubtitle": "Magtanong tungkol sa kung paano gamitin ang app na ito",
+    "assistantGreeting": "Kumusta! Ako ang iyong AI dubbing assistant. Makakatulong lamang ako sa mga tanong tungkol sa SAVPD.io app na ito — kung paano mag-upload, pumili ng mga wika, at gumamit ng Auto-Pilot. Paano kita matutulungan?",
+    "assistantPlaceholder": "Magtanong tungkol sa app...",
+    "assistantSend": "Ipadala",
+    "assistantVoice": "Magtanong sa pamamagitan ng boses",
+    "assistantListening": "Nikikinig...",
+    "assistantRefusal": "Pasensya na! Maaari lamang akong sumagot sa mga tanong na nauugnay sa teknolohiya at paggamit ng SAVPD.io app na ito.",
+    "assistantSuggestions": [
+      "Paano ko sisimulan ang Auto-Pilot?",
+      "Anong mga wika ang sinusuportahan?",
+      "Pinapanatili ba nito ang orihinal na emosyon?"
+    ],
+    "dubbingOptions": {
+      "clean_vlog": {
+        "title": "Opsyon 1: Malinis na Voiceover (Vlog Mode)",
+        "desc": "Inirerekomenda para sa: Mga Personal na Vlog, Tutorial, Panayam at Podcast."
+      },
+      "summary_sfx": {
+        "title": "Opsyon 2: Buod at SFX (Recap Mode)",
+        "desc": "Inirerekomenda para sa: Mga Recap ng Pelikula, Buod ng Balita at Maikling Kwento."
+      },
+      "cinematic": {
+        "title": "Opsyon 3: Cinematic Character Dubbing",
+        "desc": "Inirerekomenda para sa: Mga Pelikula, TV Drama at Animated Cartoon."
+      },
+      "ai_visual": {
+        "title": "Opsyon 4: AI Visual Storyteller",
+        "desc": "Inirerekomenda para sa: Mga Silent Video, B-Roll Showcases at Product Demo."
+      }
+    },
+    "languages": {
+      "en": "Ingles",
+      "km": "Khmer",
+      "zh": "Intsik",
+      "th": "Thai",
+      "vi": "Vietnamese",
+      "ja": "Japanese",
+      "ko": "Korean",
+      "hi": "Hindi",
+      "es": "Spanish",
+      "fr": "French",
+      "de": "German",
+      "id": "Indonesian",
+      "pt": "Portuguese",
+      "ru": "Russian",
+      "ar": "Arabic",
+      "it": "Italian",
+      "tr": "Turkish",
+      "ph": "Filipino",
+      "ms": "Malay",
+      "bn": "Bengali"
+    }
+  },
+  "Admin": {
+    "settings": "Mga Setting",
+    "securityTitle": "Seguridad ng Sistema",
+    "securityDesc": "Mangyaring ilagay ang passcode upang ma-access ang workspace",
+    "passcodePlaceholder": "Ilagay ang passcode",
+    "invalidPasscode": "Maling passcode!",
+    "accessSystem": "I-access ang Sistema"
+  }
+}
