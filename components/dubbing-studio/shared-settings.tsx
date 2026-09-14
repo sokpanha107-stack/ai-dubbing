@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react"
 import Image from "next/image"
+import { useParams, usePathname, useRouter } from "next/navigation"
 import { 
   X, Moon, Sun, Eye, Check, ChevronRight, ChevronLeft, 
   Monitor, Globe, Info, Clapperboard,
@@ -12,10 +13,28 @@ import { useTheme } from "@/lib/theme"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
 import { InstallPrompt } from "./install-prompt"
 
-// កំណត់ UI Languages ថ្មីនៅទីនេះផ្ទាល់
+// កំណត់បញ្ជីភាសាទាំង ២០ ជាមួយទង់ជាតិ និងឈ្មោះការពារ (Fallback)
 const UI_LANGUAGES = [
-  { code: "en", flag: "🇬🇧" },
-  { code: "km", flag: "🇰🇭" },
+  { code: "en", flag: "🇬🇧", fallbackName: "English" },
+  { code: "km", flag: "🇰🇭", fallbackName: "Khmer" },
+  { code: "fr", flag: "🇫🇷", fallbackName: "French" },
+  { code: "es", flag: "🇪🇸", fallbackName: "Spanish" },
+  { code: "zh", flag: "🇨🇳", fallbackName: "Chinese" },
+  { code: "ja", flag: "🇯🇵", fallbackName: "Japanese" },
+  { code: "ko", flag: "🇰🇷", fallbackName: "Korean" },
+  { code: "th", flag: "🇹🇭", fallbackName: "Thai" },
+  { code: "vi", flag: "🇻🇳", fallbackName: "Vietnamese" },
+  { code: "id", flag: "🇮🇩", fallbackName: "Indonesian" },
+  { code: "ms", flag: "🇲🇾", fallbackName: "Malay" },
+  { code: "my", flag: "🇲🇲", fallbackName: "Burmese" },
+  { code: "lo", flag: "🇱🇦", fallbackName: "Lao" },
+  { code: "tl", flag: "🇵🇭", fallbackName: "Filipino" },
+  { code: "ar", flag: "🇸🇦", fallbackName: "Arabic" },
+  { code: "ru", flag: "🇷🇺", fallbackName: "Russian" },
+  { code: "de", flag: "🇩🇪", fallbackName: "German" },
+  { code: "pt", flag: "🇵🇹", fallbackName: "Portuguese" },
+  { code: "it", flag: "🇮🇹", fallbackName: "Italian" },
+  { code: "hi", flag: "🇮🇳", fallbackName: "Hindi" },
 ] as const
 
 type MenuState = "main" | "display" | "language" | "about"
@@ -33,8 +52,11 @@ export function SharedSettings({
   const { mode, toggleMode, eyeCare, toggleEyeCare, eyeCareLevel, setEyeCareLevel } = useTheme()
   const [activeMenu, setActiveMenu] = useState<MenuState>("main")
 
-  // ជំនួស state ភាសាដោយប្រើ Cookies ឬ URL (នៅទីនេះប្រើបណ្ដោះអាសន្នសិន)
-  const [lang, setLang] = useState("km") 
+  // ចាប់យកភាសាពិតប្រាកដពី URL និងប្រើ Next.js Router សម្រាប់ប្ដូរភាសា
+  const router = useRouter()
+  const pathname = usePathname()
+  const params = useParams()
+  const currentLang = (params?.locale as string) || "en"
 
   const holdTimerRef = useRef<NodeJS.Timeout | null>(null)
   const [isHolding, setIsHolding] = useState(false)
@@ -60,6 +82,25 @@ export function SharedSettings({
       clearTimeout(holdTimerRef.current)
       holdTimerRef.current = null
     }
+  }
+
+  // មុខងារសម្រាប់ផ្លាស់ប្តូរភាសាពិតប្រាកដ ដោយដូរ URL Route
+  const switchLanguage = (newLang: string) => {
+    setTimeout(() => setActiveMenu("main"), 300) // បិទ Menu
+    if (newLang === currentLang) return
+    
+    // លុបកូដភាសាចាស់ចេញពី URL រួចដាក់កូដភាសាថ្មីចូល
+    const currentPathWithoutLocale = pathname.replace(`/${currentLang}`, "")
+    const newPath = `/${newLang}${currentPathWithoutLocale === "" ? "" : currentPathWithoutLocale}`
+    
+    router.replace(newPath || `/${newLang}`)
+  }
+
+  // មុខងារជំនួយសម្រាប់ទាញយកឈ្មោះភាសា (ការពារកុំឱ្យលោត languages.en)
+  const getLanguageName = (code: string) => {
+    const translated = t(`languages.${code}`)
+    const fallback = UI_LANGUAGES.find(l => l.code === code)?.fallbackName
+    return translated === `languages.${code}` ? fallback : translated
   }
 
   return (
@@ -113,7 +154,7 @@ export function SharedSettings({
                   <span className="font-medium text-foreground">{t('appLanguage')}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">{t(`languages.${lang}`)}</span>
+                  <span className="text-sm text-muted-foreground">{getLanguageName(currentLang)}</span>
                   <ChevronRight className="h-5 w-5 text-muted-foreground" />
                 </div>
               </button>
@@ -167,12 +208,17 @@ export function SharedSettings({
             <div className="animate-in slide-in-from-right-4 fade-in duration-200">
               <div className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
                 {UI_LANGUAGES.map((l, index) => (
-                  <button key={l.code} type="button" onClick={() => { setLang(l.code); setTimeout(() => setActiveMenu("main"), 300); }} className={`flex w-full items-center gap-3 p-4 text-sm transition hover:bg-secondary/50 active:bg-secondary ${index !== UI_LANGUAGES.length - 1 ? "border-b border-border" : ""}`}>
+                  <button 
+                    key={l.code} 
+                    type="button" 
+                    onClick={() => switchLanguage(l.code)} 
+                    className={`flex w-full items-center gap-3 p-4 text-sm transition hover:bg-secondary/50 active:bg-secondary ${index !== UI_LANGUAGES.length - 1 ? "border-b border-border" : ""}`}
+                  >
                     <span className="text-xl">{l.flag}</span>
-                    <span className={`flex-1 text-left ${lang === l.code ? "font-semibold text-primary" : "text-foreground"}`}>
-                      {t(`languages.${l.code}`)}
+                    <span className={`flex-1 text-left ${currentLang === l.code ? "font-semibold text-primary" : "text-foreground"}`}>
+                      {getLanguageName(l.code)}
                     </span>
-                    {lang === l.code && <Check className="h-5 w-5 text-primary" />}
+                    {currentLang === l.code && <Check className="h-5 w-5 text-primary" />}
                   </button>
                 ))}
               </div>
