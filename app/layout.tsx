@@ -6,6 +6,9 @@ import { getLocale, getMessages } from 'next-intl/server'
 import { ThemeProvider } from '@/lib/theme'
 import './globals.css'
 
+// បន្ថែមកូដមួយបន្ទាត់នេះដើម្បីដោះស្រាយបញ្ហា Build Error 404 នៅលើ Vercel
+export const dynamic = 'force-dynamic'
+
 const geist = Geist({
   subsets: ['latin'],
   variable: '--font-geist',
