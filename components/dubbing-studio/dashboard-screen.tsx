@@ -15,7 +15,9 @@ import {
   Wand2,
   LayoutTemplate,
   Type,
-  Share2
+  Share2,
+  Scissors,
+  ShieldCheck
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
@@ -78,8 +80,9 @@ export function DashboardScreenContainer({
   const t = useTranslations("Public") 
   const targetFlag = DUB_LANGS.find((l) => l.code === targetLang)?.flag
   
-  // 🎛️ AI Pro States ទាំងអស់
+  // 🎛️ Brabus/Mansory Studio Pro States (เพิ่มฟีเจอร์ลบขอบ/สាច់វីដេអូសុទ្ធ)
   const [removeWatermark, setRemoveWatermark] = useState(true)
+  const [autoCropUi, setAutoCropUi] = useState(true) // 🚀 មុខងារថ្មី៖ កាត់ស្វ័យប្រវត្តិនូវ UI/Platform borders
   const [dubMode, setDubMode] = useState("level1")
   const [videoStyle, setVideoStyle] = useState("normal")
   const [subtitleStyle, setSubtitleStyle] = useState("dynamic")
@@ -109,6 +112,8 @@ export function DashboardScreenContainer({
           
           removeWatermark={removeWatermark}
           setRemoveWatermark={setRemoveWatermark}
+          autoCropUi={autoCropUi}
+          setAutoCropUi={setAutoCropUi}
           dubMode={dubMode}
           setDubMode={setDubMode}
           videoStyle={videoStyle}
@@ -150,6 +155,8 @@ function DashboardContent({
   
   removeWatermark,
   setRemoveWatermark,
+  autoCropUi,
+  setAutoCropUi,
   dubMode,
   setDubMode,
   videoStyle,
@@ -173,6 +180,8 @@ function DashboardContent({
   
   removeWatermark: boolean
   setRemoveWatermark: (v: boolean) => void
+  autoCropUi: boolean
+  setAutoCropUi: (v: boolean) => void
   dubMode: string
   setDubMode: (v: string) => void
   videoStyle: string
@@ -193,9 +202,10 @@ function DashboardContent({
         <h1 className="text-balance text-2xl font-bold tracking-tight text-foreground">
           {SAVPD_CONSTANTS.BRAND.TRADEMARK}
         </h1>
+        <p className="text-[11px] text-primary font-semibold mt-0.5">⚡ Professional Producer Studio (Brabus Edition)</p>
       </div>
 
-      {/* 🌟 1. ផ្នែក Upload វីដេអូ */}
+      {/* 🌟 1. ផ្នែក Upload វីដេអូ ឬ Screenshots */}
       {!videoUrl ? (
         <button
           type="button"
@@ -218,7 +228,7 @@ function DashboardContent({
             <UploadCloud className="h-7 w-7" />
           </span>
           <span className="text-sm font-semibold text-foreground">{t("dropText")}</span>
-          <span className="text-xs text-muted-foreground">{t("dropHint")}</span>
+          <span className="text-xs text-muted-foreground">{t("dropHint")} (รองรับ Video & Screenshots សុទ្ធ)</span>
         </button>
       ) : (
         <div className="overflow-hidden rounded-3xl border border-border bg-black shadow-md">
@@ -240,7 +250,7 @@ function DashboardContent({
         </div>
       )}
 
-      {/* 🌟 កញ្ចប់បញ្ជា AI (AI Control Panel) */}
+      {/* 🌟 កញ្ចប់បញ្ជា AI & Studio Pro Control Panel */}
       <div className="rounded-3xl border border-border bg-card/40 p-4 shadow-sm space-y-5">
         
         {/* Toggle លុប Watermark */}
@@ -260,10 +270,27 @@ function DashboardContent({
           />
         </div>
 
+        {/* 🚀 Toggle ថ្មី៖ Auto-Crop & Clean Platform UI */}
+        <div className="flex items-center justify-between bg-secondary/50 p-3 rounded-2xl border border-border">
+          <div>
+            <p className="text-xs font-bold text-foreground flex items-center gap-1.5">
+              <Scissors className="h-3.5 w-3.5 text-primary" /> 
+              ទាញយកតែសាច់វីដេអូសុទ្ធ (Auto-Crop UI)
+            </p>
+            <p className="text-[10px] text-muted-foreground mt-0.5">កាត់បំបាត់គែម TikTok/Facebook Reels & Screenshots ស្វ័យប្រវត្តិ</p>
+          </div>
+          <input 
+            type="checkbox" 
+            checked={autoCropUi} 
+            onChange={(e) => setAutoCropUi(e.target.checked)}
+            className="w-4 h-4 accent-primary cursor-pointer"
+          />
+        </div>
+
         {/* កម្រិតបញ្ចូលសំឡេង */}
         <div className="space-y-2">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-            <AudioLines className="h-3.5 w-3.5" /> កម្រិតបញ្ចូលសំឡេង (AI Dubbing)
+            <AudioLines className="h-3.5 w-3.5" /> កម្រិតបញ្ចូលសំឡេង (AI Dubbing Studio)
           </div>
           <select
             value={dubMode}
@@ -368,7 +395,7 @@ function DashboardContent({
           className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 transition active:scale-[0.99] hover:opacity-90"
         >
           <Wand2 className="h-4 w-4 transition group-hover:rotate-12" />
-          ដំណើរការ AI Workflow ស្វ័យប្រវត្តិ
+          ដំណើរការ Producer Studio ស្វ័យប្រវត្តិ
         </button>
       </div>
     </div>
