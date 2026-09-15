@@ -13,8 +13,8 @@ export default async function Page({
   setRequestLocale(locale);
 
   return (
-    <main className="min-h-screen bg-black text-white p-2 md:p-8 flex flex-col items-center">
-      <div className="w-full max-w-2xl mx-auto flex flex-col flex-1">
+    <main className="min-h-screen bg-black text-white p-4 md:p-8 flex flex-col items-center justify-center">
+      <div className="w-full max-w-2xl mx-auto">
         <DubbingStudio />
       </div>
     </main>
