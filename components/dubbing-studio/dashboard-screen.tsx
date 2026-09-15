@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import {
   AudioLines,
   CheckCircle2,
@@ -80,9 +80,9 @@ export function DashboardScreenContainer({
   const t = useTranslations("Public") 
   const targetFlag = DUB_LANGS.find((l) => l.code === targetLang)?.flag
   
-  // 🎛️ Brabus/Mansory Studio Pro States (เพิ่มฟีเจอร์ลบขอบ/สាច់វីដេអូសុទ្ធ)
+  // 🎛️ Brabus/Mansory Studio Pro States
   const [removeWatermark, setRemoveWatermark] = useState(true)
-  const [autoCropUi, setAutoCropUi] = useState(true) // 🚀 មុខងារថ្មី៖ កាត់ស្វ័យប្រវត្តិនូវ UI/Platform borders
+  const [autoCropUi, setAutoCropUi] = useState(true)
   const [dubMode, setDubMode] = useState("level1")
   const [videoStyle, setVideoStyle] = useState("normal")
   const [subtitleStyle, setSubtitleStyle] = useState("dynamic")
@@ -205,7 +205,7 @@ function DashboardContent({
         <p className="text-[11px] text-primary font-semibold mt-0.5">⚡ Professional Producer Studio (Brabus Edition)</p>
       </div>
 
-      {/* 🌟 1. ផ្នែក Upload វីដេអូ ឬ Screenshots */}
+      {/* 🌟 1. ផ្នែក Upload */}
       {!videoUrl ? (
         <button
           type="button"
@@ -253,7 +253,6 @@ function DashboardContent({
       {/* 🌟 កញ្ចប់បញ្ជា AI & Studio Pro Control Panel */}
       <div className="rounded-3xl border border-border bg-card/40 p-4 shadow-sm space-y-5">
         
-        {/* Toggle លុប Watermark */}
         <div className="flex items-center justify-between bg-secondary/50 p-3 rounded-2xl border border-border">
           <div>
             <p className="text-xs font-bold text-foreground flex items-center gap-1.5">
@@ -270,7 +269,6 @@ function DashboardContent({
           />
         </div>
 
-        {/* 🚀 Toggle ថ្មី៖ Auto-Crop & Clean Platform UI */}
         <div className="flex items-center justify-between bg-secondary/50 p-3 rounded-2xl border border-border">
           <div>
             <p className="text-xs font-bold text-foreground flex items-center gap-1.5">
@@ -287,7 +285,6 @@ function DashboardContent({
           />
         </div>
 
-        {/* កម្រិតបញ្ចូលសំឡេង */}
         <div className="space-y-2">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
             <AudioLines className="h-3.5 w-3.5" /> កម្រិតបញ្ចូលសំឡេង (AI Dubbing Studio)
@@ -304,7 +301,6 @@ function DashboardContent({
           </select>
         </div>
 
-        {/* ទម្រង់សាច់វីដេអូ */}
         <div className="space-y-2">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
             <LayoutTemplate className="h-3.5 w-3.5" /> ទម្រង់សាច់វីដេអូ (Video Structure)
@@ -333,7 +329,6 @@ function DashboardContent({
           </div>
         </div>
 
-        {/* ស្ទីល Subtitle */}
         <div className="space-y-2">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
             <Type className="h-3.5 w-3.5" /> ស្ទីល Subtitle
@@ -350,7 +345,6 @@ function DashboardContent({
           </select>
         </div>
 
-        {/* ភាសា & Platform */}
         <div className="grid grid-cols-2 gap-3 pt-1">
           <div className="space-y-2">
             <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -387,7 +381,6 @@ function DashboardContent({
 
       </div>
 
-      {/* 🌟 Button Start ចុងក្រោយ */}
       <div className="sticky bottom-0 -mx-4 mt-2 border-t border-border/60 bg-background/85 px-4 pb-2 pt-3 backdrop-blur-xl">
         <button
           type="button"
@@ -523,5 +516,73 @@ function ResultScreen({
         </button>
       </div>
     </div>
+  )
+}
+
+// មុខងារ Main Component ថ្មីដែលបានបន្ថែម
+export default function DashboardScreen() {
+  const [file, setFile] = useState<File | null>(null)
+  const [videoUrl, setVideoUrl] = useState<string | null>(null)
+  const [dragging, setDragging] = useState(false)
+  const [targetLang, setTargetLang] = useState<LangCode>("km")
+  const [status, setStatus] = useState<Status>("idle")
+  const [stage, setStage] = useState(0)
+  const [progress, setProgress] = useState(0)
+  
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const acceptFile = (f: File | undefined) => {
+    if (f) {
+      setFile(f)
+      setVideoUrl(URL.createObjectURL(f))
+    }
+  }
+
+  const reset = () => {
+    setFile(null)
+    setVideoUrl(null)
+    setStatus("idle")
+    setStage(0)
+    setProgress(0)
+  }
+
+  const start = () => {
+    if (!file) return
+    setStatus("processing")
+    
+    let currentProgress = 0
+    let currentStage = 0
+    const interval = setInterval(() => {
+      currentProgress += 10
+      setProgress(currentProgress)
+      
+      if (currentProgress % 30 === 0) {
+        currentStage += 1
+        setStage(currentStage)
+      }
+
+      if (currentProgress >= 100) {
+        clearInterval(interval)
+        setStatus("done")
+      }
+    }, 500)
+  }
+
+  return (
+    <DashboardScreenContainer
+      file={file}
+      videoUrl={videoUrl}
+      dragging={dragging}
+      setDragging={setDragging}
+      acceptFile={acceptFile}
+      inputRef={inputRef}
+      reset={reset}
+      targetLang={targetLang}
+      setTargetLang={setTargetLang}
+      start={start}
+      status={status}
+      stage={stage}
+      progress={progress}
+    />
   )
 }
