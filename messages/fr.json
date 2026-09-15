@@ -1,6 +1,110 @@
 {
   "Public": {
-    "title": "Bonjour",
-    "description": "Bienvenue sur notre site web"
+    "appTitle": "SAVPD.io™",
+    "appSubtitle": "Traduisez et dubbez vos vidéos dans une autre langue grâce à l'IA en quelques étapes simples.",
+    "footer": "Conçu pour un usage personnel · Outil SAVPD.io",
+    "appLanguage": "Langue de l'application",
+    "displayMode": "Mode d'affichage",
+    "step1": "Choisissez ou déposez votre vidéo",
+    "dropText": "Glissez et déposez un fichier ici, ou cliquez pour sélectionner",
+    "dropHint": "MP4, MOV, WEBM et plus",
+    "noLimit": "Aucune limite de durée ou de taille",
+    "delete": "Supprimer",
+    "step2": "Choisissez les langues",
+    "selectTargetLangTitle": "Sélectionnez la langue cible (pour le doublage)",
+    "sourceLabel": "Langue source",
+    "targetLabel": "Langue cible",
+    "swap": "Permuter les langues",
+    "start": "Commencer la traduction et le doublage",
+    "processing": "Doublage par IA en cours...",
+    "stages": [
+      "Extraction de l'audio de la vidéo",
+      "Transcription de la parole en texte",
+      "Traduction avec protection du contexte",
+      "Clonage de la voix avec émotion et ton",
+      "Fusion de l'audio dans la vidéo"
+    ],
+    "doneTitle": "Terminé !",
+    "doneSubtitle": "Votre vidéo a été doublée en",
+    "download": "Télécharger la vidéo",
+    "retry": "Recommencer",
+    "autopilotTitle": "Pilote automatique IA intelligent",
+    "autopilotDesc": "Entièrement automatique — aucune édition manuelle requise.",
+    "contextTitle": "Protection du contexte",
+    "contextDesc": "Le sens, la formulation et les chiffres restent précis dans toutes les langues.",
+    "emotionTitle": "Émotion et ton",
+    "emotionDesc": "Le rire, la colère, la peur et la joie sont préservés de l'original.",
+    "paceTitle": "Rythme et cadence",
+    "paceDesc": "La vitesse de parole reste synchronisée avec la vidéo d'origine.",
+    "featuresHeading": "Fonctionnalités de l'IA",
+    "appearance": "Apparence",
+    "darkMode": "Mode sombre",
+    "lightMode": "Mode clair",
+    "eyeCare": "Protection des yeux (filtre lumière bleue)",
+    "eyeCareDesc": "Filtre chaud pour réduire la fatigue oculaire la nuit.",
+    "eyeCareLevel": "Intensité du filtre",
+    "assistant": "Assistant IA",
+    "assistantOpen": "Ouvrir l'assistant IA",
+    "assistantTitle": "Assistant de doublage",
+    "assistantSubtitle": "Posez des questions sur l'utilisation de cette application",
+    "assistantGreeting": "Bonjour ! Je suis votre assistant de doublage IA. Je peux uniquement vous aider avec des questions concernant cette application SAVPD.io — comment importer, choisir les langues et utiliser le pilote automatique. Comment puis-je vous aider ?",
+    "assistantPlaceholder": "Posez une question sur l'application...",
+    "assistantSend": "Envoyer",
+    "assistantVoice": "Poser la question par la voix",
+    "assistantListening": "Écoute en cours...",
+    "assistantRefusal": "Désolé ! Je peux uniquement répondre aux questions relatives à la technologie et à l'utilisation de cette application SAVPD.io.",
+    "assistantSuggestions": [
+      "Comment démarrer le pilote automatique ?",
+      "Quelles langues sont prises en charge ?",
+      "Est-ce que cela conserve l'émotion d'origine ?"
+    ],
+    "dubbingOptions": {
+      "clean_vlog": {
+        "title": "Option 1 : Voix hors champ propre (Mode Vlog)",
+        "desc": "Recommandé pour : Vlogs personnels, tutoriels, interviews et podcasts."
+      },
+      "summary_sfx": {
+        "title": "Option 2 : Résumé et effets sonores (Mode Récapitulatif)",
+        "desc": "Recommandé pour : Résumés de films, résumés d'actualités et histoires courtes."
+      },
+      "cinematic": {
+        "title": "Option 3 : Doublage de personnage cinématique",
+        "desc": "Recommandé pour : Longs métrages, séries télévisées et dessins animés."
+      },
+      "ai_visual": {
+        "title": "Option 4 : Conteur visuel par IA",
+        "desc": "Recommandé pour : Vidéos muettes, présentations B-Roll et démonstrations de produits."
+      }
+    },
+    "languages": {
+      "en": "Anglais",
+      "km": "Khmer",
+      "zh": "Chinois",
+      "th": "Thaï",
+      "vi": "Vietnamien",
+      "ja": "Japonais",
+      "ko": "Coréen",
+      "hi": "Hindi",
+      "es": "Espagnol",
+      "fr": "Français",
+      "de": "Allemand",
+      "id": "Indonésien",
+      "pt": "Portugais",
+      "ru": "Russe",
+      "ar": "Arabe",
+      "it": "Italien",
+      "tr": "Turc",
+      "ph": "Filipino",
+      "ms": "Malais",
+      "bn": "Bengali"
+    }
+  },
+  "Admin": {
+    "settings": "Paramètres",
+    "securityTitle": "Sécurité du système",
+    "securityDesc": "Veuillez entrer le code d'accès pour accéder à l'espace de travail",
+    "passcodePlaceholder": "Entrer le code d'accès",
+    "invalidPasscode": "Code d'accès invalide !",
+    "accessSystem": "Accéder au système"
   }
 }
