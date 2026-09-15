@@ -5,9 +5,8 @@ import Image from "next/image"
 import { Lock, Clapperboard, Settings } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
-import { SharedSettings } from "./shared-settings"
+import SharedSettings from "./shared-settings"
 
-// ខ្ញុំបានថែមពាក្យ "default" នៅទីនេះ
 export default function PreviewScreen({
   onLoginSuccess,
 }: {
