@@ -17,10 +17,15 @@ import {
   Type,
   Share2,
   Scissors,
-  ShieldCheck
+  ShieldCheck,
+  Settings,
+  Eye,
+  Lock
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
+import Link from "next/link"
+import { useParams } from "next/navigation"
 
 export const DUB_LANGS = [
   { code: "en", name: "English", flag: "🇬🇧" },
@@ -79,6 +84,8 @@ export function DashboardScreenContainer({
 }) {
   const t = useTranslations("Public") 
   const targetFlag = DUB_LANGS.find((l) => l.code === targetLang)?.flag
+  const params = useParams()
+  const locale = (params?.locale as string) || "km"
   
   // 🎛️ Brabus/Mansory Studio Pro States
   const [removeWatermark, setRemoveWatermark] = useState(true)
@@ -90,9 +97,30 @@ export function DashboardScreenContainer({
 
   return (
     <div
-      className="relative flex-1 overflow-y-auto px-4 pb-6 pt-5"
+      className="relative flex-1 overflow-y-auto px-4 pb-6 pt-3 max-w-2xl mx-auto w-full"
       style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
     >
+      {/* 🧭 Navigation Bar សម្រាប់ចុចប្ដូរទំព័រ */}
+      <div className="flex items-center justify-between mb-4 bg-secondary/40 border border-border/80 px-4 py-2.5 rounded-2xl backdrop-blur-md">
+        <div className="flex items-center gap-1.5 text-xs font-bold text-primary">
+          <Sparkles className="h-4 w-4" /> SAVPD Studio
+        </div>
+        <div className="flex items-center gap-1.5">
+          <Link href={`/${locale}`} className="px-3 py-1.5 rounded-xl bg-primary/15 text-primary text-[11px] font-semibold transition hover:bg-primary/25">
+            Studio
+          </Link>
+          <Link href={`/${locale}/preview`} className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-secondary/80 text-foreground text-[11px] font-medium transition hover:bg-secondary">
+            <Eye className="h-3 w-3" /> Preview
+          </Link>
+          <Link href={`/${locale}/settings`} className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-secondary/80 text-foreground text-[11px] font-medium transition hover:bg-secondary">
+            <Settings className="h-3 w-3" /> Settings
+          </Link>
+          <Link href={`/${locale}/admin`} className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-secondary/80 text-foreground text-[11px] font-medium transition hover:bg-secondary">
+            <Lock className="h-3 w-3" /> Admin
+          </Link>
+        </div>
+      </div>
+
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -top-24 left-1/2 h-64 w-80 -translate-x-1/2 rounded-full bg-primary/20 blur-[110px]"
@@ -519,7 +547,6 @@ function ResultScreen({
   )
 }
 
-// មុខងារ Main Component ថ្មីដែលបានបន្ថែម
 export default function DashboardScreen() {
   const [file, setFile] = useState<File | null>(null)
   const [videoUrl, setVideoUrl] = useState<string | null>(null)
