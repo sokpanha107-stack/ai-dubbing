@@ -7,7 +7,8 @@ import { useTranslations } from "next-intl"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
 import { SharedSettings } from "./shared-settings"
 
-export function PreviewScreen({
+// ខ្ញុំបានថែមពាក្យ "default" នៅទីនេះ
+export default function PreviewScreen({
   onLoginSuccess,
 }: {
   onLoginSuccess: () => void
