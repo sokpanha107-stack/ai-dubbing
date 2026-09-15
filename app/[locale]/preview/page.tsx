@@ -1,7 +1,8 @@
-import { PreviewScreen } from '@/components/dubbing-studio/preview-screen';
+"use client" // បន្ថែមបន្ទាត់នេះដើម្បីអាចបញ្ជូន Function (onLoginSuccess) ទៅកាន់ Client Component បាន
+
+import PreviewScreen from '@/components/dubbing-studio/preview-screen'; // លុបវង់ក្រចកទំពក់ {} ចេញ
 
 export default function PreviewPage() {
-  // ខ្ញុំបន្ថែម onLoginSuccess ដើម្បីកុំឱ្យលោត Error ពេលហៅ Component នេះមកប្រើ
   return (
     <PreviewScreen 
       onLoginSuccess={() => {
