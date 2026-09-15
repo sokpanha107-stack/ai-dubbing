@@ -18,14 +18,11 @@ import {
   Share2,
   Scissors,
   ShieldCheck,
-  Settings,
-  Eye,
-  Lock
+  Settings
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
-import Link from "next/link"
-import { useParams } from "next/navigation"
+import { useRouter, useParams } from "next/navigation"
 
 export const DUB_LANGS = [
   { code: "en", name: "English", flag: "🇬🇧" },
@@ -84,8 +81,27 @@ export function DashboardScreenContainer({
 }) {
   const t = useTranslations("Public") 
   const targetFlag = DUB_LANGS.find((l) => l.code === targetLang)?.flag
+  const router = useRouter()
   const params = useParams()
   const locale = (params?.locale as string) || "km"
+  
+  // 🛡️ Logic ចុចផ្អឹប ៥ វិនាទី ដើម្បីចូល Admin
+  const pressTimer = useRef<NodeJS.Timeout | null>(null)
+  const [adminHolding, setAdminHolding] = useState(false)
+
+  const handleAdminPressStart = () => {
+    setAdminHolding(true)
+    pressTimer.current = setTimeout(() => {
+      router.push(`/${locale}/admin`)
+    }, 5000) // ចុចផ្អឹបរយៈពេល ៥ វិនាទី
+  }
+
+  const handleAdminPressEnd = () => {
+    setAdminHolding(false)
+    if (pressTimer.current) {
+      clearTimeout(pressTimer.current)
+    }
+  }
   
   // 🎛️ Brabus/Mansory Studio Pro States
   const [removeWatermark, setRemoveWatermark] = useState(true)
@@ -97,27 +113,41 @@ export function DashboardScreenContainer({
 
   return (
     <div
-      className="relative flex-1 overflow-y-auto px-4 pb-6 pt-3 max-w-2xl mx-auto w-full"
+      className="relative flex-1 overflow-y-auto px-4 pb-6 pt-4 max-w-2xl mx-auto w-full"
       style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
     >
-      {/* 🧭 Navigation Bar សម្រាប់ចុចប្ដូរទំព័រ */}
-      <div className="flex items-center justify-between mb-4 bg-secondary/40 border border-border/80 px-4 py-2.5 rounded-2xl backdrop-blur-md">
-        <div className="flex items-center gap-1.5 text-xs font-bold text-primary">
-          <Sparkles className="h-4 w-4" /> SAVPD Studio
+      {/* 🌟 Header ដើម៖ រូប Studio ខាងឆ្វេង និង រូបកងចក្រ Settings ខាងស្តាំ */}
+      <div className="flex items-center justify-between mb-4 px-2">
+        <div className="flex items-center gap-2">
+          <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/20 text-primary">
+            <Sparkles className="h-4 w-4" />
+          </span>
+          <span className="text-xs font-bold text-foreground">SAVPD Studio</span>
         </div>
-        <div className="flex items-center gap-1.5">
-          <Link href={`/${locale}`} className="px-3 py-1.5 rounded-xl bg-primary/15 text-primary text-[11px] font-semibold transition hover:bg-primary/25">
-            Studio
-          </Link>
-          <Link href={`/${locale}/preview`} className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-secondary/80 text-foreground text-[11px] font-medium transition hover:bg-secondary">
-            <Eye className="h-3 w-3" /> Preview
-          </Link>
-          <Link href={`/${locale}/settings`} className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-secondary/80 text-foreground text-[11px] font-medium transition hover:bg-secondary">
-            <Settings className="h-3 w-3" /> Settings
-          </Link>
-          <Link href={`/${locale}/admin`} className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-secondary/80 text-foreground text-[11px] font-medium transition hover:bg-secondary">
-            <Lock className="h-3 w-3" /> Admin
-          </Link>
+        
+        <div className="flex items-center gap-2">
+          {/* កន្លែងការពារភ្នែក ចុចផ្អឹប ៥ វិនាទី ដើម្បីចូល Admin */}
+          <button
+            type="button"
+            onMouseDown={handleAdminPressStart}
+            onMouseUp={handleAdminPressEnd}
+            onTouchStart={handleAdminPressStart}
+            onTouchEnd={handleAdminPressEnd}
+            title="ចុចផ្អឹប ៥ វិនាទី ដើម្បីចូល Admin"
+            className={`flex h-8 w-8 items-center justify-center rounded-xl border border-border bg-card/60 text-muted-foreground transition hover:text-primary ${
+              adminHolding ? "border-primary bg-primary/20 text-primary scale-95" : ""
+            }`}
+          >
+            <ShieldCheck className="h-4 w-4" />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => router.push(`/${locale}/settings`)}
+            className="flex h-8 w-8 items-center justify-center rounded-xl border border-border bg-card/60 text-muted-foreground transition hover:text-primary"
+          >
+            <Settings className="h-4 w-4" />
+          </button>
         </div>
       </div>
 
