@@ -1,21 +1,17 @@
-// app/[locale]/page.tsx
-import { DubbingStudio } from "@/components/dubbing-studio";
-import { setRequestLocale } from "next-intl/server";
+'use client';
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params;
-  
-  // ប្រាប់ Next.js និង next-intl ឱ្យដឹង Locale ស្ដង់ដារ
-  setRequestLocale(locale);
+import { useParams, useRouter } from 'next/navigation';
+import PreviewScreen from "@/components/dubbing-studio/preview-screen";
+
+export default function Page() {
+  const router = useRouter();
+  const params = useParams();
+  const locale = (params?.locale as string) || 'en';
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
       <div className="w-full max-w-2xl mx-auto flex flex-col flex-1">
-        <DubbingStudio />
+        <PreviewScreen onLoginSuccess={() => router.push(`/${locale}/dashboard`)} />
       </div>
     </main>
   );
