@@ -92,14 +92,16 @@ export default function SharedSettings({
   }
 
   const switchLanguage = (newLang: string) => {
-    setTimeout(() => setActiveMenu("main"), 300)
-    if (newLang === currentLang) return
-    
+    if (newLang === currentLang) {
+      setTimeout(() => setActiveMenu("main"), 300)
+      return
+    }
+
     const currentPathWithoutLocale = pathname.replace(`/${currentLang}`, "")
     const newPath = `/${newLang}${currentPathWithoutLocale === "" ? "" : currentPathWithoutLocale}`
-    
-    router.replace(newPath || `/${newLang}`)
-    router.refresh()
+
+    // ប្រើ full page navigation ដើម្បីធានាថាភាសាថ្មីត្រូវបាន load ត្រឹមត្រូវ
+    window.location.href = newPath || `/${newLang}`
   }
 
   const getLanguageName = (code: string) => {
