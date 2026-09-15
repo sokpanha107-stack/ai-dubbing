@@ -131,10 +131,13 @@ export function DashboardScreenContainer({
             type="button"
             onMouseDown={handleAdminPressStart}
             onMouseUp={handleAdminPressEnd}
+            onMouseLeave={handleAdminPressEnd}
             onTouchStart={handleAdminPressStart}
             onTouchEnd={handleAdminPressEnd}
+            onTouchCancel={handleAdminPressEnd}
+            onContextMenu={(e) => e.preventDefault()}
             title="ចុចផ្អឹប ៥ វិនាទី ដើម្បីចូល Admin"
-            className={`flex h-8 w-8 items-center justify-center rounded-xl border border-border bg-card/60 text-muted-foreground transition hover:text-primary ${
+            className={`flex h-8 w-8 select-none items-center justify-center rounded-xl border border-border bg-card/60 text-muted-foreground transition hover:text-primary [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [-webkit-user-select:none] [touch-action:manipulation] ${
               adminHolding ? "border-primary bg-primary/20 text-primary scale-95" : ""
             }`}
           >
