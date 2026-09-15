@@ -17,7 +17,6 @@ import {
   Type,
   Share2,
   Scissors,
-  ShieldCheck,
   Settings
 } from "lucide-react"
 import { useTranslations } from "next-intl"
@@ -85,24 +84,6 @@ export function DashboardScreenContainer({
   const params = useParams()
   const locale = (params?.locale as string) || "km"
   
-  // 🛡️ Logic ចុចផ្អឹប ៥ វិនាទី ដើម្បីចូល Admin
-  const pressTimer = useRef<NodeJS.Timeout | null>(null)
-  const [adminHolding, setAdminHolding] = useState(false)
-
-  const handleAdminPressStart = () => {
-    setAdminHolding(true)
-    pressTimer.current = setTimeout(() => {
-      router.push(`/${locale}/admin`)
-    }, 5000) // ចុចផ្អឹបរយៈពេល ៥ វិនាទី
-  }
-
-  const handleAdminPressEnd = () => {
-    setAdminHolding(false)
-    if (pressTimer.current) {
-      clearTimeout(pressTimer.current)
-    }
-  }
-  
   // 🎛️ Brabus/Mansory Studio Pro States
   const [removeWatermark, setRemoveWatermark] = useState(true)
   const [autoCropUi, setAutoCropUi] = useState(true)
@@ -126,24 +107,6 @@ export function DashboardScreenContainer({
         </div>
         
         <div className="flex items-center gap-2">
-          {/* កន្លែងការពារភ្នែក ចុចផ្អឹប ៥ វិនាទី ដើម្បីចូល Admin */}
-          <button
-            type="button"
-            onMouseDown={handleAdminPressStart}
-            onMouseUp={handleAdminPressEnd}
-            onMouseLeave={handleAdminPressEnd}
-            onTouchStart={handleAdminPressStart}
-            onTouchEnd={handleAdminPressEnd}
-            onTouchCancel={handleAdminPressEnd}
-            onContextMenu={(e) => e.preventDefault()}
-            title="ចុចផ្អឹប ៥ វិនាទី ដើម្បីចូល Admin"
-            className={`flex h-8 w-8 select-none items-center justify-center rounded-xl border border-border bg-card/60 text-muted-foreground transition hover:text-primary [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [-webkit-user-select:none] [touch-action:manipulation] ${
-              adminHolding ? "border-primary bg-primary/20 text-primary scale-95" : ""
-            }`}
-          >
-            <ShieldCheck className="h-4 w-4" />
-          </button>
-
           <button
             type="button"
             onClick={() => router.push(`/${locale}/settings`)}
