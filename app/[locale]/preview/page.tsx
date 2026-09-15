@@ -1,14 +1,19 @@
-"use client" // បន្ថែមបន្ទាត់នេះដើម្បីអាចបញ្ជូន Function (onLoginSuccess) ទៅកាន់ Client Component បាន
+import { PreviewScreen } from "@/components/dubbing-studio/preview-screen";
+import { setRequestLocale } from "next-intl/server";
 
-import PreviewScreen from '@/components/dubbing-studio/preview-screen'; // លុបវង់ក្រចកទំពក់ {} ចេញ
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
 
-export default function PreviewPage() {
   return (
-    <PreviewScreen 
-      onLoginSuccess={() => {
-        console.log("Login Successful!");
-        // អ្នកអាចសរសេរកូដ redirect ឬធ្វើអ្វីផ្សេងទៀតនៅទីនេះនៅពេល Login ត្រូវ
-      }} 
-    />
+    <main className="min-h-screen bg-black text-white p-4 flex flex-col items-center justify-center">
+      <div className="w-full max-w-2xl mx-auto">
+        <PreviewScreen />
+      </div>
+    </main>
   );
 }
