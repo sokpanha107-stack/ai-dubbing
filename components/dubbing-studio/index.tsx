@@ -6,12 +6,13 @@ import { SUPPORTED_PLATFORMS } from '@/lib/constants/platforms';
 import { SUPPORTED_LANGUAGES } from '@/lib/constants/languages';
 
 export function DubbingStudio() {
-  // 🎛️ States គ្រប់គ្រងមុខងារទាំងអស់ឱ្យប្រទាក់ក្រឡាគ្នា
-  const [dubbingMode, setDubbingMode] = useState('level1'); // កម្រិតសំឡេង
-  const [videoStyle, setVideoStyle] = useState('normal');   // ទម្រង់សាច់វីដេអូ
-  const [subtitleStyle, setSubtitleStyle] = useState('dynamic'); // ស្ទីល Subtitle
-  const [targetLang, setTargetLang] = useState('km');       // ភាសា
-  const [platform, setPlatform] = useState('tiktok');       // Platform
+  // 🎛️ States គ្រប់គ្រងមុខងារទាំងអស់
+  const [removeWatermark, setRemoveWatermark] = useState(true); // 👈 មុខងារថ្មី លុប Logo
+  const [dubbingMode, setDubbingMode] = useState('level1'); 
+  const [videoStyle, setVideoStyle] = useState('normal'); 
+  const [subtitleStyle, setSubtitleStyle] = useState('dynamic'); 
+  const [targetLang, setTargetLang] = useState('km');
+  const [platform, setPlatform] = useState('tiktok');
   
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState('រង់ចាំការបញ្ជា...');
@@ -25,6 +26,7 @@ export function DubbingStudio() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
+          removeWatermark,  // បញ្ជូនបញ្ជាលុប Watermark
           dubbingMode,      
           videoStyle,       
           subtitleStyle,    
@@ -56,7 +58,21 @@ export function DubbingStudio() {
         <p className="text-[10px] text-gray-400 mt-0.5">MP4, MOV, WEBM</p>
       </div>
 
-      {/* 🌟 2. កម្រិតបញ្ចូលសំឡេងទាំង ៤ (Audio/Dubbing Level) */}
+      {/* 🌟មុខងារថ្មី៖ Toggle លុប Watermark ស្វ័យប្រវត្តិ */}
+      <div className="flex items-center justify-between bg-gray-900 p-2.5 rounded-xl border border-gray-800">
+        <div>
+          <p className="text-[11px] font-bold text-emerald-400">✨ លុប Watermark / Logo ដើម</p>
+          <p className="text-[9px] text-gray-400">AI លុបស្នាម Logo ដើម្បីការពារការធ្លាក់ View (Shadowban)</p>
+        </div>
+        <input 
+          type="checkbox" 
+          checked={removeWatermark} 
+          onChange={(e) => setRemoveWatermark(e.target.checked)}
+          className="w-4 h-4 accent-emerald-500 cursor-pointer"
+        />
+      </div>
+
+      {/* 🌟 2. កម្រិតបញ្ចូលសំឡេងទាំង ៤ */}
       <div>
         <label className="block text-[11px] text-gray-400 mb-1.5 font-medium uppercase tracking-wider">
           ១. កម្រិតបញ្ចូលសំឡេង (AI Dubbing):
@@ -66,17 +82,17 @@ export function DubbingStudio() {
           onChange={(e) => setDubbingMode(e.target.value)}
           className="w-full p-2.5 bg-gray-900 text-white rounded-xl border border-gray-800 text-xs focus:outline-none focus:border-blue-500"
         >
-          <option value="level1">🎙️ កម្រិត ១៖ បកប្រែ & បញ្ចូលសំឡេងតាមតួធម្មតា (Voiceover)</option>
-          <option value="level2">🎵 កម្រិត ២៖ បញ្ចូលសំឡេងតួ + កែច្នៃ Sound Effect (SFX)</option>
+          <option value="level1">🎙️ កម្រិត ១៖ បកប្រែ & បញ្ចូលសំឡេងធម្មតា (Voiceover)</option>
+          <option value="level2">🎵 កម្រិត ២៖ បញ្ចូលសំឡេង + កែច្នៃ Sound Effect (SFX)</option>
           <option value="level3">🎬 កម្រិត ៣៖ បែបរឿង/ភាពយន្ត (សំឡេងតួ + SFX ពិសេស)</option>
-          <option value="level4">🔥 កម្រិត ៤ (Pro)៖ បង្កើតសំឡេង និង SFX ពីសូន្យ (សម្រាប់វីដេអូគរ)</option>
+          <option value="level4">🔥 កម្រិត ៤ (Pro)៖ បង្កើតសំឡេង & SFX ពីសូន្យ (វីដេអូគរ)</option>
         </select>
       </div>
 
-      {/* 🌟 3. ទម្រង់សាច់វីដេអូទាំង ៣ (Video Structure) */}
+      {/* 🌟 3. ទម្រង់សាច់វីដេអូទាំង ៣ */}
       <div>
         <label className="block text-[11px] text-gray-400 mb-1.5 font-medium uppercase tracking-wider">
-          ២. ទម្រង់សាច់វីដេអូ (មាន Hook & Thumbnail ស្វ័យប្រវត្តិ):
+          ២. ទម្រង់សាច់វីដេអូ (មាន Hook & Thumbnail):
         </label>
         <div className="grid grid-cols-3 gap-2">
           
@@ -113,7 +129,7 @@ export function DubbingStudio() {
           >
             <div className="text-sm mb-0.5">🧩</div>
             <div className="text-[10px] font-bold">ផ្គុំរឿងរាយ</div>
-            <div className="text-[8px] opacity-75 mt-1 leading-tight">ផ្គុំឃ្លីបចូលគ្នា<br/>(Bottom-Up)</div>
+            <div className="text-[8px] opacity-75 mt-1 leading-tight">ផ្គុំឃ្លីប<br/>(Bottom-Up)</div>
           </button>
 
         </div>
