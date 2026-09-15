@@ -12,10 +12,13 @@ import {
   UploadCloud,
   X,
   Layers,
+  Wand2,
+  LayoutTemplate,
+  Type,
+  Share2
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
-import { DUB_MODES, type DubMode } from "@/lib/dub-modes"
 
 export const DUB_LANGS = [
   { code: "en", name: "English", flag: "🇬🇧" },
@@ -72,10 +75,15 @@ export function DashboardScreenContainer({
   stage: number
   progress: number
 }) {
-  // បន្ថែម Namespace "Public" នៅទីនេះ
   const t = useTranslations("Public") 
   const targetFlag = DUB_LANGS.find((l) => l.code === targetLang)?.flag
-  const [dubMode, setDubMode] = useState<DubMode>("clean_vlog")
+  
+  // 🎛️ AI Pro States ទាំងអស់
+  const [removeWatermark, setRemoveWatermark] = useState(true)
+  const [dubMode, setDubMode] = useState("level1")
+  const [videoStyle, setVideoStyle] = useState("normal")
+  const [subtitleStyle, setSubtitleStyle] = useState("dynamic")
+  const [platform, setPlatform] = useState("tiktok")
 
   return (
     <div
@@ -98,8 +106,18 @@ export function DashboardScreenContainer({
           reset={reset}
           targetLang={targetLang}
           setTargetLang={setTargetLang}
+          
+          removeWatermark={removeWatermark}
+          setRemoveWatermark={setRemoveWatermark}
           dubMode={dubMode}
           setDubMode={setDubMode}
+          videoStyle={videoStyle}
+          setVideoStyle={setVideoStyle}
+          subtitleStyle={subtitleStyle}
+          setSubtitleStyle={setSubtitleStyle}
+          platform={platform}
+          setPlatform={setPlatform}
+          
           start={start}
         />
       )}
@@ -129,8 +147,18 @@ function DashboardContent({
   reset,
   targetLang,
   setTargetLang,
+  
+  removeWatermark,
+  setRemoveWatermark,
   dubMode,
   setDubMode,
+  videoStyle,
+  setVideoStyle,
+  subtitleStyle,
+  setSubtitleStyle,
+  platform,
+  setPlatform,
+  
   start,
 }: {
   file: File | null
@@ -142,70 +170,32 @@ function DashboardContent({
   reset: () => void
   targetLang: LangCode
   setTargetLang: (c: LangCode) => void
-  dubMode: DubMode
-  setDubMode: (m: DubMode) => void
+  
+  removeWatermark: boolean
+  setRemoveWatermark: (v: boolean) => void
+  dubMode: string
+  setDubMode: (v: string) => void
+  videoStyle: string
+  setVideoStyle: (v: string) => void
+  subtitleStyle: string
+  setSubtitleStyle: (v: string) => void
+  platform: string
+  setPlatform: (v: string) => void
+  
   start: () => void
 }) {
-  // បន្ថែម Namespace "Public" នៅទីនេះ
   const t = useTranslations("Public")
 
-  const currentModeObj = DUB_MODES.find((m) => m.id === dubMode) || DUB_MODES[0]
-
   return (
-    <div className="relative flex flex-col gap-6">
-      <div className="pt-1 text-center">
+    <div className="relative flex flex-col gap-5">
+      {/* 🌟 Header */}
+      <div className="pt-1 text-center mb-2">
         <h1 className="text-balance text-2xl font-bold tracking-tight text-foreground">
           {SAVPD_CONSTANTS.BRAND.TRADEMARK}
         </h1>
-        <p className="mx-auto mt-1.5 max-w-xs text-pretty text-sm leading-relaxed text-muted-foreground">
-          {t("appSubtitle")}
-        </p>
       </div>
 
-      <div className="rounded-3xl border border-border bg-card/60 p-4 shadow-sm space-y-3">
-        <div className="flex items-center gap-2">
-          <Layers className="h-4 w-4 text-primary" />
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Select AI Dubbing Mode
-          </h3>
-        </div>
-        <div className="relative">
-          <select
-            value={dubMode}
-            onChange={(e) => setDubMode(e.target.value as DubMode)}
-            className="w-full cursor-pointer appearance-none rounded-2xl border border-border bg-secondary/60 py-3.5 pl-4 pr-10 text-sm font-semibold text-foreground outline-none transition hover:border-primary/50 focus:border-primary focus:ring-2 focus:ring-ring/40"
-          >
-            {DUB_MODES.map((mode) => (
-              <option key={mode.id} value={mode.id} className="bg-card py-2 text-sm text-foreground">
-                {mode.icon} {t(`dubbingOptions.${mode.id}.title`)}
-              </option>
-            ))}
-          </select>
-          <svg
-            className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.17l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </div>
-
-        <div className="rounded-2xl border border-primary/20 bg-primary/10 p-3.5 space-y-1.5 text-xs text-foreground leading-relaxed">
-          <div className="font-semibold text-primary flex items-center gap-1.5">
-            <span>💡</span>
-            <span>{t(`dubbingOptions.${dubMode}.desc`)}</span>
-          </div>
-          <div className="text-[11px] text-muted-foreground font-mono pl-5 border-t border-primary/10 pt-1.5 mt-1">
-            ⚡ {currentModeObj.specialization}
-          </div>
-        </div>
-      </div>
-
+      {/* 🌟 1. ផ្នែក Upload វីដេអូ */}
       {!videoUrl ? (
         <button
           type="button"
@@ -220,26 +210,20 @@ function DashboardContent({
             setDragging(false)
             acceptFile(e.dataTransfer.files?.[0])
           }}
-          className={`flex w-full flex-col items-center justify-center gap-3 rounded-3xl border px-6 py-12 text-center transition active:scale-[0.99] ${
+          className={`flex w-full flex-col items-center justify-center gap-3 rounded-3xl border px-6 py-10 text-center transition active:scale-[0.99] ${
             dragging ? "border-primary bg-primary/10" : "border-border bg-card/60 hover:border-primary/60 shadow-sm"
           }`}
         >
-          <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/15 text-primary">
-            <UploadCloud className="h-8 w-8" />
+          <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/15 text-primary">
+            <UploadCloud className="h-7 w-7" />
           </span>
-          <span className="text-base font-semibold text-foreground">{t("dropText")}</span>
-          <span className="flex flex-col items-center gap-2 text-xs text-muted-foreground">
-            <span>{t("dropHint")}</span>
-            <span className="flex items-center gap-1 rounded-full bg-success/15 px-3 py-1 font-medium text-success">
-              <CheckCircle2 className="h-3.5 w-3.5" />
-              {t("noLimit")}
-            </span>
-          </span>
+          <span className="text-sm font-semibold text-foreground">{t("dropText")}</span>
+          <span className="text-xs text-muted-foreground">{t("dropHint")}</span>
         </button>
       ) : (
-        <div className="overflow-hidden rounded-3xl border border-border bg-black">
+        <div className="overflow-hidden rounded-3xl border border-border bg-black shadow-md">
           <video key={videoUrl} src={videoUrl} controls className="aspect-video w-full bg-black" />
-          <div className="flex items-center justify-between gap-3 bg-secondary/50 px-4 py-3">
+          <div className="flex items-center justify-between gap-3 bg-secondary/80 px-4 py-3 backdrop-blur-md">
             <span className="flex min-w-0 items-center gap-2 text-sm text-foreground">
               <FileVideo className="h-4 w-4 shrink-0 text-primary" />
               <span className="truncate">{file?.name}</span>
@@ -247,7 +231,7 @@ function DashboardContent({
             <button
               type="button"
               onClick={reset}
-              className="flex shrink-0 items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-muted-foreground transition hover:bg-destructive/15 hover:text-destructive"
+              className="flex shrink-0 items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-destructive transition hover:bg-destructive/15"
             >
               <X className="h-3.5 w-3.5" />
               {t("delete")}
@@ -256,50 +240,135 @@ function DashboardContent({
         </div>
       )}
 
-      <div className="rounded-3xl border border-border bg-card/60 p-5 shadow-sm">
-        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <h3 className="text-sm font-semibold text-foreground">{t("selectTargetLangTitle")}</h3>
-          <span className="flex w-fit items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-[11px] font-semibold text-primary">
-            <Sparkles className="h-3.5 w-3.5" />
-            AI Auto-Detect Source
-          </span>
+      {/* 🌟 កញ្ចប់បញ្ជា AI (AI Control Panel) */}
+      <div className="rounded-3xl border border-border bg-card/40 p-4 shadow-sm space-y-5">
+        
+        {/* Toggle លុប Watermark */}
+        <div className="flex items-center justify-between bg-secondary/50 p-3 rounded-2xl border border-border">
+          <div>
+            <p className="text-xs font-bold text-foreground flex items-center gap-1.5">
+              <Sparkles className="h-3.5 w-3.5 text-primary" /> 
+              លុប Watermark / Logo ដើម
+            </p>
+            <p className="text-[10px] text-muted-foreground mt-0.5">AI លុបស្នាម Logo ស្វ័យប្រវត្តិដើម្បីការពារ Shadowban</p>
+          </div>
+          <input 
+            type="checkbox" 
+            checked={removeWatermark} 
+            onChange={(e) => setRemoveWatermark(e.target.checked)}
+            className="w-4 h-4 accent-primary cursor-pointer"
+          />
         </div>
 
-        <div className="relative">
+        {/* កម្រិតបញ្ចូលសំឡេង */}
+        <div className="space-y-2">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            <AudioLines className="h-3.5 w-3.5" /> កម្រិតបញ្ចូលសំឡេង (AI Dubbing)
+          </div>
           <select
-            value={targetLang}
-            onChange={(e) => setTargetLang(e.target.value as LangCode)}
-            className="w-full cursor-pointer appearance-none rounded-2xl border border-border bg-secondary/60 py-4 pl-4 pr-10 text-base font-semibold text-foreground outline-none transition hover:border-primary/50 focus:border-primary focus:ring-2 focus:ring-ring/40"
+            value={dubMode}
+            onChange={(e) => setDubMode(e.target.value)}
+            className="w-full cursor-pointer appearance-none rounded-2xl border border-border bg-secondary/60 py-3 pl-4 pr-10 text-xs font-medium text-foreground outline-none transition hover:border-primary/50 focus:border-primary focus:ring-1 focus:ring-primary"
           >
-            {DUB_LANGS.map((l) => (
-              <option key={l.code} value={l.code} className="bg-card py-2 text-base text-foreground">
-                {l.flag} {t(`languages.${l.code}`)}
-              </option>
-            ))}
+            <option value="level1">🎙️ កម្រិត ១៖ បកប្រែ & បញ្ចូលសំឡេងធម្មតា</option>
+            <option value="level2">🎵 កម្រិត ២៖ បញ្ចូលសំឡេង + Sound Effect</option>
+            <option value="level3">🎬 កម្រិត ៣៖ បែបរឿង/ភាពយន្ត (Pro SFX)</option>
+            <option value="level4">🔥 កម្រិត ៤៖ បង្កើតសំឡេង & SFX ពីសូន្យ</option>
           </select>
-          <svg
-            className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.17l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z"
-              clipRule="evenodd"
-            />
-          </svg>
         </div>
+
+        {/* ទម្រង់សាច់វីដេអូ */}
+        <div className="space-y-2">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            <LayoutTemplate className="h-3.5 w-3.5" /> ទម្រង់សាច់វីដេអូ (Video Structure)
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { id: 'normal', icon: '🎞️', title: 'ធម្មតា', desc: 'រៀបសាច់រឿង' },
+              { id: 'top-down', icon: '🎬', title: 'បំបែកជាភាគ', desc: 'កាត់ជា EP' },
+              { id: 'bottom-up', icon: '🧩', title: 'ផ្គុំរឿងរាយ', desc: 'ផ្គុំឃ្លីបចូលគ្នា' },
+            ].map((style) => (
+              <button
+                key={style.id}
+                type="button"
+                onClick={() => setVideoStyle(style.id)}
+                className={`flex flex-col items-center justify-center p-2.5 rounded-2xl border transition-all ${
+                  videoStyle === style.id 
+                    ? 'border-primary bg-primary/10 text-primary shadow-sm' 
+                    : 'border-border bg-secondary/30 text-muted-foreground hover:border-primary/40 hover:bg-secondary/60'
+                }`}
+              >
+                <div className="text-lg mb-1">{style.icon}</div>
+                <div className="text-[10px] font-bold">{style.title}</div>
+                <div className="text-[8px] opacity-80 mt-0.5">{style.desc}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ស្ទីល Subtitle */}
+        <div className="space-y-2">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            <Type className="h-3.5 w-3.5" /> ស្ទីល Subtitle
+          </div>
+          <select
+            value={subtitleStyle}
+            onChange={(e) => setSubtitleStyle(e.target.value)}
+            className="w-full cursor-pointer appearance-none rounded-2xl border border-border bg-secondary/60 py-3 pl-4 pr-10 text-xs font-medium text-foreground outline-none transition hover:border-primary/50 focus:border-primary focus:ring-1 focus:ring-primary"
+          >
+            <option value="none">❌ អត់ដាក់ Subtitle</option>
+            <option value="standard">📝 ស្តង់ដារ (ធម្មតា)</option>
+            <option value="dynamic">✨ រំលេចពាក្យ (ស្ទីល Alex Hormozi)</option>
+            <option value="bilingual">🌍 ទ្វេភាសា (ខ្មែរ & អង់គ្លេស)</option>
+          </select>
+        </div>
+
+        {/* ភាសា & Platform */}
+        <div className="grid grid-cols-2 gap-3 pt-1">
+          <div className="space-y-2">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              <Wand2 className="h-3.5 w-3.5" /> ភាសាគោលដៅ
+            </div>
+            <select
+              value={targetLang}
+              onChange={(e) => setTargetLang(e.target.value as LangCode)}
+              className="w-full cursor-pointer appearance-none rounded-2xl border border-border bg-secondary/60 py-3 pl-3 pr-8 text-xs font-medium text-foreground outline-none transition hover:border-primary/50 focus:border-primary focus:ring-1 focus:ring-primary"
+            >
+              {DUB_LANGS.map((l) => (
+                <option key={l.code} value={l.code}>
+                  {l.flag} {l.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              <Share2 className="h-3.5 w-3.5" /> Platform
+            </div>
+            <select
+              value={platform}
+              onChange={(e) => setPlatform(e.target.value)}
+              className="w-full cursor-pointer appearance-none rounded-2xl border border-border bg-secondary/60 py-3 pl-3 pr-8 text-xs font-medium text-foreground outline-none transition hover:border-primary/50 focus:border-primary focus:ring-1 focus:ring-primary"
+            >
+              <option value="tiktok">📱 TikTok / Reels</option>
+              <option value="facebook">👥 Facebook Video</option>
+              <option value="youtube">▶️ YouTube (16:9)</option>
+            </select>
+          </div>
+        </div>
+
       </div>
 
-      <div className="sticky bottom-0 -mx-4 mt-1 border-t border-border/60 bg-background/85 px-4 pb-2 pt-3 backdrop-blur-xl">
+      {/* 🌟 Button Start ចុងក្រោយ */}
+      <div className="sticky bottom-0 -mx-4 mt-2 border-t border-border/60 bg-background/85 px-4 pb-2 pt-3 backdrop-blur-xl">
         <button
           type="button"
           onClick={start}
-          className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition active:scale-[0.99]"
+          className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 transition active:scale-[0.99] hover:opacity-90"
         >
-          <Sparkles className="h-5 w-5 transition group-hover:rotate-12" />
-          {t("start")}
+          <Wand2 className="h-4 w-4 transition group-hover:rotate-12" />
+          ដំណើរការ AI Workflow ស្វ័យប្រវត្តិ
         </button>
       </div>
     </div>
@@ -307,7 +376,6 @@ function DashboardContent({
 }
 
 function ProcessingScreen({ stage, progress }: { stage: number; progress: number }) {
-  // បន្ថែម Namespace "Public" នៅទីនេះ
   const t = useTranslations("Public")
   const rawStages = t.raw("stages") as string[]
 
@@ -391,7 +459,6 @@ function ResultScreen({
   targetFlag?: string
   reset: () => void
 }) {
-  // បន្ថែម Namespace "Public" នៅទីនេះ
   const t = useTranslations("Public")
 
   return (
