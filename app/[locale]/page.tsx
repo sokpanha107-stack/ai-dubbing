@@ -1,5 +1,4 @@
-// app/[locale]/page.tsx
-import { DubbingStudio } from "@/components/dubbing-studio";
+import { SharedSettings } from "@/components/dubbing-studio/shared-settings";
 import { setRequestLocale } from "next-intl/server";
 
 export default async function Page({
@@ -8,14 +7,12 @@ export default async function Page({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params;
-  
-  // ប្រាប់ Next.js និង next-intl ឱ្យដឹង Locale ស្ដង់ដារ
   setRequestLocale(locale);
 
   return (
-    <main className="min-h-screen bg-black text-white p-4 md:p-8 flex flex-col items-center justify-center">
+    <main className="min-h-screen bg-black text-white p-4 flex flex-col items-center justify-center">
       <div className="w-full max-w-2xl mx-auto">
-        <DubbingStudio />
+        <SharedSettings />
       </div>
     </main>
   );
