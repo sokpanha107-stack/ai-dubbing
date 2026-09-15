@@ -38,7 +38,8 @@ const UI_LANGUAGES = [
 
 type MenuState = "main" | "display" | "language" | "about"
 
-export function SharedSettings({ 
+// ខ្ញុំបានបន្ថែមពាក្យ "default" នៅទីនេះ
+export default function SharedSettings({ 
   isOpen, 
   onClose,
   onAdminClick 
