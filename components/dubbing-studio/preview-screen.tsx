@@ -7,6 +7,10 @@ import { useTranslations } from "next-intl"
 import { SAVPD_CONSTANTS } from "@/lib/constants"
 import SharedSettings from "./shared-settings"
 
+// ⏸️ ស្ថានភាពផ្អាកសិន (មិនមែនលុបចោល)៖ កំណត់ជា false ដើម្បីលោត Login Passcode
+// ហើយចូល Dashboard ដោយផ្ទាល់។ ប្តូរមកវិញ true នៅពេលចង់ប្រើ Login ម្តងទៀត។
+const LOGIN_GATE_ENABLED = false
+
 export default function PreviewScreen({
   onLoginSuccess,
 }: {
@@ -27,7 +31,13 @@ export default function PreviewScreen({
   useEffect(() => {
     const timer = setTimeout(() => {
       setFadeSplash(true)
-      setTimeout(() => setShowSplash(false), 500)
+      setTimeout(() => {
+        setShowSplash(false)
+        // ⏸️ ផ្អាក Login Gate សិន៖ លោតចូល Dashboard ដោយផ្ទាល់ក្រោយ Splash
+        if (!LOGIN_GATE_ENABLED) {
+          onLoginSuccess()
+        }
+      }, 500)
     }, 2000)
     return () => clearTimeout(timer)
   }, [])
