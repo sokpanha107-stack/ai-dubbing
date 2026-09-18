@@ -13,8 +13,10 @@ const LOGIN_GATE_ENABLED = false
 
 export default function PreviewScreen({
   onLoginSuccess,
+  onAdminSuccess,
 }: {
   onLoginSuccess: () => void
+  onAdminSuccess?: () => void
 }) {
   const t = useTranslations()
 
@@ -32,11 +34,16 @@ export default function PreviewScreen({
     const timer = setTimeout(() => {
       setFadeSplash(true)
       setTimeout(() => {
-        setShowSplash(false)
         // ⏸️ ផ្អាក Login Gate សិន៖ លោតចូល Dashboard ដោយផ្ទាល់ក្រោយ Splash
+        // សំខាន់៖ ពេល Login Gate ត្រូវបានបិទ យើង *មិន* ហៅ setShowSplash(false) ទេ
+        // ព្រោះនោះនឹងធ្វើឲ្យ Component render ផ្ទាំង Login មួយភ្លែត (Flash) មុននឹង
+        // ការ Navigate ទៅ Dashboard ចប់សព្វគ្រប់។ ផ្ទាំង Splash (ដែល fade ស្រាប់ទៅ
+        // opacity 0 ហើយ) នៅតែ mount ជា "ស្រទាប់គ្របបាំង" រហូតដល់ទំព័រប្តូរទៅ Dashboard។
         if (!LOGIN_GATE_ENABLED) {
           onLoginSuccess()
+          return
         }
+        setShowSplash(false)
       }, 500)
     }, 2000)
     return () => clearTimeout(timer)
@@ -54,8 +61,13 @@ export default function PreviewScreen({
   const handleAdminLogin = (e: React.FormEvent) => {
     e.preventDefault()
     if (adminPassword === "@2000") {
-      onLoginSuccess()
+      // 🛠️ ត្រូវនាំទៅផ្ទាំង Admin ពិតប្រាកដ (មិនមែន Dashboard របស់ User ទេ)
       setAdminModalOpen(false)
+      if (onAdminSuccess) {
+        onAdminSuccess()
+      } else {
+        onLoginSuccess()
+      }
     } else {
       setAdminError(true)
     }
