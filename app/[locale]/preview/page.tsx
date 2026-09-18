@@ -11,7 +11,10 @@ export default function Page() {
   return (
     <main className="min-h-screen bg-black text-white p-4 flex flex-col items-center justify-center">
       <div className="w-full max-w-2xl mx-auto">
-        <PreviewScreen onLoginSuccess={() => router.push(`/${locale}/dashboard`)} />
+        <PreviewScreen
+          onLoginSuccess={() => router.push(`/${locale}/dashboard`)}
+          onAdminSuccess={() => router.push(`/${locale}/admin`)}
+        />
       </div>
     </main>
   );
