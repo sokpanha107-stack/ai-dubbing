@@ -84,7 +84,14 @@ export default function SharedSettings({
       holdFiredRef.current = true
       setIsHolding(false)
       if (onAdminClick) {
-        onClose() // បិទ Settings មុននឹងបើក Admin
+        // 🛠️ FIX: កុំហៅ onClose() នៅទីនេះ!
+        // នៅ app/[locale]/settings/page.tsx, onClose គឺ router.back() ដែលនាំឲ្យ
+        // Navigate ត្រឡប់ទៅ Dashboard ភ្លាមៗ (ព្រោះវាហៅមុន) មុននឹង onAdminClick()
+        // ទាន់បាន setAdminGateOpen(true) ផង — ធ្វើឲ្យទំព័រ unmount ចោលមុន
+        // AdminAuthGate ទាន់លេចឡើង។ នេះហើយជាមូលហេតុដែលសង្កត់គ្រប់ ៥ វិនាទីរួច
+        // ត្រូវបានរុញត្រឡប់ទៅ Dashboard វិញ ជំនួសឲ្យបើក Admin Panel។
+        // ទុកឲ្យ onAdminClick() ខាង Parent (preview-screen.tsx / settings/page.tsx)
+        // សម្រេចចិត្តខ្លួនឯងថាតើត្រូវលាក់/បិទ SharedSettings ដោយវិធីណា។
         onAdminClick()
       }
     }, 5000)
