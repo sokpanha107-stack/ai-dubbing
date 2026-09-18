@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, type PointerEvent } from "react"
 import Image from "next/image"
 import { useParams, usePathname, useRouter } from "next/navigation"
 import { 
@@ -61,6 +61,7 @@ export default function SharedSettings({
 
   // ตัวจับเวลาสำหรับการกดសង្កត់លើរូបគ្រាប់ភ្នែក (5 Seconds Long Press for Admin)
   const holdTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const holdFiredRef = useRef(false) // ⏱️ សម្គាល់ថាតើសង្កត់គ្រប់ ៥ វិនាទីហើយឬនៅ
   const [isHolding, setIsHolding] = useState(false)
 
   if (!isOpen) return null
@@ -71,14 +72,21 @@ export default function SharedSettings({
   }
 
   // មុខងារចាប់ផ្តើមសង្កត់លើគ្រាប់ភ្នែក ៥ វិនាទី
-  const startHolding = () => {
+  // ប្រើ Pointer Events តែមួយប្រភេទ (មិនចាំបាច់ញែក Mouse/Touch ទៀតទេ) ព្រោះនៅលើ iPhone
+  // touchstart + mousedown ជួនកាលកើតឡើងទាំងពីរលើការចុចតែម្តង ធ្វើឲ្យ Timer ច្របូកច្របល់
+  // រហូតដល់ចុចអត់កើត ឬលោតចេញមកវិញមុនគ្រប់ ៥ វិនាទី។
+  const startHolding = (e: PointerEvent) => {
+    e.currentTarget.setPointerCapture?.(e.pointerId)
+    holdFiredRef.current = false
     setIsHolding(true)
+    if (holdTimerRef.current) clearTimeout(holdTimerRef.current)
     holdTimerRef.current = setTimeout(() => {
+      holdFiredRef.current = true
+      setIsHolding(false)
       if (onAdminClick) {
         onClose() // បិទ Settings មុននឹងបើក Admin
         onAdminClick()
       }
-      setIsHolding(false)
     }, 5000)
   }
 
@@ -193,14 +201,23 @@ export default function SharedSettings({
                 </button>
 
                 {/* 👁️ គ្រាប់ភ្នែក Eye Care ភ្ជាប់ជាមួយមុខងារចុចសង្កត់ ៥ វិនាទីដើម្បីបើក Admin */}
+                {/* ប្រើ Pointer Events (ជំនួស Mouse+Touch ដាច់ដោយឡែក) ព្រោះស្ថិរភាពប្រសើរជាងនៅលើ iPhone */}
                 <button 
                   type="button" 
-                  onClick={toggleEyeCare}
-                  onMouseDown={startHolding}
-                  onMouseUp={cancelHolding}
-                  onMouseLeave={cancelHolding}
-                  onTouchStart={startHolding}
-                  onTouchEnd={cancelHolding}
+                  onClick={() => {
+                    // កុំ Toggle Eye Care បើទើបតែសង្កត់គ្រប់ ៥ វិនាទីហើយបើក Admin ទៅហើយ
+                    if (holdFiredRef.current) {
+                      holdFiredRef.current = false
+                      return
+                    }
+                    toggleEyeCare()
+                  }}
+                  onPointerDown={startHolding}
+                  onPointerUp={cancelHolding}
+                  onPointerLeave={cancelHolding}
+                  onPointerCancel={cancelHolding}
+                  onContextMenu={(e) => e.preventDefault()}
+                  style={{ touchAction: "manipulation", WebkitUserSelect: "none", WebkitTouchCallout: "none" }}
                   className="flex w-full items-center gap-3 rounded-xl p-2 text-sm text-foreground transition hover:bg-secondary active:scale-[0.98] select-none"
                   title="Eye Care"
                 >
